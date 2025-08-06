@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-EU">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zé Birita</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header>
+    <div class="logo-central">
+      <img src="https://i.ibb.co/hRxZ0HvY/Z-BIRITA-Sem-fundo.png" alt="Logo Zé Birita">
+      <h1>Zé Birita - Delivery</h1>
+    </div>
+    <div class="icone-carrinho" onclick="toggleCarrinho()">
+      🛒 <span id="contador-carrinho">0</span>
+    </div>
+    <button class="botao-modal" onclick="togglemodal()">Sobre Nós</button>
+  </header>
+  <main>
+    <div id="painel-carrinho" class="painel-carrinho">
+      <div class="painel-header">
+        <h2>Seu Carrinho</h2>
+        <button onclick="toggleCarrinho()">Fechar ✖</button>
+      </div>
+      <ul id="lista-carrinho"></ul>
+      <p id="total-carrinho"><strong>Total: R$ 0,00</strong></p>
+    </div>
+    <div class="produtos-container" id="produtos-container">
+      <!-- Produtos vão aqui -->
+    </div>
+    <div id="modal" class="modal-fundo">
+      <div class="modal-conteudo">
+        <h2>Sobre Nós</h2>
+<iframe src="https://player.vimeo.com/video/1107136217" 
+        width="100%" 
+        height="380" 
+        frameborder="0" 
+        allow="autoplay; fullscreen; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+        <div class="imagens-container">
+          <img src="https://i.ibb.co/9mH6PfSX/Cartaz-3.png" alt="Imagem 1">
+          <img src="https://i.ibb.co/KcBbqcb5/2.png" alt="Imagem 2">
+          <img src="https://i.ibb.co/C3ZgBVDb/Cartaz-Z-Birita.png" alt="Imagem 3">
+        </div>
+<div class="texto-fixo-modal">
+  <p>
+    Bem-vindo ao Zé Birita! Aqui você encontra as melhores bebidas, com entrega rápida e atendimento de qualidade.
+  </p>
+  <p>
+    Este vídeo explica nosso funcionamento e as imagens abaixo mostram nossos principais produtos. Agradecemos por visitar nosso site!
+  </p>
+</div>
+      </div>
+    </div>
+  </main>
+</body>
+<script src="script.js"></script>
+</html>

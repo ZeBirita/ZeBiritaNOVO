@@ -1,0 +1,373 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e6cab4;
+}
+.produtos-container {
+  padding-top: 170px; /* ajuste conforme altura real do seu header */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  justify-content: center;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 10px 0;
+
+  background: rgba(253, 152, 0, 0.295); /* faixa preta com transparência */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  display: flex;
+  justify-content: center; /* centraliza o conteúdo horizontalmente */
+  align-items: center;
+  height: 120px; /* altura fixa para o header */
+}
+.produto {
+  width: 300px;
+  height: 530px;
+  border: 2px solid #000000;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+}
+.produto img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 8px; /* cantos arredondados, opcional */
+  box-shadow: 0 0 8px rgba(0,0,0,0.8); /* sombra leve borrada ao redor */
+}
+.produto h3 {
+  font-size: 16px;
+  margin: 10px 0 5px;
+}
+.produto p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+button:hover {
+  background-color: #218838;
+}
+.carrinho {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+.carrinho ul {
+  list-style: none;
+  padding-left: 0;
+}
+.painel-carrinho {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 450px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  padding: 20px 10px 20px 0px; /* top right bottom left */
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  transform: translateX(100%); /* Esconde fora da tela */
+}
+.painel-carrinho.aberto {
+  transform: translateX(0); /* Mostra na tela */
+}
+
+.painel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.painel-header button {
+  background-color: #ffc2c8; /* vermelho escuro */
+  color: white;              /* cor do "×" */
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+.painel-header button:hover {
+  background-color: #c82333; /* vermelho mais escuro no hover */
+}
+.painel-carrinho button[style*="red"] {
+  background-color: #dc3545;
+  color: white;
+}
+.painel-carrinho button[style*="red"]:hover {
+  background-color: #c82333;
+}
+.item-carrinho {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* adiciona espaçamento entre elementos */
+  margin-bottom: 15px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+.item-carrinho img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+.info-carrinho p {
+  margin: 4px 0;         /* Reduz espaçamento entre linhas */
+  font-size: 25px;       /* Tamanho da fonte dos textos */
+  line-height: 1.2;      /* Altura da linha para melhor legibilidade */
+}
+.info-carrinho p strong {
+  font-size: 22px;       /* Deixa o nome do produto mais destacado */
+}
+.botoes-carrinho button:hover {
+  transform: scale(1.2); /* aumenta 20% */
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+.logo-central {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-central img {
+  height: 120px;
+}
+.logo-central h1 {
+  font-size: 50px;
+  margin: 0;
+}
+/* Carrinho no canto superior direito */
+.icone-carrinho {
+  position: absolute;
+  right: 110px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 50px;
+  cursor: pointer;
+  top: 42px;
+  right: 20px;
+}
+#contador-carrinho {
+  background-color: red;
+  color: white;
+  border-radius: 20%;
+  padding: 7px 14px;
+  font-size: 20px;
+  position: absolute;
+  top: 65px;
+  right: 10px;
+}
+.botoes-carrinho button {
+  transition: transform 0.2s ease; /* animação suave */
+  margin-right: 5px;
+  margin-top: 5px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+/* +1 botão verde */
+.botao-mais {
+  background-color: #28a745;
+}
+.botao-mais:hover {
+  background-color: #218838;
+}
+/* -1 botão vermelho */
+.botao-menos {
+  background-color: #dc3545;
+}
+.botao-menos:hover {
+  background-color: #c82333;
+}
+/* Remover tudo botão preto com letras brancas */
+.botao-remover {
+  background-color: #000;
+  color: #fff;
+}
+.botao-remover:hover {
+  background-color: #333;
+}
+#lista-carrinho li {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+.quantidade-box {
+  width: 40px;
+  height: 40px;
+  background-color: #e0e0e0;
+  color: #333;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  border-radius: 6px;
+}
+.painel-header h2 {
+  flex: 1;
+  color: #000000;
+  text-align: center;
+  margin: 0;
+  font-size: 35px;
+}
+.produto button {
+  padding: 12px 20px;  /* botões mais baixos e estreitos */
+  font-size: 16px;
+  width: 200px;
+  border-radius: 8px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 5px auto;
+  display: block;
+}
+.produto button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+.animacao-quantidade {
+  position: fixed;
+  background-color: #28a745;
+  color: white;
+  border-radius: 50%;
+  padding: 8px 12px;
+  font-weight: bold;
+  z-index: 10000;
+  pointer-events: none;
+  transition: transform 5s cubic-bezier(0.2, 0, 0, 0.2), opacity 5s ease;
+  opacity: 5;
+}
+.botao-modal {
+  position: absolute;
+  right: 100px; /* distância do carrinho */
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 1100;
+}
+.botao-modal:hover {
+  background-color: #666;
+}
+.texto-fixo-modal {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+
+/* Fundo sombreado e fosco do modal */
+.modal-fundo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;  /* invisível por padrão */
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+}
+/* Janela do modal */
+.modal-conteudo {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+/* Título */
+.modal-conteudo h2 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 28px;
+}
+/* Vídeo */
+.modal-conteudo video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+/* Imagens lado a lado */
+.modal-conteudo .imagens-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.modal-conteudo .imagens-container img {
+  width: 32%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+/* Caixa de texto */
+.modal-conteudo textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+/* Modal principal (fundo e centralização) */
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;  /* invisível por padrão */
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+}
+/* Quando aberto */
+#modal.aberto {
+  display: flex; /* agora ele aparece */
+}
