@@ -29,6 +29,38 @@
       </div>
       <ul id="lista-carrinho"></ul>
       <p id="total-carrinho"><strong>Total: R$ 0,00</strong></p>
+
+      <!-- HTML dentro do painel do carrinho -->
+      <div id="opcoes-pagamento" style="margin-top: 20px;">
+        <label>
+          Forma de pagamento:
+          <select id="forma-pagamento">
+            <option value="">Selecione...</option>
+            <option value="dinheiro">Dinheiro</option>
+            <option value="mbway">MBWay</option>
+            <option value="cartao">Cartão</option>
+          </select>
+        </label>
+
+        <div id="troco-container" style="display: none; margin-top: 10px;">
+          <label>
+            Vai precisar de troco?
+            <input type="checkbox" id="precisa-troco" />
+          </label>
+          <div id="troco-quantidade" style="display: none; margin-top: 5px;">
+            <label>
+              Quanto vai pagar?
+              <input type="text" id="valor-troco" placeholder="Ex: 20.00" />
+            </label>
+          </div>
+        </div>
+
+        <button id="finalizar-whatsapp" style="margin-top: 20px;" disabled>
+          Finalizar pedido via WhatsApp
+        </button>
+      </div>
+
+
     </div>
     <div class="produtos-container" id="produtos-container">
       <!-- Produtos vão aqui -->
@@ -36,29 +68,28 @@
     <div id="modal" class="modal-fundo">
       <div class="modal-conteudo">
         <h2>Sobre Nós</h2>
-<iframe src="https://player.vimeo.com/video/1107136217" 
-        width="100%" 
-        height="380" 
-        frameborder="0" 
-        allow="autoplay; fullscreen; picture-in-picture" 
-        allowfullscreen>
-</iframe>
+        <iframe src="https://player.vimeo.com/video/1107136217" width="100%" height="380" frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
+        </iframe>
         <div class="imagens-container">
           <img src="https://i.ibb.co/9mH6PfSX/Cartaz-3.png" alt="Imagem 1">
           <img src="https://i.ibb.co/KcBbqcb5/2.png" alt="Imagem 2">
           <img src="https://i.ibb.co/C3ZgBVDb/Cartaz-Z-Birita.png" alt="Imagem 3">
         </div>
-<div class="texto-fixo-modal">
-  <p>
-    Bem-vindo ao Zé Birita! Aqui você encontra as melhores bebidas, com entrega rápida e atendimento de qualidade.
-  </p>
-  <p>
-    Este vídeo explica nosso funcionamento e as imagens abaixo mostram nossos principais produtos. Agradecemos por visitar nosso site!
-  </p>
-</div>
+        <div class="texto-fixo-modal">
+          <p>
+            Bem-vindo ao Zé Birita! Aqui você encontra as melhores bebidas, com entrega rápida e atendimento de
+            qualidade.
+          </p>
+          <p>
+            Este vídeo explica nosso funcionamento e as imagens abaixo mostram nossos principais produtos. Agradecemos
+            por visitar nosso site!
+          </p>
+        </div>
       </div>
     </div>
   </main>
 </body>
 <script src="script.js"></script>
+
 </html>
