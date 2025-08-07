@@ -91,10 +91,12 @@ header::after {
 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .produto:hover {
     transform: scale(1.03);
     box-shadow: 0 0 20px rgba(212, 167, 58, 0.8);
 }
+
 .produto img {
     width: 100%;
     height: 200px;
@@ -202,16 +204,16 @@ button:hover {
 /* PAINEL LATERAL DO CARRINHO */
 .painel-carrinho {
     position: fixed;
-    top: 0;
+    top: ;
     right: 0;
 
-    width: 400px;
+    width: 380px;
     height: 100%;
 
     background-color: #fff;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
 
-    padding: 20px 10px 20px 0;
+    padding: 10px 10px 20px 0;
 
     overflow-y: auto;
     transition: transform 0.3s ease;
@@ -239,7 +241,7 @@ button:hover {
     color: #000;
     text-align: center;
     margin: 0;
-    font-size: 35px;
+    font-size: 30px;
 }
 
 .painel-header button {
@@ -247,7 +249,7 @@ button:hover {
     /* vermelho claro */
     color: white;
     border: none;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     padding: 6px 12px;
@@ -274,9 +276,9 @@ button:hover {
 .item-carrinho {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     /* espaçamento entre elementos */
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
@@ -307,6 +309,7 @@ button:hover {
 .quantidade-box {
     width: 40px;
     height: 40px;
+    margin-right: 5px;
     background-color: #e0e0e0;
     color: #333;
     font-weight: bold;
@@ -316,7 +319,7 @@ button:hover {
     align-items: center;
     justify-content: center;
 
-    margin-right: 10px;
+    
     border-radius: 6px;
 }
 
@@ -406,21 +409,24 @@ button:hover {
 }
 
 #total-carrinho {
+    margin-top: 0px;
     font-size: 28px;
     /* tamanho da fonte */
     font-weight: bold;
     color: #4a2c00;
     /* cor estilo cerveja */
-    padding-left: 20px;
+    padding-left: 50px;
     /* espaçamento interno à esquerda */
 }
 
 
 /* LISTAS */
-#lista-carrinho li {
+#lista-carrinho{
     list-style: none !important;
     padding-left: 0 !important;
     margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 10px !important; /* ou outro valor que preferir */
 }
 
 
@@ -448,7 +454,7 @@ button:hover {
 
 /* MODAL - CONTEÚDO */
 .modal-conteudo {
-    background: white;
+    background: rgb(218, 213, 203);
     padding: 20px;
     border-radius: 10px;
 
@@ -523,6 +529,7 @@ button:hover {
     border: 2px solid #d4a73a;
     border-radius: 12px;
     padding: 20px;
+    max-height: 300px;
     max-width: 400px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #4e342e;
@@ -564,7 +571,7 @@ button:hover {
     border: none;
     border-radius: 8px;
     padding: 12px 20px;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     width: 100%;
@@ -578,4 +585,42 @@ button:hover {
 #finalizar-whatsapp:hover:not(:disabled) {
     background-color: #b88c1a;
     transform: scale(1.02);
+}
+
+.modal-imagem {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-imagem img {
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 10px;
+    object-fit: contain;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+.fechar-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.fechar-modal-sobre {
+    cursor: pointer;
 }
