@@ -22,6 +22,7 @@ header {
     z-index: 1000;
 }
 
+
 /* Ribete estilizado, como se fosse espuma */
 header::after {
     content: "";
