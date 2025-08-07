@@ -12,7 +12,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 120px;
+    height: 85px;
     padding: 10px 0;
     background: rgba(82, 49, 0, 0.6);
     backdrop-filter: blur(8px);
@@ -21,7 +21,6 @@ header {
     align-items: center;
     z-index: 1000;
 }
-
 
 /* Ribete estilizado, como se fosse espuma */
 header::after {
@@ -43,11 +42,11 @@ header::after {
 }
 
 .logo-central img {
-    height: 135px;
+    height: 100px;
 }
 
 .logo-central h1 {
-    font-size: 42px;
+    font-size: 35px;
     color: #fbf9f7;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
     margin: 0;
@@ -56,7 +55,7 @@ header::after {
 
 /* CONTAINER DE PRODUTOS */
 .produtos-container {
-    padding-top: 170px;
+    padding-top: 115px;
     /* ajuste conforme altura do header */
     padding-left: 20px;
     padding-right: 20px;
@@ -64,27 +63,41 @@ header::after {
 
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
     justify-content: center;
 }
 
 /* CADA PRODUTO */
 .produto {
-    width: 300px;
-    height: 530px;
+    width: 220px;
+    height: 400px;
+    object-fit: contain;
+    /* mantém proporção da imagem */
     border: 2px solid #000;
-    padding: 10px;
+    padding: 5px;
     box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     text-align: center;
-}
+    border: 4px solid #d4a73a;
+    /* dourado cerveja */
+    border-radius: 16px;
+    background: linear-gradient(to bottom, #fff8e1, #fce5b5);
+    /* cor de cerveja com espuma */
+    box-shadow: 0 0 12px rgba(212, 167, 58, 0.5);
+    /* brilho dourado */
 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.produto:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(212, 167, 58, 0.8);
+}
 .produto img {
     width: 100%;
-    height: 280px;
+    height: 200px;
     object-fit: cover;
     border-radius: 8px;
     /* cantos arredondados */
@@ -192,7 +205,7 @@ button:hover {
     top: 0;
     right: 0;
 
-    width: 460px;
+    width: 400px;
     height: 100%;
 
     background-color: #fff;
@@ -310,8 +323,8 @@ button:hover {
 /* CONTADOR DO CARRINHO (ÍCONE) */
 #contador-carrinho {
     position: absolute;
-    top: 65px;
-    right: 10px;
+    top: 52px;
+    right: 3px;
 
     background-color: red;
     color: white;
@@ -323,10 +336,10 @@ button:hover {
 /* ÍCONE DO CARRINHO */
 .icone-carrinho {
     position: absolute;
-    top: 42px;
+    top: 30px;
     right: 20px;
 
-    font-size: 50px;
+    font-size: 40px;
     cursor: pointer;
 
     transform: translateY(-50%);
@@ -354,7 +367,7 @@ button:hover {
 .botao-modal {
     position: absolute;
     right: 100px;
-    top: 50%;
+    top: 55%;
 
     transform: translateY(-50%);
     padding: 12px 24px;
@@ -439,7 +452,7 @@ button:hover {
     padding: 20px;
     border-radius: 10px;
 
-    width: 90%;
+    width: 100%;
     max-width: 700px;
     max-height: 90vh;
 

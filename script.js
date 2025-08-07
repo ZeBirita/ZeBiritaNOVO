@@ -121,7 +121,7 @@ function renderizarProdutos() {
       <img src="${produto.imagem}" alt="${produto.nome}">
       <h3>${produto.nome}</h3>
       ${produto.descricao ? `<p>${produto.descricao}</p>` : ""}
-      <p><strong>R$ ${produto.preco.toFixed(2)}</strong></p>
+      <p><strong>${produto.preco.toFixed(2)} €</strong></p>
       <button onclick="handleAdicionarAoCarrinho(event, ${index}, 1)">Adicionar ao carrinho</button>
       <button onclick="handleAdicionarAoCarrinho(event, ${index}, 10)">10x</button>
     `;
@@ -195,7 +195,7 @@ function atualizarCarrinho() {
     });
 
     contadorCarrinho.textContent = totalItens;
-    totalCarrinho.innerHTML = `<strong>Total: R$ ${total.toFixed(2)}</strong>`;
+    totalCarrinho.innerHTML = `<strong>Total: ${total.toFixed(2)} €</strong>`;
     atualizarBotaoFinalizar(totalItens, total);
 
 }
@@ -284,22 +284,22 @@ document.getElementById('precisa-troco').addEventListener('change', (e) => {
 
 // Define comportamento do botão finalizador
 document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
-    const total = totalCarrinho.innerText.replace('Total: R$ ', '').trim();
-    const forma = document.getElementById('forma-pagamento').value;
+    const total = totalCarrinho.innerText.replace('Total: € ', '').trim();
+    const formaSelect = document.getElementById('forma-pagamento');
+    const forma = formaSelect.value;
 
     if (!forma) {
         alert('Por favor, selecione uma forma de pagamento.');
         return;
     }
 
-    let msg = `🛒 *Olá! Gostaria de fazer um pedido:*\n\n` +
-        `📦 *Produtos:* \n`;
+    let msg = `🛒 *Olá! Gostaria de fazer um pedido:*\n\n📦 *Produtos:* \n`;
 
     carrinho.forEach(item => {
-        msg += `- ${item.quantidade} x ${item.produto.nome} 🍺\n`;  // emoji cerveja para produtos, por exemplo
+        msg += `- ${item.quantidade} x ${item.produto.nome} 🍺\n`;
     });
 
-    msg += `\n💰 *Total:* R$ ${total}\n`;
+    msg += `\n💰 ${total}\n`;
     msg += `💳 *Forma de pagamento:* ${forma}`;
 
     if (forma === 'dinheiro') {
@@ -314,8 +314,8 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
                 const totalNumber = parseFloat(total.replace(',', '.'));
                 const troco = (quanto - totalNumber).toFixed(2);
 
-                msg += `\n💵 *Valor que irá pagar:* R$ ${quanto.toFixed(2)}`;
-                msg += `\n💸 *Troco a ser devolvido:* R$ ${troco}`;
+                msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
+                msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
             } else {
                 msg += `\n💵 *Valor que irá pagar:* não informado`;
             }
@@ -324,6 +324,48 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
 
     const numero = '351931835337';
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
-    console.log('WhatsApp url:', url);
     window.open(url, '_blank');
+
+    // ✅ RESUMO DO PEDIDO COMO ALERTA
+let resumoTexto = '✅ Pedido enviado via WhatsApp!\n';
+carrinho.forEach(item => {
+    resumoTexto += `• ${item.quantidade} x ${item.produto.nome}\n`;
+});
+
+resumoTexto += `\n ${total}`;
+resumoTexto += `\nForma de pagamento: ${forma}`;
+
+if (forma === 'dinheiro') {
+    const precisaTroco = document.getElementById('precisa-troco').checked;
+    if (precisaTroco) {
+        const quantoStr = document.getElementById('valor-troco').value.trim();
+        const quanto = parseFloat(quantoStr.replace(',', '.'));
+        const totalNumber = parseFloat(total.replace(',', '.'));
+
+        if (!isNaN(quanto)) {
+            const troco = (quanto - totalNumber).toFixed(2);
+            resumoTexto += `\nValor pago: € ${quanto.toFixed(2)}`;
+            resumoTexto += `\nTroco a receber: € ${troco}`;
+        }
+    }
+}
+
+// ✅ MOSTRA O ALERT COM O RESUMO
+alert(resumoTexto);
+
+
+    // ✅ LIMPAR CARRINHO
+    carrinho = [];
+    atualizarCarrinho();
+
+    // ✅ RESETA a seleção da forma de pagamento
+    formaSelect.value = "";
+
+    // ✅ ESCONDE campo de troco (se estiver aberto)
+    document.getElementById('troco-container').style.display = 'none';
+    document.getElementById('troco-quantidade').style.display = 'none';
+    document.getElementById('valor-troco').value = "";
+
+    // ✅ FECHA O PAINEL DO CARRINHO
+    painelCarrinho.classList.remove("aberto");
 });
