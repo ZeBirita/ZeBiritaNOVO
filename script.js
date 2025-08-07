@@ -1,211 +1,119 @@
+// Dados dos produtos
 const produtos = [
-    {
-        nome: "Heineken 25cl",
-        // descricao: "Descrição do produto 1",
-        preco: 1.00,
-        imagem: "https://i.ibb.co/vx4Rdvp1/Heineken25cl-LN.png"
-    },
-    {
-        nome: "Heineken 50cl",
-        // descricao: "Descrição do produto 2",
-        preco: 1.80,
-        imagem: "https://i.ibb.co/gFtrBPSK/heineken50cl.png"
-    },
-    {
-        nome: "Heineken Barril 5L.",
-        // descricao: "Descrição do produto 3",
-        preco: 24.00,
-        imagem: "https://i.ibb.co/QF3hmm8B/Heineken5-LBarril.png"
-    },
-    {
-        nome: "Super Bock 25cl",
-        // descricao: "Descrição do produto 4",
-        preco: 0.80,
-        imagem: "https://i.ibb.co/RpDC0Y9n/Super-Bock25cl.png"
-    },
-    {
-        nome: "Super Bock 50cl",
-        // descricao: "Descrição do produto 1",
-        preco: 1.20,
-        imagem: "https://i.ibb.co/T94wJ61/Super-Bocklata50cl.png"
-    },
-    {
-        nome: "Super Bock Litrão 1L.",
-        // descricao: "Descrição do produto 2",
-        preco: 2.50,
-        imagem: "https://i.ibb.co/ZzrrFxwW/Super-Bocklitr-o1-L.png"
-    },
-    {
-        nome: "Sagres 25cl",
-        // descricao: "Descrição do produto 3",
-        preco: 0.80,
-        imagem: "https://i.ibb.co/nNSZm67f/Sagre-25cl-removebg-preview.png"
-    },
-    {
-        nome: "Somersby 20cl",
-        // descricao: "Descrição do produto 3",
-        preco: 0.90,
-        imagem: "https://i.ibb.co/QvMxFS26/Somersby-20cl.png"
-    },
-    {
-        nome: "Monster Black 50cl",
-        // descricao: "Descrição do produto 4",
-        preco: 2.50,
-        imagem: "https://i.ibb.co/SXcczqsv/Monster-Black.png"
-    },
-    {
-        nome: "Monster White 50cl",
-        // descricao: "Descrição do produto 1",
-        preco: 2.50,
-        imagem: "https://i.ibb.co/d4YPKhyC/Monster-white-50cl.png"
-    },
-    {
-        nome: "Monster Juiced 50cl",
-        // descricao: "Descrição do produto 2",
-        preco: 2.50,
-        imagem: "https://i.ibb.co/ZRPpf8cD/Monster-juiced-50cl.png"
-    },
-    {
-        nome: "Vinho Coutada Velha 75cl",
-        // descricao: "Descrição do produto 3",
-        preco: 6.00,
-        imagem: "https://i.ibb.co/yFvbPjNC/vinho-Coutada-Velha.png"
-    },
-    {
-        nome: "Vinho Rosè EA 75cl",
-        // descricao: "Descrição do produto 4",
-        preco: 6.00,
-        imagem: "https://i.ibb.co/LX12JfzG/Vinho-EA-rose.png"
-    },
-    {
-        nome: "Vinho Tinto Monte dos Amigos 75cl",
-        // descricao: "Descrição do produto 1",
-        preco: 6.00,
-        imagem: "https://i.ibb.co/TDF00Pt9/vinho-monte-dos-amigos.png"
-    },
-    {
-        nome: "Vinho Tinto Vidigueira 75cl",
-        // descricao: "Descrição do produto 2",
-        preco: 6.00,
-        imagem: "https://i.ibb.co/prjFf7F8/Vinho-Vidigueira.png"
-    },
-    {
-        nome: "Água Penacova 50cl",
-        // descricao: "Descrição do produto 3",
-        preco: 0.50,
-        imagem: "https://i.ibb.co/4RWjNR8t/Agua25cl.png"
-    },
-    {
-        nome: "Água Penacova 1.5L",
-        // descricao: "Descrição do produto 4",
-        preco: 1.00,
-        imagem: "https://i.ibb.co/zVwZrJYT/agua15L.png"
-    },
+    { nome: "Heineken 25cl", preco: 1.00, imagem: "https://i.ibb.co/vx4Rdvp1/Heineken25cl-LN.png" },
+    { nome: "Heineken 50cl", preco: 1.80, imagem: "https://i.ibb.co/gFtrBPSK/heineken50cl.png" },
+    { nome: "Heineken Barril 5L.", preco: 24.00, imagem: "https://i.ibb.co/QF3hmm8B/Heineken5-LBarril.png" },
+    { nome: "Super Bock 25cl", preco: 0.80, imagem: "https://i.ibb.co/RpDC0Y9n/Super-Bock25cl.png" },
+    { nome: "Super Bock 50cl", preco: 1.20, imagem: "https://i.ibb.co/T94wJ61/Super-Bocklata50cl.png" },
+    { nome: "Super Bock Litrão 1L.", preco: 2.50, imagem: "https://i.ibb.co/ZzrrFxwW/Super-Bocklitr-o1-L.png" },
+    { nome: "Sagres 25cl", preco: 0.80, imagem: "https://i.ibb.co/nNSZm67f/Sagre-25cl-removebg-preview.png" },
+    { nome: "Somersby 20cl", preco: 0.90, imagem: "https://i.ibb.co/QvMxFS26/Somersby-20cl.png" },
+    { nome: "Monster Black 50cl", preco: 2.50, imagem: "https://i.ibb.co/SXcczqsv/Monster-Black.png" },
+    { nome: "Monster White 50cl", preco: 2.50, imagem: "https://i.ibb.co/d4YPKhyC/Monster-white-50cl.png" },
+    { nome: "Monster Juiced 50cl", preco: 2.50, imagem: "https://i.ibb.co/ZRPpf8cD/Monster-juiced-50cl.png" },
+    { nome: "Vinho Coutada Velha 75cl", preco: 6.00, imagem: "https://i.ibb.co/yFvbPjNC/vinho-Coutada-Velha.png" },
+    { nome: "Vinho Rosè EA 75cl", preco: 6.00, imagem: "https://i.ibb.co/LX12JfzG/Vinho-EA-rose.png" },
+    { nome: "Vinho Tinto Monte dos Amigos 75cl", preco: 6.00, imagem: "https://i.ibb.co/TDF00Pt9/vinho-monte-dos-amigos.png" },
+    { nome: "Vinho Tinto Vidigueira 75cl", preco: 6.00, imagem: "https://i.ibb.co/prjFf7F8/Vinho-Vidigueira.png" },
+    { nome: "Água Penacova 50cl", preco: 0.50, imagem: "https://i.ibb.co/4RWjNR8t/Agua25cl.png" },
+    { nome: "Água Penacova 1.5L", preco: 1.00, imagem: "https://i.ibb.co/zVwZrJYT/agua15L.png" },
 ];
 
+// DOM
 const container = document.getElementById("produtos-container");
 const listaCarrinho = document.getElementById("lista-carrinho");
 const totalCarrinho = document.getElementById("total-carrinho");
 const contadorCarrinho = document.getElementById("contador-carrinho");
 const painelCarrinho = document.getElementById("painel-carrinho");
-const info = document.getElementById("modal");
+const modal = document.getElementById("modal");
 
 let carrinho = [];
 
-function renderizarProdutos() {
-    produtos.forEach((produto, index) => {
-        const box = document.createElement("div");
-        box.classList.add("produto");
-
-        box.innerHTML = `
-      <img src="${produto.imagem}" alt="${produto.nome}">
-      <h3>${produto.nome}</h3>
-      ${produto.descricao ? `<p>${produto.descricao}</p>` : ""}
-      <p><strong>${produto.preco.toFixed(2)} €</strong></p>
-      <button onclick="handleAdicionarAoCarrinho(event, ${index}, 1)">Adicionar ao carrinho</button>
-      <button onclick="handleAdicionarAoCarrinho(event, ${index}, 10)">10x</button>
-    `;
-
-        container.appendChild(box);
-    });
-}
-
-// Função wrapper para adicionar ao carrinho e animar
-function handleAdicionarAoCarrinho(event, index, quantidade) {
-    adicionarAoCarrinho(index, quantidade);
-    animarQuantidade(event.currentTarget, quantidade);
-}
-
-function adicionarAoCarrinho(index, quantidade = 1) {
-    const produto = produtos[index];
-    const itemExistente = carrinho.find(item => item.produto.nome === produto.nome);
-
-    if (itemExistente) {
-        itemExistente.quantidade += quantidade;
-    } else {
-        carrinho.push({ produto, quantidade });
-    }
-
-    atualizarCarrinho();
-}
-
-function removerUmaUnidade(index) {
-    if (carrinho[index].quantidade > 1) {
-        carrinho[index].quantidade -= 1;
-    } else {
-        carrinho.splice(index, 1);
-    }
-
-    atualizarCarrinho();
-}
-
-function removerTudo(index) {
-    carrinho.splice(index, 1);
-    atualizarCarrinho();
-}
-
-function atualizarCarrinho() {
+// Utilitários
+const atualizarCarrinho = () => {
     listaCarrinho.innerHTML = "";
     let total = 0;
     let totalItens = 0;
 
-    carrinho.forEach((item, i) => {
+    carrinho.forEach((item, index) => {
         const subtotal = item.quantidade * item.produto.preco;
         total += subtotal;
         totalItens += item.quantidade;
 
         const li = document.createElement("li");
         li.innerHTML = `
-      <div class="item-carrinho">
-        <div class="quantidade-box">${item.quantidade}x</div>
-        <img src="${item.produto.imagem}" alt="${item.produto.nome}">
-        <div class="info-carrinho">
-          <p><strong>${item.produto.nome}</strong></p>
-          <p>€ ${subtotal.toFixed(2)}</p>
-          <div class="botoes-carrinho">
-            <button class="botao-mais" onclick="handleAdicionarAoCarrinho(event, ${produtos.indexOf(item.produto)}, 1)">+1</button>
-            <button class="botao-menos" onclick="removerUmaUnidade(${i})">-1</button>
-            <button class="botao-remover" onclick="removerTudo(${i})">Remover Tudo</button>
-          </div>
-        </div>
-      </div>
-      
-    `;
+            <div class="item-carrinho">
+                <div class="quantidade-box">${item.quantidade}x</div>
+                <img src="${item.produto.imagem}" alt="${item.produto.nome}">
+                <div class="info-carrinho">
+                    <p><strong>${item.produto.nome}</strong></p>
+                    <p>€ ${subtotal.toFixed(2)}</p>
+                    <div class="botoes-carrinho">
+                        <button class="botao-mais" onclick="handleAdicionarAoCarrinho(event, ${produtos.indexOf(item.produto)}, 1)">+1</button>
+                        <button class="botao-menos" onclick="removerUmaUnidade(${index})">-1</button>
+                        <button class="botao-remover" onclick="removerTudo(${index})">Remover Tudo</button>
+                    </div>
+                </div>
+            </div>
+        `;
         listaCarrinho.appendChild(li);
     });
 
     contadorCarrinho.textContent = totalItens;
     totalCarrinho.innerHTML = `<strong>Total: ${total.toFixed(2)} €</strong>`;
     atualizarBotaoFinalizar(totalItens, total);
+};
 
-}
+const atualizarBotaoFinalizar = (totalItens, total) => {
+    const btn = document.getElementById('finalizar-whatsapp');
+    const mensagem = document.getElementById('mensagem-minimo');
+    const atingiuMinimo = total >= 10;
 
-function toggleCarrinho() {
-    painelCarrinho.classList.toggle("aberto");
-}
+    if (btn) btn.disabled = !atingiuMinimo;
+    if (mensagem) mensagem.style.display = atingiuMinimo ? 'none' : 'block';
+};
 
-// Função que cria e anima o número saindo do botão e indo para o carrinho
-function animarQuantidade(botao, quantidade) {
+const renderizarProdutos = () => {
+    produtos.forEach((produto, index) => {
+        const box = document.createElement("div");
+        box.classList.add("produto");
+        box.innerHTML = `
+            <img src="${produto.imagem}" alt="${produto.nome}">
+            <h3>${produto.nome}</h3>
+            <p><strong>${produto.preco.toFixed(2)} €</strong></p>
+            <button onclick="handleAdicionarAoCarrinho(event, ${index}, 1)">Adicionar ao carrinho</button>
+            <button onclick="handleAdicionarAoCarrinho(event, ${index}, 10)">10x</button>
+        `;
+        container.appendChild(box);
+    });
+};
+
+const adicionarAoCarrinho = (index, quantidade = 1) => {
+    const produto = produtos[index];
+    const item = carrinho.find(item => item.produto.nome === produto.nome);
+
+    item ? item.quantidade += quantidade : carrinho.push({ produto, quantidade });
+    atualizarCarrinho();
+};
+
+const removerUmaUnidade = (index) => {
+    carrinho[index].quantidade > 1 ? carrinho[index].quantidade-- : carrinho.splice(index, 1);
+    atualizarCarrinho();
+};
+
+const removerTudo = (index) => {
+    carrinho.splice(index, 1);
+    atualizarCarrinho();
+};
+
+const handleAdicionarAoCarrinho = (event, index, quantidade) => {
+    adicionarAoCarrinho(index, quantidade);
+    animarQuantidade(event.currentTarget, quantidade);
+};
+
+const toggleCarrinho = () => painelCarrinho.classList.toggle("aberto");
+
+const animarQuantidade = (botao, quantidade) => {
     const rectBotao = botao.getBoundingClientRect();
     const carrinhoIcone = document.querySelector('.icone-carrinho');
     const rectCarrinho = carrinhoIcone.getBoundingClientRect();
@@ -213,136 +121,83 @@ function animarQuantidade(botao, quantidade) {
     const animacao = document.createElement('div');
     animacao.classList.add('animacao-quantidade');
     animacao.textContent = quantidade;
-
-    // Posiciona o círculo no centro do botão
     animacao.style.left = rectBotao.left + rectBotao.width / 2 + 'px';
     animacao.style.top = rectBotao.top + rectBotao.height / 2 + 'px';
-
     document.body.appendChild(animacao);
-
-    // Força reflow para garantir aplicação do estilo inicial
     animacao.getBoundingClientRect();
 
-    // Calcular deslocamento para centro do carrinho (imagem)
-    const deltaX = (rectCarrinho.left + rectCarrinho.width / 2) - (rectBotao.left + rectBotao.width / 2);
-    const deltaY = (rectCarrinho.top + rectCarrinho.height / 2) - (rectBotao.top + rectBotao.height / 2);
+    const deltaX = rectCarrinho.left + rectCarrinho.width / 2 - (rectBotao.left + rectBotao.width / 2);
+    const deltaY = rectCarrinho.top + rectCarrinho.height / 2 - (rectBotao.top + rectBotao.height / 2);
 
-    // Define só o transform para mover (sem alterar opacidade ainda)
     animacao.style.transition = 'transform 1.5s ease';
     animacao.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`;
 
-    // Quando o movimento terminar, começa o fade out
     animacao.addEventListener('transitionend', function handler(e) {
         if (e.propertyName === 'transform') {
             animacao.removeEventListener('transitionend', handler);
-
-            // Agora só anima opacidade
             animacao.style.transition = 'opacity 0.5s ease';
             animacao.style.opacity = '0';
-
-            // Remove o elemento depois do fade
             animacao.addEventListener('transitionend', () => animacao.remove(), { once: true });
         }
     });
-}
-renderizarProdutos();
+};
 
-// Função para fechar modal
-function fecharModal() {
-    modal.style.display = 'none';
-}
+function togglemodal() {
+    const modal = document.getElementById('modal');
 
-// Fechar modal ao clicar fora da janela (fundo do modal)
+    if (modal.style.display === 'flex') {
+        modal.style.display = 'none';
+    } else {
+        modal.style.display = 'flex';
+    }
+}
+const fecharModal = () => modal.style.display = 'none';
+
 modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        togglemodal();
+    if (e.target === modal) toggleModal();
+});
+
+// Pagamento e envio via WhatsApp
+const pagamento = document.getElementById('forma-pagamento');
+pagamento.addEventListener('change', function () {
+    const trocoContainer = document.getElementById('troco-container');
+    const precisaTroco = document.getElementById('precisa-troco');
+    const trocoQuantidade = document.getElementById('troco-quantidade');
+
+    if (this.value === 'dinheiro') {
+        trocoContainer.style.display = 'block';
+    } else {
+        trocoContainer.style.display = 'none';
+        precisaTroco.checked = false;
+        trocoQuantidade.style.display = 'none';
+        document.getElementById('valor-troco').value = '';
     }
 });
 
-function togglemodal() {
-  const modal = document.getElementById('modal');
-
-  if (modal.style.display === 'flex') {
-    modal.style.display = 'none';
-  } else {
-    modal.style.display = 'flex';
-  }
-}
-
-function atualizarBotaoFinalizar(totalItens, total) {
-    const btn = document.getElementById('finalizar-whatsapp');
-    const mensagem = document.getElementById('mensagem-minimo');
-
-    const atingiuMinimo = total >= 10;
-
-    if (btn) btn.disabled = !atingiuMinimo;
-    if (mensagem) mensagem.style.display = atingiuMinimo ? 'none' : 'block';
-}
-
-
-
-// Exibe opções de troco ao escolher "dinheiro"
-document.getElementById('forma-pagamento').addEventListener('change', function () {
-  const formaPagamento = this.value;
-  const trocoContainer = document.getElementById('troco-container');
-  const precisaTroco = document.getElementById('precisa-troco');
-  const trocoQuantidade = document.getElementById('troco-quantidade');
-
-  if (formaPagamento === 'dinheiro') {
-    trocoContainer.style.display = 'block';
-  } else {
-    trocoContainer.style.display = 'none';
-
-    // Resetar estado da checkbox e esconder o campo de valor
-    precisaTroco.checked = false;
-    trocoQuantidade.style.display = 'none';
-    document.getElementById('valor-troco').value = '';
-  }
-});
-
-
-// Exibe campo para valor de troco se selecionado
 document.getElementById('precisa-troco').addEventListener('change', (e) => {
     document.getElementById('troco-quantidade').style.display = e.target.checked ? 'block' : 'none';
 });
 
-// Define comportamento do botão finalizador
 document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
-    const total = totalCarrinho.innerText.replace('Total: € ', '').trim();
-    const formaSelect = document.getElementById('forma-pagamento');
-    const forma = formaSelect.value;
+    const total = parseFloat(totalCarrinho.innerText.replace(/[^\d,.]/g, '').replace(',', '.'));
+    const forma = pagamento.value;
+    if (!forma) return alert('Por favor, selecione uma forma de pagamento.');
 
-    if (!forma) {
-        alert('Por favor, selecione uma forma de pagamento.');
-        return;
-    }
-
-    let msg = `🛒 *Olá! Gostaria de fazer um pedido:*\n\n📦 *Produtos:* \n`;
-
-    carrinho.forEach(item => {
-        msg += `- ${item.quantidade} x ${item.produto.nome} 🍺\n`;
-    });
-
-    msg += `\n💰 ${total}\n`;
-    msg += `💳 *Forma de pagamento:* ${forma}`;
+    let msg = `🛒 *Olá! Gostaria de fazer um pedido:*
+\n📦 *Produtos:* \n`;
+    carrinho.forEach(item => msg += `- ${item.quantidade} x ${item.produto.nome} 🍺\n`);
+    msg += `\n💰 ${total.toFixed(2)} €\n💳 *Forma de pagamento:* ${forma}`;
 
     if (forma === 'dinheiro') {
-        const precisaTroco = document.getElementById('precisa-troco').checked;
-        msg += `\n\n🪙 *Troco necessário?* ${precisaTroco ? '✅ Sim' : '❌ Não'}`;
 
-        if (precisaTroco) {
-            const quantoStr = document.getElementById('valor-troco').value.trim();
-            const quanto = parseFloat(quantoStr.replace(',', '.'));
+        const quanto = conversordevalor();
 
-            if (!isNaN(quanto)) {
-                const totalNumber = parseFloat(total.replace(',', '.'));
-                const troco = (quanto - totalNumber).toFixed(2);
-
-                msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
-                msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
-            } else {
-                msg += `\n💵 *Valor que irá pagar:* não informado`;
-            }
+        if (!isNaN(quanto)) {
+            const troco = (quanto - total).toFixed(2);
+            msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
+            msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
+        } else {
+            msg += `\n💵 *Valor que irá pagar:* não informado`;
         }
     }
 
@@ -350,48 +205,28 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
 
-    // ✅ RESUMO DO PEDIDO COMO ALERTA
-let resumoTexto = '✅ Pedido enviado via WhatsApp!\n';
-carrinho.forEach(item => {
-    resumoTexto += `• ${item.quantidade} x ${item.produto.nome}\n`;
-});
+    // Alerta e limpeza
+    let resumo = '✅ Pedido enviado via WhatsApp!\n';
+    carrinho.forEach(item => resumo += `• ${item.quantidade} x ${item.produto.nome}\n`);
+    resumo += `\n ${total.toFixed(2)} €\nForma de pagamento: ${forma}`;
+    forma == 'dinheiro' ? resumo += `\nTroco: ${(conversordevalor() - total).toFixed(2)} €` : resumo += ``;
 
-resumoTexto += `\n ${total}`;
-resumoTexto += `\nForma de pagamento: ${forma}`;
+    alert(resumo);
 
-if (forma === 'dinheiro') {
-    const precisaTroco = document.getElementById('precisa-troco').checked;
-    if (precisaTroco) {
-        const quantoStr = document.getElementById('valor-troco').value.trim();
-        const quanto = parseFloat(quantoStr.replace(',', '.'));
-        const totalNumber = parseFloat(total.replace(',', '.'));
-
-        if (!isNaN(quanto)) {
-            const troco = (quanto - totalNumber).toFixed(2);
-            resumoTexto += `\nValor pago: € ${quanto.toFixed(2)}`;
-            resumoTexto += `\nTroco a receber: € ${troco}`;
-        }
-    }
-}
-
-
-// ✅ MOSTRA O ALERT COM O RESUMO
-alert(resumoTexto);
-
-
-    // ✅ LIMPAR CARRINHO
     carrinho = [];
     atualizarCarrinho();
-
-    // ✅ RESETA a seleção da forma de pagamento
-    formaSelect.value = "";
-
-    // ✅ ESCONDE campo de troco (se estiver aberto)
+    pagamento.value = "";
     document.getElementById('troco-container').style.display = 'none';
     document.getElementById('troco-quantidade').style.display = 'none';
     document.getElementById('valor-troco').value = "";
-
-    // ✅ FECHA O PAINEL DO CARRINHO
     painelCarrinho.classList.remove("aberto");
 });
 
+// Inicializa
+renderizarProdutos();
+
+const conversordevalor = () => {
+    const valorInput = document.getElementById('valor-troco').value.trim().replace(',', '.');
+    const quanto = parseFloat(valorInput);
+    return quanto;
+}
