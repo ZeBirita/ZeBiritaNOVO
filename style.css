@@ -6,7 +6,7 @@ body {
     background-color: #e6cab4;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .titulo-site {
         display: none;
     }
@@ -66,7 +66,7 @@ header::after {
     grid-template-columns: repeat(auto-fit, minmax(160px, auto));
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .produtos-container {
     grid-template-columns: repeat(auto-fit, minmax(100px, auto));
   }
@@ -99,7 +99,7 @@ header::after {
     border-radius: 8px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .produto img {
     height: 150px;
     }
@@ -406,7 +406,7 @@ header::after {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .modal-conteudo {
         width: 90%;
     }
@@ -541,9 +541,9 @@ header::after {
 }
 
 /* RESPONSIVIDADE BÁSICA */
-@media (max-width: 768px) {
+@media (max-width: 1500px) {
     .painel-carrinho {
-        width: 100%;
+        width: 96%;
     }
 
     .produto {
