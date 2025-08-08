@@ -14,7 +14,7 @@
   <header>
     <div class="logo-central">
       <img src="https://i.ibb.co/hRxZ0HvY/Z-BIRITA-Sem-fundo.png" alt="Logo Zé Birita">
-<h1 class="titulo-site">Zé Birita<br>Delivery</h1>
+      <h1 class="titulo-site">Zé Birita<br>Delivery</h1>
     </div>
     <div class="icone-carrinho" onclick="toggleCarrinho()">
       🛒 <span id="contador-carrinho">0</span>
@@ -94,7 +94,8 @@
             qualidade.
           </p>
           <p>
-            Este vídeo explica nosso funcionamento e as imagens abaixo mostram nossos principais produtos e mais informações. Agradecemos
+            Este vídeo explica nosso funcionamento e as imagens abaixo mostram nossos principais produtos e mais
+            informações. Agradecemos
             por visitar nosso site!
           </p>
         </div>
@@ -131,6 +132,7 @@
   </script>
 
 </body>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const campoValorTroco = document.getElementById('valor-troco');
@@ -150,8 +152,19 @@
       const jaTemPonto = valorAtual.includes('.');
       const jaTemVirgula = valorAtual.includes(',');
 
-      if (ehNumero || teclasPermitidas.includes(tecla)) {
-        return; // permite números e teclas de controle
+      // Conta quantos números já tem (excluindo '.' e ',')
+      const numerosAtuais = valorAtual.replace(/[.,]/g, '');
+
+      if (ehNumero) {
+        if (numerosAtuais.length >= 5) {
+          e.preventDefault(); // bloqueia se já tem 5 números
+          return;
+        }
+        return; // permite números se tiver menos que 5
+      }
+
+      if (teclasPermitidas.includes(tecla)) {
+        return; // permite teclas de controle
       }
 
       // Permite ponto ou vírgula, mas apenas um deles
@@ -177,6 +190,42 @@
         // remove o segundo símbolo
         valor = valor.replace(/[.,]$/, '');
       }
+
+      // Limita a 5 números, ignorando '.' e ','
+      let numeros = valor.replace(/[.,]/g, '');
+      if (numeros.length > 5) {
+        // corta o excesso de números (mantendo o formato)
+        numeros = numeros.substring(0, 5);
+        // agora reconstruímos o valor com o símbolo (se tiver)
+        if (temPonto) {
+          valor = numeros + '.';
+        } else if (temVirgula) {
+          valor = numeros + ',';
+        } else {
+          valor = numeros;
+        }
+      }
+      campoValorTroco.addEventListener('blur', function () {
+        let valor = this.value.trim();
+
+        if (!valor) return; // se vazio, não faz nada
+
+        // Troca vírgula por ponto para padronizar
+        valor = valor.replace(',', '.');
+
+        // Tenta converter para número float
+        let num = parseFloat(valor);
+
+        if (isNaN(num)) {
+          // Se não for número, limpa o campo
+          this.value = '';
+          return;
+        }
+
+        // Limita para duas casas decimais, fixa como string
+        this.value = num.toFixed(2);
+      });
+
 
       // Garante apenas uma vírgula ou um ponto
       const match = valor.match(/^([0-9]*)([.,]?)([0-9]*)/);

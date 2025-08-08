@@ -13,10 +13,10 @@ const produtos = [
     { nome: "Monster Juiced 50cl", preco: 2.50, imagem: "https://i.ibb.co/ZRPpf8cD/Monster-juiced-50cl.png" },
     { nome: "Vinho Coutada Velha 75cl", preco: 6.00, imagem: "https://i.ibb.co/yFvbPjNC/vinho-Coutada-Velha.png" },
     { nome: "Vinho Rosè EA 75cl", preco: 6.00, imagem: "https://i.ibb.co/LX12JfzG/Vinho-EA-rose.png" },
-    { nome: "Vinho Tinto Monte dos Amigos 75cl", preco: 6.00, imagem: "https://i.ibb.co/TDF00Pt9/vinho-monte-dos-amigos.png" },
-    { nome: "Vinho Tinto Vidigueira 75cl", preco: 6.00, imagem: "https://i.ibb.co/prjFf7F8/Vinho-Vidigueira.png" },
-    { nome: "Água Penacova 50cl", preco: 0.50, imagem: "https://i.ibb.co/4RWjNR8t/Agua25cl.png" },
-    { nome: "Água Penacova 1.5L", preco: 1.00, imagem: "https://i.ibb.co/zVwZrJYT/agua15L.png" },
+    { nome: "Vinho Tinto Monte dos Amigos 75cl", preco: 6.00, imagem: "https://i.ibb.co/0yZwjbQt/vinho-monte-dos-amigos.png" },
+    { nome: "Vinho Tinto Vidigueira 75cl", preco: 6.00, imagem: "https://i.ibb.co/HyWq7sf/vinho-Vidigueira.png" },
+    { nome: "Água Penacova 50cl", preco: 0.50, imagem: "https://i.ibb.co/ch1p2Ln5/Agua-25cl.png" },
+    { nome: "Água Penacova 1.5L", preco: 1.00, imagem: "https://i.ibb.co/k2ycg1K8/agua-1-5-L.png" },
 ];
 
 // DOM
