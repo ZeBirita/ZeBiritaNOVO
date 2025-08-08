@@ -5,10 +5,11 @@ body {
     padding: 0;
     background-color: #e6cab4;
 }
+
 @media (max-width: 768px) {
-  .titulo-site {
-    display: none;
-  }
+    .titulo-site {
+        display: none;
+    }
 }
 
 /* HEADER FIXO */
@@ -21,7 +22,6 @@ header {
     padding: 10px 0;
     background: rgba(82, 49, 0, 0.6);
     backdrop-filter: blur(8px);
-    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -45,6 +45,7 @@ header::after {
 
 .logo-central img {
     height: 100px;
+    margin-top: -10px;
 }
 
 .logo-central h1 {
@@ -53,6 +54,8 @@ header::after {
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
     margin: 0;
 }
+
+
 
 /* CONTAINER DE PRODUTOS */
 .produtos-container {
@@ -63,15 +66,20 @@ header::after {
     grid-template-columns: repeat(auto-fit, minmax(160px, auto));
 }
 
+@media (max-width: 768px) {
+  .produtos-container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, auto));
+  }
+}
 /* PRODUTOS */
 .produto {
     width: 150px;
-    height: 400px;
+    height: 380px;
     padding: 5px;
     border: 4px solid #d4a73a;
     border-radius: 16px;
     background: linear-gradient(to bottom, #fff8e1, #fce5b5);
-    box-shadow: 0 0 12px rgba(212, 167, 58, 0.5);
+    box-shadow: 0 0 12px rgba(255, 179, 0, 0.5);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -86,10 +94,16 @@ header::after {
 
 .produto img {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+@media (max-width: 768px) {
+    .produto img {
+    height: 150px;
+    }
+    
 }
 
 .produto h3 {
