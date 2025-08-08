@@ -1,9 +1,14 @@
-/* RESET E ESTILIZAÇÃO GERAL */
+/* RESET E GERAL */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #e6cab4;
+}
+@media (max-width: 768px) {
+  .titulo-site {
+    display: none;
+  }
 }
 
 /* HEADER FIXO */
@@ -22,7 +27,6 @@ header {
     z-index: 1000;
 }
 
-/* Ribete estilizado, como se fosse espuma */
 header::after {
     content: "";
     position: absolute;
@@ -32,11 +36,9 @@ header::after {
     height: 12px;
 }
 
-
-/* LOGO NO HEADER */
+/* LOGO */
 .logo-central {
     display: flex;
-
     align-items: center;
     gap: 15px;
 }
@@ -52,43 +54,28 @@ header::after {
     margin: 0;
 }
 
-
 /* CONTAINER DE PRODUTOS */
 .produtos-container {
-    padding-top: 115px;
-    /* ajuste conforme altura do header */
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    padding: 115px 20px 20px;
+    display: grid;
+    gap: 12px;
     justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(160px, auto));
 }
 
-/* CADA PRODUTO */
+/* PRODUTOS */
 .produto {
-    width: 220px;
+    width: 150px;
     height: 400px;
-    object-fit: contain;
-    /* mantém proporção da imagem */
-    border: 2px solid #000;
     padding: 5px;
-    box-sizing: border-box;
-
+    border: 4px solid #d4a73a;
+    border-radius: 16px;
+    background: linear-gradient(to bottom, #fff8e1, #fce5b5);
+    box-shadow: 0 0 12px rgba(212, 167, 58, 0.5);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     text-align: center;
-    border: 4px solid #d4a73a;
-    /* dourado cerveja */
-    border-radius: 16px;
-    background: linear-gradient(to bottom, #fff8e1, #fce5b5);
-    /* cor de cerveja com espuma */
-    box-shadow: 0 0 12px rgba(212, 167, 58, 0.5);
-    /* brilho dourado */
-
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -102,9 +89,7 @@ header::after {
     height: 200px;
     object-fit: cover;
     border-radius: 8px;
-    /* cantos arredondados */
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
-    /* sombra leve */
 }
 
 .produto h3 {
@@ -117,54 +102,46 @@ header::after {
     margin: 5px 0;
 }
 
-.produto button {
+.produto button,
+#finalizar-whatsapp {
     padding: 12px 20px;
     font-size: 16px;
-    width: 200px;
+    width: 100%;
+    max-width: 200px;
     margin: 5px auto;
     border-radius: 8px;
-
     background-color: #28a745;
     color: white;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
     display: block;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.produto button:hover {
+.produto button:hover,
+#finalizar-whatsapp:hover:not(:disabled) {
     background-color: #218838;
     transform: scale(1.05);
 }
 
-/* BOTÕES - ESTILIZAÇÕES GERAIS */
-button:hover {
-    background-color: #218838;
-}
-
+/* BOTÕES DE CARRINHO */
 .botoes-carrinho button {
-    transition: transform 0.2s ease;
-    margin-right: 5px;
-    margin-top: 5px;
+    margin: 5px 5px 0 0;
     padding: 4px 8px;
-
     border: none;
     border-radius: 4px;
     cursor: pointer;
-
-    color: white;
     font-weight: bold;
+    color: white;
+    transition: transform 0.2s ease;
 }
 
 .botoes-carrinho button:hover {
     transform: scale(1.2);
-    /* aumenta 20% */
 }
 
-/* BOTÕES DE QUANTIDADE E REMOÇÃO */
 .botao-mais {
     background-color: #28a745;
-    /* verde */
 }
 
 .botao-mais:hover {
@@ -173,7 +150,6 @@ button:hover {
 
 .botao-menos {
     background-color: #dc3545;
-    /* vermelho */
 }
 
 .botao-menos:hover {
@@ -182,7 +158,6 @@ button:hover {
 
 .botao-remover {
     background-color: #000;
-    /* preto */
     color: #fff;
 }
 
@@ -190,7 +165,7 @@ button:hover {
     background-color: #333;
 }
 
-/* CARRINHO - CONTAINER */
+/* CARRINHO */
 .carrinho {
     padding: 20px;
     background-color: #f9f9f9;
@@ -201,35 +176,32 @@ button:hover {
     padding-left: 0;
 }
 
-/* PAINEL LATERAL DO CARRINHO */
+#lista-carrinho {
+    list-style: none !important;
+    padding: 0 10px !important;
+    margin: 0 !important;
+}
+
+/* PAINEL DO CARRINHO */
 .painel-carrinho {
     position: fixed;
-    top: ;
+    top: 0;
     right: 0;
-
     width: 380px;
     height: 100%;
-
     background-color: #fff;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-
     padding: 10px 10px 20px 0;
-
     overflow-y: auto;
     transition: transform 0.3s ease;
-
     z-index: 1000;
-
     transform: translateX(100%);
-    /* escondido fora da tela */
 }
 
 .painel-carrinho.aberto {
     transform: translateX(0);
-    /* aparece */
 }
 
-/* HEADER DO PAINEL */
 .painel-header {
     display: flex;
     justify-content: space-between;
@@ -240,13 +212,12 @@ button:hover {
     flex: 1;
     color: #000;
     text-align: center;
-    margin: 0;
     font-size: 30px;
+    margin: 0;
 }
 
 .painel-header button {
     background-color: #ffc2c8;
-    /* vermelho claro */
     color: white;
     border: none;
     font-size: 16px;
@@ -259,10 +230,8 @@ button:hover {
 
 .painel-header button:hover {
     background-color: #c82333;
-    /* vermelho escuro no hover */
 }
 
-/* Botões dentro do painel carrinho com estilo inline (vermelho) */
 .painel-carrinho button[style*="red"] {
     background-color: #dc3545;
     color: white;
@@ -277,9 +246,7 @@ button:hover {
     display: flex;
     align-items: center;
     gap: 5px;
-    /* espaçamento entre elementos */
     margin-bottom: 10px;
-
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
 }
@@ -289,46 +256,37 @@ button:hover {
     height: 80px;
     object-fit: cover;
     border-radius: 4px;
-    margin-right: 10px;
 }
 
 .info-carrinho p {
     margin: 4px 0;
-    /* reduz espaçamento entre linhas */
     font-size: 25px;
     line-height: 1.2;
-    /* melhor legibilidade */
 }
 
 .info-carrinho p strong {
     font-size: 22px;
-    /* destaque para nome */
 }
 
 /* QUANTIDADE */
 .quantidade-box {
     width: 40px;
     height: 40px;
-    margin-right: 5px;
     background-color: #e0e0e0;
     color: #333;
     font-weight: bold;
     font-size: 18px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    
     border-radius: 6px;
 }
 
-/* CONTADOR DO CARRINHO (ÍCONE) */
+/* ÍCONES */
 #contador-carrinho {
     position: absolute;
     top: 52px;
     right: 3px;
-
     background-color: red;
     color: white;
     border-radius: 20%;
@@ -336,32 +294,25 @@ button:hover {
     font-size: 20px;
 }
 
-/* ÍCONE DO CARRINHO */
 .icone-carrinho {
     position: absolute;
     top: 30px;
     right: 20px;
-
     font-size: 40px;
     cursor: pointer;
-
     transform: translateY(-50%);
 }
 
-/* ANIMAÇÃO DE QUANTIDADE */
+/* ANIMAÇÃO */
 .animacao-quantidade {
     position: fixed;
-
     background-color: #28a745;
     color: white;
-
     border-radius: 50%;
     padding: 8px 12px;
     font-weight: bold;
-
     z-index: 10000;
     pointer-events: none;
-
     transition: transform 5s cubic-bezier(0.2, 0, 0, 0.2), opacity 5s ease;
     opacity: 5;
 }
@@ -371,23 +322,16 @@ button:hover {
     position: absolute;
     right: 100px;
     top: 55%;
-
     transform: translateY(-50%);
     padding: 12px 24px;
     font-size: 18px;
     font-weight: bold;
-
     background: linear-gradient(to bottom, #f6d365, #fda085);
-    /* degrade cerveja */
     color: #4a2c00;
-    /* cor escura malte */
-
     border: 2px solid #d5a253;
     border-radius: 12px;
-
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-
     transition: all 0.3s ease;
 }
 
@@ -408,84 +352,60 @@ button:hover {
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
 }
 
+/* TOTAL DO CARRINHO */
 #total-carrinho {
-    margin-top: 0px;
+    margin-top: 0;
     font-size: 28px;
-    /* tamanho da fonte */
     font-weight: bold;
     color: #4a2c00;
-    /* cor estilo cerveja */
     padding-left: 50px;
-    /* espaçamento interno à esquerda */
 }
 
-
-/* LISTAS */
-#lista-carrinho{
-    list-style: none !important;
-    padding-left: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 10px !important; /* ou outro valor que preferir */
-}
-
-
-/* MODAL - FUNDO */
+/* MODAL */
 .modal-fundo,
 #modal {
     position: fixed;
     top: 0;
     left: 0;
-
     width: 100vw;
     height: 100vh;
-
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-
     display: none;
-    /* invisível por padrão */
     justify-content: center;
     align-items: center;
-
     z-index: 1200;
 }
 
-/* MODAL - CONTEÚDO */
+#modal.aberto {
+    display: flex;
+}
+
 .modal-conteudo {
     background: #e6cab4;
     padding: 20px;
     border-radius: 10px;
-
-    width: 100%;
+    width: 40%;
     max-width: 700px;
     max-height: 90vh;
-
     overflow-y: auto;
-
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* MODAL - TÍTULO */
 .modal-conteudo h2 {
     margin-top: 0;
     text-align: center;
     font-size: 28px;
 }
 
-/* MODAL - VÍDEO */
 .modal-conteudo video {
     width: 100%;
-    height: auto;
     border-radius: 8px;
     margin-bottom: 15px;
 }
 
-/* MODAL - IMAGENS LADO A LADO */
 .modal-conteudo .imagens-container {
     display: flex;
-    justify-content: space-between;
     gap: 10px;
     margin-bottom: 15px;
 }
@@ -496,7 +416,6 @@ button:hover {
     object-fit: cover;
 }
 
-/* MODAL - CAIXA DE TEXTO */
 .modal-conteudo textarea {
     width: 100%;
     min-height: 100px;
@@ -505,25 +424,18 @@ button:hover {
     font-size: 16px;
     border-radius: 6px;
     border: 1px solid #ccc;
-    box-sizing: border-box;
 }
 
-/* MODAL PRINCIPAL - EXIBIÇÃO */
-#modal.aberto {
-    display: flex;
-    /* mostra o modal */
-}
-
-/* TEXTO FIXO DENTRO DO MODAL */
+/* TEXTO FIXO */
 .texto-fixo-modal {
     background-color: #f5f5f5;
     padding: 15px;
     border-radius: 8px;
     font-size: 16px;
-    line-height: 1.6;
-    color: #333;
+    color: #000000;
 }
 
+/* PAGAMENTO */
 #opcoes-pagamento {
     background-color: #fff8e1;
     border: 2px solid #d4a73a;
@@ -534,11 +446,7 @@ button:hover {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #4e342e;
     box-shadow: 0 0 8px rgba(212, 167, 58, 0.2);
-}
-
-#opcoes-pagamento {
     margin-left: 13px;
-    /* ajusta o valor conforme desejar */
 }
 
 #opcoes-pagamento label {
@@ -565,28 +473,12 @@ button:hover {
     transform: scale(1.2);
 }
 
-#finalizar-whatsapp {
-    background-color: #d4a73a;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 100%;
-}
-
 #finalizar-whatsapp:disabled {
     background-color: #e0c27c;
     cursor: not-allowed;
 }
 
-#finalizar-whatsapp:hover:not(:disabled) {
-    background-color: #b88c1a;
-    transform: scale(1.02);
-}
-
+/* MODAL DE IMAGEM */
 .modal-imagem {
     position: fixed;
     z-index: 9999;
@@ -595,15 +487,21 @@ button:hover {
     width: 100vw;
     height: 100vh;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9);
+
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Transparência mais leve */
+    backdrop-filter: blur(6px);
+    /* Efeito fosco */
+    -webkit-backdrop-filter: blur(6px);
+    /* Suporte para Safari */
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+
 .modal-imagem img {
-    width: auto;
-    height: auto;
     max-width: 90vw;
     max-height: 90vh;
     border-radius: 10px;
@@ -611,7 +509,8 @@ button:hover {
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
 }
 
-.fechar-modal {
+.fechar-modal,
+.fechar-modal-sobre {
     position: absolute;
     top: 20px;
     right: 30px;
@@ -621,6 +520,13 @@ button:hover {
     cursor: pointer;
 }
 
-.fechar-modal-sobre {
-    cursor: pointer;
+/* RESPONSIVIDADE BÁSICA */
+@media (max-width: 768px) {
+    .painel-carrinho {
+        width: 100%;
+    }
+
+    .produto {
+        width: 90%;
+    }
 }

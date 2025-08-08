@@ -189,15 +189,19 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
     msg += `\n💰 ${total.toFixed(2)} €\n💳 *Forma de pagamento:* ${forma}`;
 
     if (forma === 'dinheiro') {
-
         const quanto = conversordevalor();
 
-        if (!isNaN(quanto)) {
+        if (isNaN(quanto)) {
+            msg += `\n💵 *Valor que irá pagar:* não informado`;
+        } else {
+            if (quanto <= total) {
+                alert('⚠️ O valor informado para pagamento é igual ou inferior ao total da compra. Corrija o valor.');
+                return; // cancela o envio
+            }
+
             const troco = (quanto - total).toFixed(2);
             msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
             msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
-        } else {
-            msg += `\n💵 *Valor que irá pagar:* não informado`;
         }
     }
 
@@ -208,7 +212,7 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
     // Alerta e limpeza
     let resumo = '✅ Pedido enviado via WhatsApp!\n';
     carrinho.forEach(item => resumo += `• ${item.quantidade} x ${item.produto.nome}\n`);
-    resumo += `\n ${total.toFixed(2)} €\nForma de pagamento: ${forma}`;
+    resumo += `\n Total: ${total.toFixed(2)} €\nForma de pagamento: ${forma}`;
     forma == 'dinheiro' ? resumo += `\nTroco: ${(conversordevalor() - total).toFixed(2)} €` : resumo += ``;
 
     alert(resumo);
@@ -216,6 +220,7 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
     carrinho = [];
     atualizarCarrinho();
     pagamento.value = "";
+    pagamento.dispatchEvent(new Event('change'));
     document.getElementById('troco-container').style.display = 'none';
     document.getElementById('troco-quantidade').style.display = 'none';
     document.getElementById('valor-troco').value = "";
