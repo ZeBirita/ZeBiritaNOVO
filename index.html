@@ -224,19 +224,6 @@
     });
   });
 </script>
-
-
-    // Fechar ao apertar ESC
-    window.addEventListener('keydown', function (e) {
-      if (e.key === "Escape") {
-        modalSobre.style.display = 'none';
-        player.pause().catch(function (error) {
-          console.error("Erro ao pausar o vídeo:", error);
-        });
-      }
-    });
-  });
-</script>
 <script>
   function fecharModalSobre() {
     document.getElementById('modal').style.display = 'none';
