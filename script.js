@@ -81,8 +81,8 @@ const renderizarProdutos = () => {
             <img src="${produto.imagem}" alt="${produto.nome}">
             <h3>${produto.nome}</h3>
             <p><strong>${produto.preco.toFixed(2)} €</strong></p>
-            <button onclick="handleAdicionarAoCarrinho(event, ${index}, 1)">Adicionar ao carrinho</button>
-            <button onclick="handleAdicionarAoCarrinho(event, ${index}, 10)">10x</button>
+            <button onclick="handleAdicionarAoCarrinho(event, ${index}, 1)">1 Unidade</button>
+            <button onclick="handleAdicionarAoCarrinho(event, ${index}, 10)">10 Unidades</button>
         `;
         container.appendChild(box);
     });

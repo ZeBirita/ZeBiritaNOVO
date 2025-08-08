@@ -94,7 +94,7 @@
             qualidade.
           </p>
           <p>
-            Este vídeo explica nosso funcionamento e as imagens abaixo mostram nossos principais produtos. Agradecemos
+            Este vídeo explica nosso funcionamento e as imagens abaixo mostram nossos principais produtos e mais informações. Agradecemos
             por visitar nosso site!
           </p>
         </div>
@@ -131,11 +131,75 @@
   </script>
 
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const campoValorTroco = document.getElementById('valor-troco');
+
+    campoValorTroco.addEventListener('keydown', function (e) {
+      const teclasPermitidas = [
+        "Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "Home", "End"
+      ];
+
+      const tecla = e.key;
+      const valorAtual = campoValorTroco.value;
+
+      const ehNumero = /^[0-9]$/.test(tecla);
+      const ehPonto = tecla === '.';
+      const ehVirgula = tecla === ',';
+
+      const jaTemPonto = valorAtual.includes('.');
+      const jaTemVirgula = valorAtual.includes(',');
+
+      if (ehNumero || teclasPermitidas.includes(tecla)) {
+        return; // permite números e teclas de controle
+      }
+
+      // Permite ponto ou vírgula, mas apenas um deles
+      if ((ehPonto && !jaTemPonto && !jaTemVirgula) || (ehVirgula && !jaTemPonto && !jaTemVirgula)) {
+        return;
+      }
+
+      e.preventDefault(); // bloqueia todo o resto
+    });
+
+    campoValorTroco.addEventListener('input', function () {
+      // Remove qualquer caractere inválido
+      let valor = this.value;
+
+      // Remove tudo que não for número, ponto ou vírgula
+      valor = valor.replace(/[^0-9.,]/g, '');
+
+      // Permite apenas 1 ponto ou 1 vírgula (não os dois)
+      const temPonto = valor.includes('.');
+      const temVirgula = valor.includes(',');
+
+      if (temPonto && temVirgula) {
+        // remove o segundo símbolo
+        valor = valor.replace(/[.,]$/, '');
+      }
+
+      // Garante apenas uma vírgula ou um ponto
+      const match = valor.match(/^([0-9]*)([.,]?)([0-9]*)/);
+      if (match) {
+        this.value = match[1] + match[2] + match[3];
+      } else {
+        this.value = '';
+      }
+    });
+  });
+</script>
+
+
 <script src="script.js"></script>
+
+<script>
+  let player; // Agora é global
+</script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const iframe = document.getElementById('video-vimeo');
-    const player = new Vimeo.Player(iframe);
+    player = new Vimeo.Player(iframe); // Atribui à variável global
 
     const modalSobre = document.getElementById('modal');
 
@@ -148,6 +212,19 @@
         });
       }
     });
+
+    // Fechar ao apertar ESC
+    window.addEventListener('keydown', function (e) {
+      if (e.key === "Escape") {
+        modalSobre.style.display = 'none';
+        player.pause().catch(function (error) {
+          console.error("Erro ao pausar o vídeo:", error);
+        });
+      }
+    });
+  });
+</script>
+
 
     // Fechar ao apertar ESC
     window.addEventListener('keydown', function (e) {

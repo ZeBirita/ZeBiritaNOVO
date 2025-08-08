@@ -103,7 +103,6 @@ header::after {
     .produto img {
     height: 150px;
     }
-    
 }
 
 .produto h3 {
@@ -117,6 +116,7 @@ header::after {
 }
 
 .produto button,
+
 #finalizar-whatsapp {
     padding: 12px 20px;
     font-size: 16px;
