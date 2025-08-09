@@ -29,23 +29,6 @@ const modal = document.getElementById("modal");
 
 let carrinho = [];
 
-const barraFechar = document.getElementById('barra-fechar-mobile');
-let touchStartX = 0;
-
-barraFechar.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-});
-
-barraFechar.addEventListener('touchmove', (e) => {
-    const touchCurrentX = e.touches[0].clientX;
-    const deltaX = touchCurrentX - touchStartX;
-
-    // se arrastar para a esquerda mais de 50px, fecha o carrinho
-    if (deltaX < -50) {
-        painelCarrinho.classList.remove('aberto');
-    }
-});
-
 // Utilitários
 const atualizarCarrinho = () => {
     listaCarrinho.innerHTML = "";
@@ -126,18 +109,6 @@ const handleAdicionarAoCarrinho = (event, index, quantidade) => {
 
 const toggleCarrinho = () => painelCarrinho.classList.toggle("aberto");
 
-document.addEventListener('click', function (event) {
-    const painel = document.getElementById('painel-carrinho');
-    const iconeCarrinho = document.querySelector('.icone-carrinho');
-
-    const clicouDentroPainel = painel.contains(event.target);
-    const clicouNoIcone = iconeCarrinho.contains(event.target);
-
-    if (painel.classList.contains('aberto') && !clicouDentroPainel && !clicouNoIcone) {
-        painel.classList.remove('aberto');
-    }
-});
-
 
 const animarQuantidade = (botao, quantidade) => {
     const rectBotao = botao.getBoundingClientRect();
@@ -192,7 +163,29 @@ const campoTroco = document.getElementById('valor-troco');
 const trocoContainer = document.getElementById('troco-container');
 const trocoQuantidade = document.getElementById('troco-quantidade');
 
+
 function verificarLiberacaoBotao() {
+    const trocoSim = document.getElementById('precisa-troco');
+const trocoNao = document.getElementById('nao-precisa-troco');
+
+trocoSim.addEventListener('change', () => {
+  if (trocoSim.checked) {
+    trocoNao.checked = false;
+  } else {
+    // Se desmarcou "Sim", marca "Não"
+    trocoNao.checked = true;
+  }
+});
+
+trocoNao.addEventListener('change', () => {
+  if (trocoNao.checked) {
+    trocoSim.checked = false;
+  } else {
+    // Se desmarcou "Não", marca "Sim"
+    trocoSim.checked = true;
+  }
+});
+
     const formaSelecionada = pagamento.value;
     const total = parseFloat(totalCarrinho.innerText.replace(/[^\d,.]/g, '').replace(',', '.'));
     const atingiuMinimo = total >= 10;

@@ -548,19 +548,3 @@ header::after {
         width: 90%;
     }
 }
-#barra-fechar-mobile {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    #barra-fechar-mobile {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 15px;
-        height: 100%;
-        background: rgba(0,0,0,0.1);
-        cursor: grab;
-        z-index: 999;
-    }
-}
