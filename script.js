@@ -29,6 +29,23 @@ const modal = document.getElementById("modal");
 
 let carrinho = [];
 
+const barraFechar = document.getElementById('barra-fechar-mobile');
+let touchStartX = 0;
+
+barraFechar.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+});
+
+barraFechar.addEventListener('touchmove', (e) => {
+    const touchCurrentX = e.touches[0].clientX;
+    const deltaX = touchCurrentX - touchStartX;
+
+    // se arrastar para a esquerda mais de 50px, fecha o carrinho
+    if (deltaX < -50) {
+        painelCarrinho.classList.remove('aberto');
+    }
+});
+
 // Utilitários
 const atualizarCarrinho = () => {
     listaCarrinho.innerHTML = "";
@@ -65,13 +82,9 @@ const atualizarCarrinho = () => {
 };
 
 const atualizarBotaoFinalizar = (totalItens, total) => {
-    const btn = document.getElementById('finalizar-whatsapp');
-    const mensagem = document.getElementById('mensagem-minimo');
-    const atingiuMinimo = total >= 10;
-
-    if (btn) btn.disabled = !atingiuMinimo;
-    if (mensagem) mensagem.style.display = atingiuMinimo ? 'none' : 'block';
+    verificarLiberacaoBotao();
 };
+
 
 const renderizarProdutos = () => {
     produtos.forEach((produto, index) => {
@@ -112,6 +125,19 @@ const handleAdicionarAoCarrinho = (event, index, quantidade) => {
 };
 
 const toggleCarrinho = () => painelCarrinho.classList.toggle("aberto");
+
+document.addEventListener('click', function (event) {
+    const painel = document.getElementById('painel-carrinho');
+    const iconeCarrinho = document.querySelector('.icone-carrinho');
+
+    const clicouDentroPainel = painel.contains(event.target);
+    const clicouNoIcone = iconeCarrinho.contains(event.target);
+
+    if (painel.classList.contains('aberto') && !clicouDentroPainel && !clicouNoIcone) {
+        painel.classList.remove('aberto');
+    }
+});
+
 
 const animarQuantidade = (botao, quantidade) => {
     const rectBotao = botao.getBoundingClientRect();
@@ -159,20 +185,78 @@ modal.addEventListener('click', (e) => {
 
 // Pagamento e envio via WhatsApp
 const pagamento = document.getElementById('forma-pagamento');
-pagamento.addEventListener('change', function () {
-    const trocoContainer = document.getElementById('troco-container');
-    const precisaTroco = document.getElementById('precisa-troco');
-    const trocoQuantidade = document.getElementById('troco-quantidade');
+const btnFinalizar = document.getElementById('finalizar-whatsapp');
+const trocoSim = document.getElementById('precisa-troco');
+const trocoNao = document.getElementById('nao-precisa-troco');
+const campoTroco = document.getElementById('valor-troco');
+const trocoContainer = document.getElementById('troco-container');
+const trocoQuantidade = document.getElementById('troco-quantidade');
 
-    if (this.value === 'dinheiro') {
+function verificarLiberacaoBotao() {
+    const formaSelecionada = pagamento.value;
+    const total = parseFloat(totalCarrinho.innerText.replace(/[^\d,.]/g, '').replace(',', '.'));
+    const atingiuMinimo = total >= 10;
+
+    // controla mensagem de pedido mínimo
+    const msgMinimo = document.getElementById('mensagem-minimo');
+    msgMinimo.style.display = atingiuMinimo ? 'none' : 'block';
+
+    // controla mensagem de troco
+    const msgTroco = document.getElementById('mensagem-troco');
+    let mostrarTrocoAviso = false;
+
+    let liberar = atingiuMinimo && formaSelecionada !== "";
+
+    if (formaSelecionada === "Dinheiro" && trocoSim.checked) {
+        const valor = conversordevalor();
+        if (isNaN(valor) || valor <= total) {
+            mostrarTrocoAviso = true;
+            liberar = false;
+        }
+    }
+
+    msgTroco.style.display = mostrarTrocoAviso ? 'block' : 'none';
+    btnFinalizar.disabled = !liberar;
+}
+
+
+pagamento.addEventListener('change', function () {
+    if (this.value === 'Dinheiro') {
         trocoContainer.style.display = 'block';
+        trocoSim.checked = true;
+        trocoNao.checked = false;
+        trocoQuantidade.style.display = 'block';
     } else {
         trocoContainer.style.display = 'none';
-        precisaTroco.checked = false;
-        trocoQuantidade.style.display = 'none';
-        document.getElementById('valor-troco').value = '';
+        campoTroco.value = '';
     }
+    verificarLiberacaoBotao();
 });
+
+trocoSim.addEventListener('change', () => {
+    if (trocoSim.checked) {
+        trocoNao.checked = false;
+        trocoQuantidade.style.display = 'block';
+    } else {
+        trocoQuantidade.style.display = 'none';
+        campoTroco.value = '';
+    }
+    verificarLiberacaoBotao();
+});
+
+trocoNao.addEventListener('change', () => {
+    if (trocoNao.checked) {
+        trocoSim.checked = false;
+        trocoQuantidade.style.display = 'none';
+        campoTroco.value = '';
+    } else {
+        trocoSim.checked = true;
+        trocoQuantidade.style.display = 'block';
+    }
+    verificarLiberacaoBotao();
+});
+
+campoTroco.addEventListener('input', verificarLiberacaoBotao);
 
 document.getElementById('precisa-troco').addEventListener('change', (e) => {
     document.getElementById('troco-quantidade').style.display = e.target.checked ? 'block' : 'none';
@@ -181,51 +265,29 @@ document.getElementById('precisa-troco').addEventListener('change', (e) => {
 document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
     const total = parseFloat(totalCarrinho.innerText.replace(/[^\d,.]/g, '').replace(',', '.'));
     const forma = pagamento.value;
-    if (!forma) return alert('Por favor, selecione uma forma de pagamento.');
 
-    let msg = `🛒 *Olá! Gostaria de fazer um pedido:*
-\n📦 *Produtos:* \n`;
-    carrinho.forEach(item => msg += `- ${item.quantidade} x ${item.produto.nome} 🍺\n`);
-    msg += `\n💰 ${total.toFixed(2)} €\n💳 *Forma de pagamento:* ${forma}`;
+    let msg = `🛒 *Olá! Gostaria de fazer um pedido:*\n📦 *Produtos:*\n`;
+    carrinho.forEach(item => msg += `\n- ${item.quantidade} x ${item.produto.nome} 🍺\n`);
+    msg += `\n💰 *Total:* ${total.toFixed(2)} €\n💳 *Forma de pagamento:* ${forma}`;
 
-    if (forma === 'dinheiro') {
+    if (forma === 'Dinheiro' && trocoSim.checked) {
         const quanto = conversordevalor();
-
-        if (isNaN(quanto)) {
-            msg += `\n💵 *Valor que irá pagar:* não informado`;
-        } else {
-            if (quanto <= total) {
-                alert('⚠️ O valor informado para pagamento é igual ou inferior ao total da compra. Corrija o valor.');
-                return; // cancela o envio
-            }
-
-            const troco = (quanto - total).toFixed(2);
-            msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
-            msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
-        }
+        const troco = (quanto - total).toFixed(2);
+        msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
+        msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
     }
 
     const numero = '351931835337';
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
 
-    // Alerta e limpeza
-    let resumo = '✅ Pedido enviado via WhatsApp!\n';
-    carrinho.forEach(item => resumo += `• ${item.quantidade} x ${item.produto.nome}\n`);
-    resumo += `\n Total: ${total.toFixed(2)} €\nForma de pagamento: ${forma}`;
-    forma == 'dinheiro' ? resumo += `\nTroco: ${(conversordevalor() - total).toFixed(2)} €` : resumo += ``;
-
-    alert(resumo);
-
     carrinho = [];
     atualizarCarrinho();
     pagamento.value = "";
     pagamento.dispatchEvent(new Event('change'));
-    document.getElementById('troco-container').style.display = 'none';
-    document.getElementById('troco-quantidade').style.display = 'none';
-    document.getElementById('valor-troco').value = "";
     painelCarrinho.classList.remove("aberto");
 });
+
 
 // Inicializa
 renderizarProdutos();

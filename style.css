@@ -211,7 +211,19 @@ header::after {
     z-index: 1000;
     transform: translateX(100%);
 }
-
+/* PAGAMENTO */
+#opcoes-pagamento {
+    background-color: #fff8e1;
+    border: 2px solid #d4a73a;
+    border-radius: 12px;
+    padding: 20px;
+    max-height: 350px;
+    max-width: 400px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    box-shadow: 0 0 8px rgba(212, 167, 58, 0.2);
+    margin-left: 13px;
+}
 .painel-carrinho.aberto {
     transform: translateX(0);
 }
@@ -455,20 +467,6 @@ header::after {
     color: #000000;
 }
 
-/* PAGAMENTO */
-#opcoes-pagamento {
-    background-color: #fff8e1;
-    border: 2px solid #d4a73a;
-    border-radius: 12px;
-    padding: 20px;
-    max-height: 300px;
-    max-width: 400px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #4e342e;
-    box-shadow: 0 0 8px rgba(212, 167, 58, 0.2);
-    margin-left: 13px;
-}
-
 #opcoes-pagamento label {
     display: block;
     margin-bottom: 12px;
@@ -548,5 +546,21 @@ header::after {
 
     .produto {
         width: 90%;
+    }
+}
+#barra-fechar-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    #barra-fechar-mobile {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 15px;
+        height: 100%;
+        background: rgba(0,0,0,0.1);
+        cursor: grab;
+        z-index: 999;
     }
 }
