@@ -67,10 +67,11 @@ header::after {
 }
 
 @media (max-width: 1000px) {
-  .produtos-container {
-    grid-template-columns: repeat(auto-fit, minmax(100px, auto));
-  }
+    .produtos-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, auto));
+    }
 }
+
 /* PRODUTOS */
 .produto {
     width: 150px;
@@ -99,9 +100,10 @@ header::after {
     border-radius: 8px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
+
 @media (max-width: 1000px) {
     .produto img {
-    height: 150px;
+        height: 150px;
     }
 }
 
@@ -211,6 +213,7 @@ header::after {
     z-index: 1000;
     transform: translateX(100%);
 }
+
 /* PAGAMENTO */
 #opcoes-pagamento {
     background-color: #fff8e1;
@@ -224,6 +227,7 @@ header::after {
     box-shadow: 0 0 8px rgba(212, 167, 58, 0.2);
     margin-left: 13px;
 }
+
 .painel-carrinho.aberto {
     transform: translateX(0);
 }
@@ -547,4 +551,40 @@ header::after {
     .produto {
         width: 90%;
     }
+}
+
+.banner-cookies {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.banner-cookies.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.banner-cookies button {
+    background-color: #f1f1f1;
+    color: #333;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    display: flex;
+    margin: 1px auto;
 }

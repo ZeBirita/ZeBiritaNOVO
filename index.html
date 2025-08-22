@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Delivery de bebidas geladas no Zé Birita! Peça fácil pelo WhatsApp e receba em casa rápido. Pedido mínimo de 10 €." />
   <title>Zé Birita</title>
   <link rel="icon" sizes="32x32" href="https://i.ibb.co/fzbx6cTh/Caneca-Cerveja-Espuma-com-fundo.png" />
   <link rel="stylesheet" href="style.css" />
@@ -56,12 +58,12 @@
           </div>
         </div>
 
-<p id="mensagem-minimo" style="color: red; font-weight: bold; margin-bottom: 5px;">
-  ⚠️ Pedido mínimo de 10 € para finalizar.
-</p>
-<p id="mensagem-troco" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;">
-  💡 Para liberar o botão, informe um valor maior que o total para calcular o troco.
-</p>
+        <p id="mensagem-minimo" style="color: red; font-weight: bold; margin-bottom: 5px;">
+          ⚠️ Pedido mínimo de 10 € para finalizar.
+        </p>
+        <p id="mensagem-troco" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;">
+          💡 Para liberar o botão, informe um valor maior que o total para calcular o troco.
+        </p>
 
         <button id="finalizar-whatsapp" style="margin-top: 20px;" disabled>
           Finalizar pedido via WhatsApp
@@ -92,12 +94,11 @@
         </div>
         <div class="texto-fixo-modal">
           <p>
-            Bem-vindo ao Zé Birita! Aqui você encontra as melhores bebidas, com entrega rápida e atendimento de
+            Bem-vindo ao Zé Birita! Aqui você encontra as bebidas mais geldas, com entrega rápida e sem custo, combinado com nosso atendimento de
             qualidade.
           </p>
           <p>
-            Este vídeo explica nosso funcionamento e as imagens abaixo mostram nossos principais produtos e mais
-            informações. Agradecemos
+            Este vídeo exemplifica alguns exemplos de clientes que fizeram publicações em suas redes sociais após a compra de nossas bebidas, e as imagens explicam informações relevantes. Agradecemos
             por visitar nosso site!
           </p>
         </div>
@@ -132,6 +133,13 @@
       }
     });
   </script>
+
+  <div id="banner-cookies" class="banner-cookies">
+    <p>Este site utiliza cookies para melhorar a sua experiência. Ao continuar a navegar, você concorda com o uso de
+      cookies.</p>
+    <button onclick="aceitarCookies()">Aceitar</button>
+    <button onclick="rejeitarCookies()">Rejeitar</button>
+  </div>
 
 </body>
 

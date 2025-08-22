@@ -290,3 +290,22 @@ const conversordevalor = () => {
     const quanto = parseFloat(valorInput);
     return quanto;
 }
+
+function verificarConsentimentoCookies() {
+  const aceitouCookies = localStorage.getItem('aceitouCookies');
+  if (!aceitouCookies) {
+    document.getElementById('banner-cookies').style.display = 'flex';
+  }
+}
+
+function aceitarCookies() {
+  localStorage.setItem('aceitouCookies', 'true');
+  document.getElementById('banner-cookies').style.display = 'none';
+}
+
+function rejeitarCookies() {
+  localStorage.setItem('aceitouCookies', 'false');
+  document.getElementById('banner-cookies').style.display = 'none';
+}
+
+verificarConsentimentoCookies();
