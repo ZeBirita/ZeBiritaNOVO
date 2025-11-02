@@ -293,13 +293,12 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const banner = document.getElementById('cookie-banner');
+    const banner = document.getElementById('banner-cookies');
     const aceitarBtn = document.getElementById('aceitar-cookies');
     const rejeitarBtn = document.getElementById('rejeitar-cookies');
 
-    if (!banner || !aceitarBtn || !rejeitarBtn) return; // evita erro se algum elemento não existir
+    if (!banner || !aceitarBtn || !rejeitarBtn) return;
 
-    // Função para verificar se o usuário já aceitou cookies
     function jaAceitouCookies() {
       const aceite = localStorage.getItem('cookieAceito');
       if (!aceite) return false;
@@ -311,22 +310,18 @@
       return diffDias < 7; // só mostra novamente após 7 dias
     }
 
-    // Exibe o banner se não aceitou ainda ou já passou 7 dias
-    if (!jaAceitouCookies()) {
-      banner.style.display = 'flex';
-    }
+    if (!jaAceitouCookies()) banner.style.display = 'flex';
 
-    // Ao clicar em "Aceitar"
     aceitarBtn.addEventListener('click', () => {
       localStorage.setItem('cookieAceito', new Date().toISOString());
       banner.style.display = 'none';
     });
 
-    // Ao clicar em "Rejeitar" apenas oculta o banner (não define localStorage)
     rejeitarBtn.addEventListener('click', () => {
       banner.style.display = 'none';
     });
   });
 </script>
+
 
 </html>
