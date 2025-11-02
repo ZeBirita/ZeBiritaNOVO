@@ -203,7 +203,7 @@ header::after {
     position: fixed;
     top: 0;
     right: 0;
-    width: 380px;
+    width: 400px;
     height: 100%;
     background-color: #fff;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
@@ -220,7 +220,7 @@ header::after {
     border: 2px solid #d4a73a;
     border-radius: 12px;
     padding: 20px;
-    max-height: 500px;
+    max-height: 720px;
     max-width: 400px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #4e342e;

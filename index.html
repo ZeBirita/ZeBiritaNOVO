@@ -9,6 +9,8 @@
   <title>Zé Birita - Delivery</title>
   <link rel="icon" sizes="32x32" href="https://i.ibb.co/fzbx6cTh/Caneca-Cerveja-Espuma-com-fundo.png" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -49,6 +51,9 @@
           <button id="detectar-localizacao">
             <i class="fa-solid fa-location-crosshairs"></i>📍 Detectar Localização (GPS) 📍
           </button>
+
+          <div id="mini-mapa" style="height: 200px; width: 100%; margin-top:10px; display:none;"></div>
+
 
           <div id="localizacao-status" style="margin-top:8px; font-size:14px;"></div>
           <!-- campo editável para confirmar/editar a morada antes do envio -->
@@ -392,5 +397,63 @@
     });
   });
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const botaoLocalizacao = document.getElementById('detectar-localizacao');
+    const statusLocalizacao = document.getElementById('localizacao-status');
+    const inputMorada = document.getElementById('localizacao-morada');
+    const mapaContainer = document.getElementById('mini-mapa');
+
+    let mapa, marcador;
+
+    botaoLocalizacao.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        statusLocalizacao.textContent = 'Geolocalização não é suportada pelo seu navegador.';
+        return;
+      }
+
+      statusLocalizacao.textContent = 'Detectando localização...';
+
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        statusLocalizacao.textContent = 'Localização detectada!';
+
+        // Mostrar o mapa
+        mapaContainer.style.display = 'block';
+
+        // Inicializa o mapa se ainda não estiver inicializado
+        if (!mapa) {
+          mapa = L.map('mini-mapa').setView([lat, lng], 16);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+          }).addTo(mapa);
+
+          marcador = L.marker([lat, lng], { draggable: true }).addTo(mapa);
+
+          // Atualiza o input quando o marcador for movido
+          marcador.on('dragend', function () {
+            const pos = marcador.getLatLng();
+            inputMorada.value = `Lat: ${pos.lat.toFixed(6)}, Lng: ${pos.lng.toFixed(6)}`;
+          });
+
+        } else {
+          // Se já existe, apenas atualiza posição
+          marcador.setLatLng([lat, lng]);
+          mapa.setView([lat, lng], 16);
+        }
+
+        // Atualiza o input inicial
+        inputMorada.value = `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
+
+      }, (err) => {
+        statusLocalizacao.textContent = 'Erro ao detectar localização: ' + err.message;
+      });
+    });
+  });
+</script>
+
 
 </html>
