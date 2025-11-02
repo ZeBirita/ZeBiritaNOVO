@@ -1,24 +1,24 @@
 // Dados dos produtos
 const produtos = [
-    { nome: "Heineken 25cl", preco: 1.00, imagem: "https://i.ibb.co/vx4Rdvp1/Heineken25cl-LN.png" },
-    { nome: "Heineken 50cl", preco: 1.80, imagem: "https://i.ibb.co/gFtrBPSK/heineken50cl.png" },
-    { nome: "Heineken Barril 5L.", preco: 24.00, imagem: "https://i.ibb.co/QF3hmm8B/Heineken5-LBarril.png" },
-    { nome: "Super Bock 25cl", preco: 0.80, imagem: "https://i.ibb.co/RpDC0Y9n/Super-Bock25cl.png" },
-    { nome: "Super Bock 50cl", preco: 1.20, imagem: "https://i.ibb.co/T94wJ61/Super-Bocklata50cl.png" },
-    { nome: "Super Bock Litrão 1L.", preco: 2.50, imagem: "https://i.ibb.co/ZzrrFxwW/Super-Bocklitr-o1-L.png" },
-    { nome: "Sagres 25cl", preco: 0.80, imagem: "https://i.ibb.co/nNSZm67f/Sagre-25cl-removebg-preview.png" },
-    { nome: "Somersby 20cl", preco: 0.90, imagem: "https://i.ibb.co/QvMxFS26/Somersby-20cl.png" },
-    { nome: "Coca-Cola 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/Jj7KykFx/Coca-cola-1-litro-removebg-preview.png" },
-    { nome: "Coca-Cola Zero 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/pB6xLP8j/Coca-cola-zero-1-litro-removebg-preview.png" },
-    { nome: "Monster Black 50cl", preco: 2.50, imagem: "https://i.ibb.co/SXcczqsv/Monster-Black.png" },
-    { nome: "Monster White 50cl", preco: 2.50, imagem: "https://i.ibb.co/d4YPKhyC/Monster-white-50cl.png" },
-    { nome: "Monster Juiced 50cl", preco: 2.50, imagem: "https://i.ibb.co/ZRPpf8cD/Monster-juiced-50cl.png" },
-    { nome: "Vinho Coutada Velha 75cl", preco: 6.00, imagem: "https://i.ibb.co/yFvbPjNC/vinho-Coutada-Velha.png" },
-    { nome: "Vinho Rosè EA 75cl", preco: 6.00, imagem: "https://i.ibb.co/LX12JfzG/Vinho-EA-rose.png" },
-    { nome: "Vinho Tinto Monte dos Amigos 75cl", preco: 6.00, imagem: "https://i.ibb.co/0yZwjbQt/vinho-monte-dos-amigos.png" },
-    { nome: "Vinho Tinto Vidigueira 75cl", preco: 6.00, imagem: "https://i.ibb.co/HyWq7sf/vinho-Vidigueira.png" },
-    { nome: "Água Penacova 50cl", preco: 0.50, imagem: "https://i.ibb.co/ch1p2Ln5/Agua-25cl.png" },
-    { nome: "Água Penacova 1.5L", preco: 1.00, imagem: "https://i.ibb.co/k2ycg1K8/agua-1-5-L.png" },
+    { nome: "Heineken 25cl", preco: 1.00, imagem: "https://i.ibb.co/bMPvC8q5/Heineken25cl-LN.jpg" },
+    { nome: "Heineken 50cl", preco: 1.80, imagem: "https://i.ibb.co/WNDnLKLb/heineken50cl.jpg" },
+    { nome: "Heineken Barril 5L.", preco: 24.00, imagem: "https://i.ibb.co/xKBH64Y7/Heineken5-LBarril.jpg" },
+    { nome: "Super Bock 25cl", preco: 0.80, imagem: "https://i.ibb.co/RT5kLmmt/Super-Bock25cl.jpg" },
+    { nome: "Super Bock 50cl", preco: 1.20, imagem: "https://i.ibb.co/ZR404hrk/Super-Bocklata50cl.jpg" },
+    { nome: "Super Bock Litrão 1L.", preco: 2.50, imagem: "https://i.ibb.co/Wp4RnDhk/Super-Bocklitr-o1-L.jpg" },
+    { nome: "Sagres 25cl", preco: 0.80, imagem: "https://i.ibb.co/Ymdb0gx/Sagre-25cl-removebg-preview.jpg" },
+    { nome: "Somersby 20cl", preco: 0.90, imagem: "https://i.ibb.co/gbt4Vzpb/Somersby-20cl.jpg" },
+    { nome: "Coca-Cola 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/NdyQpPnf/Coca-cola-1-litro.jpg" },
+    { nome: "Coca-Cola Zero 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/cX8LLW1C/Coca-cola-zero-1-litro.jpg" },
+    { nome: "Monster Black 50cl", preco: 2.50, imagem: "https://i.ibb.co/R4JFbLp4/Monster-black-50c.jpg" },
+    { nome: "Monster White 50cl", preco: 2.50, imagem: "https://i.ibb.co/JjfXqQbv/Monster-white-50cl.jpg" },
+    { nome: "Monster Juiced 50cl", preco: 2.50, imagem: "https://i.ibb.co/HpFSk1tr/Monster-juiced-50cl.jpg" },
+    { nome: "Vinho Coutada Velha 75cl", preco: 6.00, imagem: "https://i.ibb.co/vCtKjrFG/vinho-Coutada-Velha.jpg" },
+    { nome: "Vinho Rosè EA 75cl", preco: 6.00, imagem: "https://i.ibb.co/LdHLPJH5/Vinho-EA-rose.jpg" },
+    { nome: "Vinho Tinto Monte dos Amigos 75cl", preco: 6.00, imagem: "https://i.ibb.co/KpJdwj9d/vinho-monte-dos-amigos.jpg" },
+    { nome: "Vinho Tinto Vidigueira 75cl", preco: 6.00, imagem: "https://i.ibb.co/HDYY6bqZ/vinho-Vidigueira.jpg" },
+    { nome: "Água Penacova 50cl", preco: 0.50, imagem: "https://i.ibb.co/ccCnGkcd/Agua-25cl.jpg" },
+    { nome: "Água Penacova 1.5L", preco: 1.00, imagem: "https://i.ibb.co/ZRrZ86hX/agua-1-5-L.jpg" },
 ];
 
 // DOM
@@ -296,23 +296,52 @@ const conversordevalor = () => {
 }
 
 function verificarConsentimentoCookies() {
+    const banner = document.getElementById('banner-cookies');
+    if (!banner) return; // evita erro se o elemento não existir
+
     const aceitouCookies = localStorage.getItem('aceitouCookies');
     if (!aceitouCookies) {
-        document.getElementById('banner-cookies').style.display = 'flex';
+        // mostra o banner
+        banner.style.display = 'flex';
+        banner.classList.add('show'); // se você tiver animação CSS
+        return;
+    }
+
+    // Se já aceitou, verifica se passou 7 dias
+    const dataAceite = localStorage.getItem('dataAceiteCookies');
+    if (dataAceite) {
+        const agora = new Date();
+        const diffDias = (agora - new Date(dataAceite)) / (1000 * 60 * 60 * 24);
+        if (diffDias >= 7) {
+            banner.style.display = 'flex';
+            banner.classList.add('show');
+        }
     }
 }
 
 function aceitarCookies() {
+    const banner = document.getElementById('banner-cookies'); // DECLARA AQUI
+    if (!banner) return;
+
     localStorage.setItem('aceitouCookies', 'true');
-    document.getElementById('banner-cookies').style.display = 'none';
+    localStorage.setItem('dataAceiteCookies', new Date().toISOString());
+
+    banner.classList.remove('show');
+    setTimeout(() => banner.style.display = 'none', 500);
 }
 
 function rejeitarCookies() {
+    const banner = document.getElementById('banner-cookies'); // DECLARA AQUI
+    if (!banner) return;
+
     localStorage.setItem('aceitouCookies', 'false');
-    document.getElementById('banner-cookies').style.display = 'none';
+    localStorage.setItem('dataAceiteCookies', new Date().toISOString());
+
+    banner.classList.remove('show');
+    setTimeout(() => banner.style.display = 'none', 500);
 }
 
-verificarConsentimentoCookies();
+// Inicializa ao carregar a página
+document.addEventListener('DOMContentLoaded', verificarConsentimentoCookies);
 
-// Apenas para teste: força exibição
-banner.classList.add('show');
+verificarConsentimentoCookies();
