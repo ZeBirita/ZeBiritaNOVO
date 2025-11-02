@@ -136,12 +136,53 @@
     });
   </script>
 
+  <!-- Banner de cookies -->
   <div id="banner-cookies" class="banner-cookies">
-    <p>Este site utiliza cookies para melhorar a sua experiência. Ao continuar a navegar, você concorda com o uso de
+    <p>🍪 Este site utiliza cookies para melhorar a sua experiência. Ao continuar a navegar, você concorda com o uso de
       cookies.</p>
-    <button onclick="aceitarCookies()">Aceitar</button>
-    <button onclick="rejeitarCookies()">Rejeitar</button>
+    <div class="botoes-cookies">
+      <button id="aceitar-cookies">Aceitar</button>
+      <button id="rejeitar-cookies">Rejeitar</button>
+    </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const banner = document.getElementById('banner-cookies');
+      const aceitarBtn = document.getElementById('aceitar-cookies');
+      const rejeitarBtn = document.getElementById('rejeitar-cookies');
+
+      if (!banner || !aceitarBtn || !rejeitarBtn) return;
+
+      // Verifica se o usuário já aceitou cookies nos últimos 7 dias
+      function jaAceitouCookies() {
+        const aceite = localStorage.getItem('cookieAceito');
+        if (!aceite) return false;
+
+        const dataAceite = new Date(aceite);
+        const agora = new Date();
+        const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
+
+        return diffDias < 7; // só mostra novamente após 7 dias
+      }
+
+      // Mostra banner apenas se ainda não aceitou
+      if (!jaAceitouCookies()) {
+        banner.style.display = 'flex';
+      }
+
+      // Clique em Aceitar grava a data no localStorage
+      aceitarBtn.addEventListener('click', () => {
+        localStorage.setItem('cookieAceito', new Date().toISOString());
+        banner.style.display = 'none';
+      });
+
+      // Clique em Rejeitar apenas oculta o banner
+      rejeitarBtn.addEventListener('click', () => {
+        banner.style.display = 'none';
+      });
+    });
+  </script>
 
 </body>
 
@@ -299,6 +340,7 @@
 
     if (!banner || !aceitarBtn || !rejeitarBtn) return;
 
+    // Função para verificar se o usuário já aceitou cookies nos últimos 7 dias
     function jaAceitouCookies() {
       const aceite = localStorage.getItem('cookieAceito');
       if (!aceite) return false;
@@ -307,21 +349,33 @@
       const agora = new Date();
       const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
 
-      return diffDias < 7; // só mostra novamente após 7 dias
+      return diffDias < 7;
     }
 
-    if (!jaAceitouCookies()) banner.style.display = 'flex';
+    // Mostra o banner com animação, se não aceitou
+    if (!jaAceitouCookies()) {
+      setTimeout(() => banner.classList.add('show'), 300); // leve delay para efeito mais natural
+    }
 
+    // Função para ocultar banner com animação
+    function esconderBanner() {
+      banner.classList.remove('show');
+      setTimeout(() => {
+        banner.style.display = 'none';
+      }, 500); // tempo igual à transição CSS
+    }
+
+    // Clique em Aceitar
     aceitarBtn.addEventListener('click', () => {
       localStorage.setItem('cookieAceito', new Date().toISOString());
-      banner.style.display = 'none';
+      esconderBanner();
     });
 
+    // Clique em Rejeitar
     rejeitarBtn.addEventListener('click', () => {
-      banner.style.display = 'none';
+      esconderBanner();
     });
   });
 </script>
-
 
 </html>

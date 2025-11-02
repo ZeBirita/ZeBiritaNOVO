@@ -313,3 +313,6 @@ function rejeitarCookies() {
 }
 
 verificarConsentimentoCookies();
+
+// Apenas para teste: força exibição
+banner.classList.add('show');
