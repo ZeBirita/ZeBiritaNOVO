@@ -83,7 +83,7 @@
         <span class="fechar-modal-sobre" onclick="fecharModalSobre()">✖</span>
         <h2>Sobre Nós</h2>
         <iframe id="video-vimeo" src="https://player.vimeo.com/video/1107136217" width="100%" height="380"
-          frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
+          frameborder="0" allow="autoplay; fullscreen; picture-in-picture">
         </iframe>
 
 
@@ -94,11 +94,13 @@
         </div>
         <div class="texto-fixo-modal">
           <p>
-            Bem-vindo ao Zé Birita! Aqui você encontra as bebidas mais geldas, com entrega rápida e sem custo, combinado com nosso atendimento de
+            Bem-vindo ao Zé Birita! Aqui você encontra as bebidas mais geldas, com entrega rápida e sem custo, combinado
+            com nosso atendimento de
             qualidade.
           </p>
           <p>
-            Este vídeo exemplifica alguns clientes que fizeram publicações em suas redes sociais após a compra de nossas bebidas, e as imagens explicam informações relevantes. Agradecemos
+            Este vídeo exemplifica alguns clientes que fizeram publicações em suas redes sociais após a compra de nossas
+            bebidas, e as imagens explicam informações relevantes. Agradecemos
             por visitar nosso site!
           </p>
         </div>
@@ -256,40 +258,75 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const iframe = document.getElementById('video-vimeo');
-    player = new Vimeo.Player(iframe); // Atribui à variável global
-
+  document.addEventListener('DOMContentLoaded', () => {
     const modalSobre = document.getElementById('modal');
+    const iframe = document.getElementById('video-vimeo');
+    const player = new Vimeo.Player(iframe);
 
-    // Quando clicar fora do modal de "Sobre Nós"
-    modalSobre.addEventListener('click', function (e) {
-      if (e.target === modalSobre) {
-        modalSobre.style.display = 'none';
-        player.pause().catch(function (error) {
-          console.error("Erro ao pausar o vídeo:", error);
-        });
+    // 🔹 Função genérica para fechar o modal e pausar o vídeo
+    function fecharModal() {
+      if (!modalSobre || !iframe) return;
+
+      modalSobre.style.display = 'none';
+
+      // Pausa o vídeo e encerra comunicação do iframe para evitar erros do Cast
+      player.pause().catch(() => { });
+    }
+
+    // 🔹 Clique fora do conteúdo do modal fecha o modal
+    modalSobre.addEventListener('click', (e) => {
+      if (e.target === modalSobre) fecharModal();
+    });
+
+    // 🔹 Pressionar ESC também fecha o modal
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalSobre.style.display === 'flex') {
+        fecharModal();
       }
     });
 
-    // Fechar ao apertar ESC
-    window.addEventListener('keydown', function (e) {
-      if (e.key === "Escape") {
-        modalSobre.style.display = 'none';
-        player.pause().catch(function (error) {
-          console.error("Erro ao pausar o vídeo:", error);
-        });
-      }
+    // 🔹 Expor a função global (para uso em onclick="fecharModalSobre()")
+    window.fecharModalSobre = fecharModal;
+  });
+
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const banner = document.getElementById('cookie-banner');
+    const aceitarBtn = document.getElementById('aceitar-cookies');
+    const rejeitarBtn = document.getElementById('rejeitar-cookies');
+
+    if (!banner || !aceitarBtn || !rejeitarBtn) return; // evita erro se algum elemento não existir
+
+    // Função para verificar se o usuário já aceitou cookies
+    function jaAceitouCookies() {
+      const aceite = localStorage.getItem('cookieAceito');
+      if (!aceite) return false;
+
+      const dataAceite = new Date(aceite);
+      const agora = new Date();
+      const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
+
+      return diffDias < 7; // só mostra novamente após 7 dias
+    }
+
+    // Exibe o banner se não aceitou ainda ou já passou 7 dias
+    if (!jaAceitouCookies()) {
+      banner.style.display = 'flex';
+    }
+
+    // Ao clicar em "Aceitar"
+    aceitarBtn.addEventListener('click', () => {
+      localStorage.setItem('cookieAceito', new Date().toISOString());
+      banner.style.display = 'none';
+    });
+
+    // Ao clicar em "Rejeitar" apenas oculta o banner (não define localStorage)
+    rejeitarBtn.addEventListener('click', () => {
+      banner.style.display = 'none';
     });
   });
-</script>
-<script>
-  function fecharModalSobre() {
-    document.getElementById('modal').style.display = 'none';
-    player.pause().catch(function (error) {
-      console.error("Erro ao pausar o vídeo:", error);
-    });
-  }
 </script>
 
 </html>

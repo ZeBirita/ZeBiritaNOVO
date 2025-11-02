@@ -8,6 +8,8 @@ const produtos = [
     { nome: "Super Bock Litrão 1L.", preco: 2.50, imagem: "https://i.ibb.co/ZzrrFxwW/Super-Bocklitr-o1-L.png" },
     { nome: "Sagres 25cl", preco: 0.80, imagem: "https://i.ibb.co/nNSZm67f/Sagre-25cl-removebg-preview.png" },
     { nome: "Somersby 20cl", preco: 0.90, imagem: "https://i.ibb.co/QvMxFS26/Somersby-20cl.png" },
+    { nome: "Coca-Cola 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/Jj7KykFx/Coca-cola-1-litro-removebg-preview.png" },
+    { nome: "Coca-Cola Zero 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/pB6xLP8j/Coca-cola-zero-1-litro-removebg-preview.png" },
     { nome: "Monster Black 50cl", preco: 2.50, imagem: "https://i.ibb.co/SXcczqsv/Monster-Black.png" },
     { nome: "Monster White 50cl", preco: 2.50, imagem: "https://i.ibb.co/d4YPKhyC/Monster-white-50cl.png" },
     { nome: "Monster Juiced 50cl", preco: 2.50, imagem: "https://i.ibb.co/ZRPpf8cD/Monster-juiced-50cl.png" },
@@ -151,7 +153,7 @@ function togglemodal() {
 const fecharModal = () => modal.style.display = 'none';
 
 modal.addEventListener('click', (e) => {
-    if (e.target === modal) toggleModal();
+    if (e.target === modal) fecharModal();
 });
 
 // Pagamento e envio via WhatsApp
@@ -166,25 +168,25 @@ const trocoQuantidade = document.getElementById('troco-quantidade');
 
 function verificarLiberacaoBotao() {
     const trocoSim = document.getElementById('precisa-troco');
-const trocoNao = document.getElementById('nao-precisa-troco');
+    const trocoNao = document.getElementById('nao-precisa-troco');
 
-trocoSim.addEventListener('change', () => {
-  if (trocoSim.checked) {
-    trocoNao.checked = false;
-  } else {
-    // Se desmarcou "Sim", marca "Não"
-    trocoNao.checked = true;
-  }
-});
+    trocoSim.addEventListener('change', () => {
+        if (trocoSim.checked) {
+            trocoNao.checked = false;
+        } else {
+            // Se desmarcou "Sim", marca "Não"
+            trocoNao.checked = true;
+        }
+    });
 
-trocoNao.addEventListener('change', () => {
-  if (trocoNao.checked) {
-    trocoSim.checked = false;
-  } else {
-    // Se desmarcou "Não", marca "Sim"
-    trocoSim.checked = true;
-  }
-});
+    trocoNao.addEventListener('change', () => {
+        if (trocoNao.checked) {
+            trocoSim.checked = false;
+        } else {
+            // Se desmarcou "Não", marca "Sim"
+            trocoSim.checked = true;
+        }
+    });
 
     const formaSelecionada = pagamento.value;
     const total = parseFloat(totalCarrinho.innerText.replace(/[^\d,.]/g, '').replace(',', '.'));
@@ -269,6 +271,9 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
         msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
         msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
     }
+    else {
+        msg += `\n💸 *Não precisa de troco*`;
+    }
 
     const numero = '351931835337';
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
@@ -281,7 +286,6 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
     painelCarrinho.classList.remove("aberto");
 });
 
-
 // Inicializa
 renderizarProdutos();
 
@@ -292,20 +296,20 @@ const conversordevalor = () => {
 }
 
 function verificarConsentimentoCookies() {
-  const aceitouCookies = localStorage.getItem('aceitouCookies');
-  if (!aceitouCookies) {
-    document.getElementById('banner-cookies').style.display = 'flex';
-  }
+    const aceitouCookies = localStorage.getItem('aceitouCookies');
+    if (!aceitouCookies) {
+        document.getElementById('banner-cookies').style.display = 'flex';
+    }
 }
 
 function aceitarCookies() {
-  localStorage.setItem('aceitouCookies', 'true');
-  document.getElementById('banner-cookies').style.display = 'none';
+    localStorage.setItem('aceitouCookies', 'true');
+    document.getElementById('banner-cookies').style.display = 'none';
 }
 
 function rejeitarCookies() {
-  localStorage.setItem('aceitouCookies', 'false');
-  document.getElementById('banner-cookies').style.display = 'none';
+    localStorage.setItem('aceitouCookies', 'false');
+    document.getElementById('banner-cookies').style.display = 'none';
 }
 
 verificarConsentimentoCookies();
