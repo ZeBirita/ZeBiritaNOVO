@@ -270,30 +270,47 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
         const troco = (quanto - total).toFixed(2);
         msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
         msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
-    }
-    else {
+    } else {
         msg += `\n💸 *Não precisa de troco*`;
     }
+
     const campoMorada = document.getElementById('localizacao-morada');
     const moradaConfirmada = campoMorada && campoMorada.value.trim() ? campoMorada.value.trim() : null;
+
     if (moradaConfirmada) {
         msg += `\n📍 *Morada de entrega:* ${moradaConfirmada}`;
     } else {
-        // opcional: incluir lat/lon se não houver morada
+        // Se não tiver morada escrita, tenta pegar as coordenadas do GPS
         const loc = carregarLocalizacaoCheckout();
-        if (loc) msg += `\n📍 *Localização (coords):* ${loc.lat.toFixed(6)}, ${loc.lon.toFixed(6)} (precisão ~${Math.round(loc.accuracy)}m)`;
+        if (loc) {
+            msg += `\n📍 *Localização (coords):* ${loc.lat.toFixed(6)}, ${loc.lon.toFixed(6)} (precisão ~${Math.round(loc.accuracy)}m)`;
+
+            // Adiciona o link do Google Maps
+            const linkMapa = `https://www.google.com/maps?q=${loc.lat},${loc.lon}`;
+            msg += `\n🗺️ *Ver no mapa:* ${linkMapa}`;
+        }
+    }
+
+    // 🟢 NOVO BLOCO — garante que, mesmo com morada, se houver coordenadas, o link seja enviado também
+    const lat = localStorage.getItem('latitude');
+    const lon = localStorage.getItem('longitude');
+    if (lat && lon) {
+        const linkMapa = `https://www.google.com/maps?q=${lat},${lon}`;
+        msg += `\n🗺️ *Link da localização:* ${linkMapa}`;
     }
 
     const numero = '351931835337';
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
 
+    // limpa carrinho e reseta o checkout
     carrinho = [];
     atualizarCarrinho();
     pagamento.value = "";
     pagamento.dispatchEvent(new Event('change'));
     painelCarrinho.classList.remove("aberto");
 });
+
 
 // Inicializa
 renderizarProdutos();
@@ -415,6 +432,9 @@ function detectarLocalizacao() {
             const lat = pos.coords.latitude;
             const lon = pos.coords.longitude;
             const accuracy = pos.coords.accuracy; // em metros
+
+            localStorage.setItem("latitude", lat);
+            localStorage.setItem("longitude", lng);
 
             setStatus(`Localização obtida (precisão ~${Math.round(accuracy)} m). Obtendo morada...`);
 
