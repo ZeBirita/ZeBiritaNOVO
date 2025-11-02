@@ -220,7 +220,7 @@ header::after {
     border: 2px solid #d4a73a;
     border-radius: 12px;
     padding: 20px;
-    max-height: 350px;
+    max-height: 500px;
     max-width: 400px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #4e342e;
@@ -543,7 +543,7 @@ header::after {
 }
 
 /* RESPONSIVIDADE BÁSICA */
-@media (max-width: 1500px) {
+@media (max-width: 950px) {
     .painel-carrinho {
         width: 96%;
     }
@@ -617,4 +617,36 @@ header::after {
         padding: 6px 12px;
         margin: 0 3px;
     }
+}
+
+#detectar-localizacao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px; /* tamanho interno do botão */
+  background-color: #fac000; /* cor principal */
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  z-index: 1; /* garante que fique acima de outros elementos */
+}
+
+/* hover e click */
+#detectar-localizacao:hover {
+  background-color: #0097a7;
+  transform: scale(1.03);
+}
+
+#detectar-localizacao:active {
+  transform: scale(0.97);
+}
+
+/* opcional: mover levemente o texto para esquerda */
+#detectar-localizacao i {
+  margin-right: 4px; /* deixa o ícone separado do texto */
 }

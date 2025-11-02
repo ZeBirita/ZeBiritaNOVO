@@ -44,6 +44,20 @@
           </select>
         </label>
 
+        <!-- botão e área para mostrar resultado -->
+        <div id="localizacao-checkout" style="margin-top:10px;">
+          <button id="detectar-localizacao">
+            <i class="fa-solid fa-location-crosshairs"></i>📍 Detectar Localização (GPS) 📍
+          </button>
+
+          <div id="localizacao-status" style="margin-top:8px; font-size:14px;"></div>
+          <!-- campo editável para confirmar/editar a morada antes do envio -->
+          <label style="display:block; margin-top:8px;">
+            Morada (confirmar/editar):
+            <input type="text" id="localizacao-morada" style="width:100%; padding:6px;" />
+          </label>
+        </div>
+
         <div id="troco-container" style="display: none; margin-top: 10px;">
           <label>
             Vai precisar de troco?
@@ -94,14 +108,15 @@
         </div>
         <div class="texto-fixo-modal">
           <p>
-            Bem-vindo ao Zé Birita! Aqui você encontra as bebidas mais geldas, com entrega rápida e sem custo, combinado
-            com nosso atendimento de
-            qualidade.
+            🍻 Bem-vindo ao <strong>Zé Birita Delivery</strong>! Aqui você encontra as bebidas mais geladas, entregues
+            rapidamente e sem custo adicional. Aproveite nosso atendimento personalizado e a comodidade de pedir suas
+            bebidas favoritas direto para sua casa.
           </p>
           <p>
-            Este vídeo exemplifica alguns clientes que fizeram publicações em suas redes sociais após a compra de nossas
-            bebidas, e as imagens explicam informações relevantes. Agradecemos
-            por visitar nosso site!
+            🎥 No vídeo acima, você verá clientes satisfeitos compartilhando suas experiências em redes sociais,
+            mostrando como nossas bebidas fazem a diferença nas suas festas e momentos especiais. Explore as imagens e
+            descubra tudo o que o <strong>Zé Birita</strong> tem a oferecer. Agradecemos sua visita e esperamos levar
+            mais sabor aos seus momentos!
           </p>
         </div>
       </div>
@@ -110,7 +125,7 @@
   <!-- Modal para imagem ampliada -->
   <div id="imagem-modal" class="modal-imagem" style="display: none;">
     <span class="fechar-modal">&times;</span>
-    <img class="modal-conteudo" id="imagem-ampliada">
+    <img class="modal-conteudo" id="imagem-ampliada" alt="Imagem ampliada">
   </div>
   <script>
     // Seleciona todas as imagens clicáveis

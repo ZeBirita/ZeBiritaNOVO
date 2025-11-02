@@ -274,6 +274,15 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
     else {
         msg += `\n💸 *Não precisa de troco*`;
     }
+    const campoMorada = document.getElementById('localizacao-morada');
+    const moradaConfirmada = campoMorada && campoMorada.value.trim() ? campoMorada.value.trim() : null;
+    if (moradaConfirmada) {
+        msg += `\n📍 *Morada de entrega:* ${moradaConfirmada}`;
+    } else {
+        // opcional: incluir lat/lon se não houver morada
+        const loc = carregarLocalizacaoCheckout();
+        if (loc) msg += `\n📍 *Localização (coords):* ${loc.lat.toFixed(6)}, ${loc.lon.toFixed(6)} (precisão ~${Math.round(loc.accuracy)}m)`;
+    }
 
     const numero = '351931835337';
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
@@ -345,3 +354,117 @@ function rejeitarCookies() {
 document.addEventListener('DOMContentLoaded', verificarConsentimentoCookies);
 
 verificarConsentimentoCookies();
+
+// Timeout / opções para geolocation
+const GEO_OPTIONS = {
+    enableHighAccuracy: true,
+    timeout: 10000, // 10s
+    maximumAge: 0
+};
+
+// Chave: salvar e usar depois no envio do pedido
+function salvarLocalizacaoNoCheckout(data) {
+    // data = { lat, lon, accuracy, address, timestamp }
+    localStorage.setItem('checkoutLocation', JSON.stringify(data));
+}
+
+// Recuperar (se existir e não expirado)
+function carregarLocalizacaoCheckout(expireHours = 24) {
+    const raw = localStorage.getItem('checkoutLocation');
+    if (!raw) return null;
+    try {
+        const obj = JSON.parse(raw);
+        if (!obj.timestamp) return null;
+        const idadeHoras = (Date.now() - new Date(obj.timestamp).getTime()) / (1000 * 60 * 60);
+        if (idadeHoras > expireHours) {
+            localStorage.removeItem('checkoutLocation');
+            return null;
+        }
+        return obj;
+    } catch (e) { return null; }
+}
+
+// Mostrar na UI
+function setStatus(text, isError = false) {
+    const s = document.getElementById('localizacao-status');
+    if (!s) return;
+    s.textContent = text;
+    s.style.color = isError ? '#c82333' : '#333';
+}
+
+// Reverse geocode via Nominatim (OSS). Limite de uso público — não abuse em loops.
+async function reverseGeocodeNominatim(lat, lon) {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`;
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) throw new Error('Erro no reverse geocode');
+    const data = await res.json();
+    // pode ter display_name ou address detalhado
+    return data.display_name || '';
+}
+
+// Função principal para detectar localização
+function detectarLocalizacao() {
+    if (!navigator.geolocation) {
+        setStatus('Geolocalização não suportada neste navegador.', true);
+        return;
+    }
+
+    setStatus('A obter localização... Pediremos permissão ao navegador.');
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+        try {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            const accuracy = pos.coords.accuracy; // em metros
+
+            setStatus(`Localização obtida (precisão ~${Math.round(accuracy)} m). Obtendo morada...`);
+
+            // tenta reverse geocode (pode falhar, tratar erros)
+            let address = '';
+            try {
+                address = await reverseGeocodeNominatim(lat, lon);
+            } catch (err) {
+                console.warn('Reverse geocode falhou:', err);
+            }
+
+            // Preenche UI e salva
+            const obj = {
+                lat, lon, accuracy,
+                address,
+                timestamp: new Date().toISOString()
+            };
+            // Preenche campo editável
+            const campoMorada = document.getElementById('localizacao-morada');
+            if (campoMorada) campoMorada.value = address;
+            salvarLocalizacaoNoCheckout(obj);
+
+            setStatus('Localização detectada. Confirme a morada antes de finalizar o pedido.');
+        } catch (err) {
+            console.error(err);
+            setStatus('Erro ao processar localização.', true);
+        }
+    }, (err) => {
+        console.warn('Geolocation error', err);
+        if (err.code === err.PERMISSION_DENIED) {
+            setStatus('Permissão de localização negada. Por favor, insira a morada manualmente.', true);
+        } else if (err.code === err.POSITION_UNAVAILABLE) {
+            setStatus('Localização indisponível.', true);
+        } else if (err.code === err.TIMEOUT) {
+            setStatus('Tempo esgotado ao tentar obter localização. Tente novamente.', true);
+        } else {
+            setStatus('Erro desconhecido ao obter localização.', true);
+        }
+    }, GEO_OPTIONS);
+}
+
+// Hook no botão
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('detectar-localizacao');
+    if (btn) btn.addEventListener('click', detectarLocalizacao);
+
+    // Carregar localização salva (se houver) e preencher campo
+    const saved = carregarLocalizacaoCheckout();
+    if (saved) {
+        if (document.getElementById('localizacao-morada')) document.getElementById('localizacao-morada').value = saved.address || '';
+        setStatus('Localização carregada do dispositivo (confirmar/editar).');
+    }
+});
