@@ -169,45 +169,78 @@
   </div>
 
   <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const banner = document.getElementById('banner-cookies');
-  const aceitarBtn = document.getElementById('aceitar-cookies');
-  const rejeitarBtn = document.getElementById('rejeitar-cookies');
+    document.addEventListener('DOMContentLoaded', () => {
+      const banner = document.getElementById('banner-cookies');
+      const aceitarBtn = document.getElementById('aceitar-cookies');
+      const rejeitarBtn = document.getElementById('rejeitar-cookies');
 
-  if (!banner || !aceitarBtn || !rejeitarBtn) return;
+      if (!banner || !aceitarBtn || !rejeitarBtn) return;
 
-  // Funções para cookies
-  function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days*24*60*60*1000).toUTCString();
-    document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
-  }
+      // =========================
+      // Funções para cookies
+      // =========================
+      function setCookie(name, value, days) {
+        const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+        document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+      }
 
-  function getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? match[2] : null;
-  }
+      function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? match[2] : null;
+      }
 
-  function jaAceitouCookies() {
-    return getCookie('cookieAceito') !== null;
-  }
+      // =========================
+      // Função para verificar aceitação
+      // Trata tanto localStorage quanto cookies (fallback iOS)
+      // =========================
+      function jaAceitouCookies() {
+        // Primeiro tenta cookies
+        if (getCookie('cookieAceito')) return true;
 
-  // Mostrar banner se ainda não aceitou
-  if (!jaAceitouCookies()) {
-    banner.style.display = 'flex';
-  }
+        // Depois localStorage (tratando datas inválidas)
+        const aceite = localStorage.getItem('cookieAceito');
+        if (!aceite) return false;
 
-  // Botão Aceitar
-  aceitarBtn.addEventListener('click', () => {
-    setCookie('cookieAceito', 'sim', 7); // 7 dias
-    banner.style.display = 'none';
-  });
+        const dataAceite = new Date(aceite);
+        if (isNaN(dataAceite)) return false; // evita datas inválidas no iOS
 
-  // Botão Rejeitar apenas oculta o banner
-  rejeitarBtn.addEventListener('click', () => {
-    banner.style.display = 'none';
-  });
-});
-</script>
+        const agora = new Date();
+        const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
+        return diffDias < 7; // só mostra novamente após 7 dias
+      }
+
+      // =========================
+      // Mostrar banner se ainda não aceitou
+      // =========================
+      if (!jaAceitouCookies()) {
+        banner.style.display = 'flex';
+      }
+
+      // =========================
+      // Botão Aceitar
+      // =========================
+      aceitarBtn.addEventListener('click', () => {
+        // Salva nos cookies
+        setCookie('cookieAceito', 'sim', 7);
+
+        // Salva também no localStorage
+        try {
+          localStorage.setItem('cookieAceito', new Date().toISOString());
+        } catch (e) {
+          console.warn('Não foi possível salvar localStorage:', e);
+        }
+
+        banner.style.display = 'none';
+      });
+
+      // =========================
+      // Botão Rejeitar apenas oculta o banner
+      // =========================
+      rejeitarBtn.addEventListener('click', () => {
+        banner.style.display = 'none';
+      });
+    });
+  </script>
 
 
 </body>
@@ -403,16 +436,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 </script>
+<!-- HTML -->
+<button id="detectar-localizacao">Detectar Localização</button>
+<div id="localizacao-status"></div>
+<input type="text" id="localizacao-morada" placeholder="Endereço detectado" />
+<div id="mini-mapa" style="height:300px; display:none;"></div>
+
+<div id="banner-localizacao" style="display:none; background:#f8d7da; padding:10px; margin-top:10px;">
+  <p>Você negou a permissão de localização. Para ativar novamente, siga estas instruções:</p>
+  <ul>
+    <li>Abra Ajustes do iPhone → Chrome → Localização</li>
+    <li>Ative “Durante o uso do app”</li>
+  </ul>
+  <button id="tentar-novamente">Tentar novamente</button>
+</div>
+
+<!-- JS -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const botaoLocalizacao = document.getElementById('detectar-localizacao');
     const statusLocalizacao = document.getElementById('localizacao-status');
     const inputMorada = document.getElementById('localizacao-morada');
     const mapaContainer = document.getElementById('mini-mapa');
+    const bannerLocalizacao = document.getElementById('banner-localizacao');
+    const btnTentarNovamente = document.getElementById('tentar-novamente');
 
     let mapa, marcador;
 
-    // Função para converter coordenadas em endereço
     async function buscarEndereco(lat, lng) {
       try {
         const resposta = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
@@ -424,11 +474,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 🔹 Função para inicializar o mapa (reutilizável)
     async function inicializarMapa(lat, lng, endereco = null) {
       mapaContainer.style.display = 'block';
 
-      // Cria o mapa se ainda não existir
       if (!mapa) {
         mapa = L.map('mini-mapa').setView([lat, lng], 16);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -436,31 +484,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }).addTo(mapa);
 
         marcador = L.marker([lat, lng], { draggable: true }).addTo(mapa);
-
-        // Evento ao mover o marcador manualmente
         marcador.on('dragend', async function () {
           const pos = marcador.getLatLng();
           statusLocalizacao.textContent = '🔄 Atualizando endereço...';
-
           try {
             const novoEndereco = await buscarEndereco(pos.lat, pos.lng);
             inputMorada.value = novoEndereco;
             statusLocalizacao.textContent = '📍 Endereço atualizado!';
 
-            // Prepara objeto completo
-            const obj = {
-              lat: pos.lat,
-              lon: pos.lng,
-              accuracy: 15,
-              address: novoEndereco,
-              timestamp: new Date().toISOString()
-            };
-
-            // 🔹 SALVA TUDO: objeto + chaves individuais
+            const obj = { lat: pos.lat, lon: pos.lng, accuracy: 15, address: novoEndereco, timestamp: new Date().toISOString() };
             localStorage.setItem('checkoutLocation', JSON.stringify(obj));
             localStorage.setItem('latitude', String(pos.lat));
             localStorage.setItem('longitude', String(pos.lng));
-
           } catch (err) {
             console.error('Erro ao atualizar endereço após dragend:', err);
             statusLocalizacao.textContent = '⚠️ Erro ao atualizar endereço.';
@@ -471,18 +506,10 @@ document.addEventListener('DOMContentLoaded', () => {
         mapa.setView([lat, lng], 16);
       }
 
-      // Atualiza endereço no input (se ainda não foi passado)
       if (!endereco) endereco = await buscarEndereco(lat, lng);
       inputMorada.value = endereco;
 
-      // Atualiza o armazenamento local
-      const obj = {
-        lat,
-        lon: lng,
-        accuracy: 15,
-        address: endereco,
-        timestamp: new Date().toISOString()
-      };
+      const obj = { lat, lon: lng, accuracy: 15, address: endereco, timestamp: new Date().toISOString() };
       localStorage.setItem('checkoutLocation', JSON.stringify(obj));
       localStorage.setItem('latitude', String(lat));
       localStorage.setItem('longitude', String(lng));
@@ -490,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
       statusLocalizacao.textContent = '✅ Localização carregada!';
     }
 
-    // 🔹 Carrega localização salva ao iniciar (se houver)
+    // Carrega localização salva
     const savedLocation = localStorage.getItem('checkoutLocation');
     if (savedLocation) {
       try {
@@ -499,32 +526,37 @@ document.addEventListener('DOMContentLoaded', () => {
           inicializarMapa(loc.lat, loc.lon, loc.address);
           statusLocalizacao.textContent = '📍 Localização carregada do dispositivo!';
         }
-      } catch (e) {
-        console.warn('Erro ao carregar localização salva:', e);
-      }
+      } catch (e) { console.warn('Erro ao carregar localização salva:', e); }
     }
 
-    // 🔹 Botão "Detectar localização"
-    botaoLocalizacao.addEventListener('click', () => {
+    function pedirLocalizacao() {
       if (!navigator.geolocation) {
         statusLocalizacao.textContent = '❌ Geolocalização não é suportada pelo seu navegador.';
         return;
       }
 
       statusLocalizacao.textContent = '📡 Detectando localização...';
+      bannerLocalizacao.style.display = 'none';
 
       navigator.geolocation.getCurrentPosition(async (pos) => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
-
         statusLocalizacao.textContent = '✅ Localização detectada!';
         inicializarMapa(lat, lng);
       }, (err) => {
-        statusLocalizacao.textContent = '❌ Erro ao detectar localização: ' + err.message;
-      });
-    });
-  });
+        console.error("Erro geolocalização:", err);
+        if (err.code === err.PERMISSION_DENIED) {
+          statusLocalizacao.textContent = '❌ Permissão de localização negada.';
+          bannerLocalizacao.style.display = 'block';
+        } else {
+          statusLocalizacao.textContent = `❌ Erro ao detectar localização: ${err.message}`;
+        }
+      }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+    }
 
+    botaoLocalizacao.addEventListener('click', pedirLocalizacao);
+    btnTentarNovamente.addEventListener('click', pedirLocalizacao);
+  });
 </script>
 
 </html>
