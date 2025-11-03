@@ -564,15 +564,13 @@ header::after {
     width: 100%;
     background: #222;
     color: #fff;
-    padding: 15px 25px;
-    /* 15px vertical, 30px horizontal */
+    padding: 15px 25px; /* 15px vertical, 30px horizontal */
     text-align: center;
     z-index: 9999;
     gap: 10px;
     opacity: 0;
     transition: all 0.5s ease-in-out;
-    box-sizing: border-box;
-    /* importante para incluir padding na largura */
+    box-sizing: border-box; /* importante para incluir padding na largura */
 }
 
 .banner-cookies.show {
@@ -622,37 +620,33 @@ header::after {
 }
 
 #detectar-localizacao {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    /* tamanho interno do botão */
-    background-color: #fac000;
-    /* cor principal */
-    color: #000000;
-    font-weight: bold;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    position: relative;
-    z-index: 1;
-    /* garante que fique acima de outros elementos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px; /* tamanho interno do botão */
+  background-color: #fac000; /* cor principal */
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  z-index: 1; /* garante que fique acima de outros elementos */
 }
 
 /* hover e click */
 #detectar-localizacao:hover {
-    background-color: #0097a7;
-    transform: scale(1.03);
+  background-color: #0097a7;
+  transform: scale(1.03);
 }
 
 #detectar-localizacao:active {
-    transform: scale(0.97);
+  transform: scale(0.97);
 }
 
 /* opcional: mover levemente o texto para esquerda */
 #detectar-localizacao i {
-    margin-right: 4px;
-    /* deixa o ícone separado do texto */
+  margin-right: 4px; /* deixa o ícone separado do texto */
 }
