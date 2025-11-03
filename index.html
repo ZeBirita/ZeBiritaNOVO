@@ -159,7 +159,7 @@
   </script>
 
   <!-- Banner de cookies -->
-  <div id="banner-cookies" class="banner-cookies" style="display:none;">
+  <div id="banner-cookies" class="banner-cookies">
     <p>🍪 Este site utiliza cookies para melhorar a sua experiência. Ao continuar a navegar, você concorda com o uso de
       cookies.</p>
     <div class="botoes-cookies">
@@ -169,90 +169,52 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const banner = document.getElementById("banner-cookies");
-      const aceitarBtn = document.getElementById("aceitar-cookies");
-      const rejeitarBtn = document.getElementById("rejeitar-cookies");
+    document.addEventListener('DOMContentLoaded', () => {
+      const banner = document.getElementById('banner-cookies');
+      const aceitarBtn = document.getElementById('aceitar-cookies');
+      const rejeitarBtn = document.getElementById('rejeitar-cookies');
 
-      // ===== FUNÇÕES AUXILIARES =====
-      function setCookie(nome, valor, dias) {
-        const data = new Date();
-        data.setTime(data.getTime() + dias * 24 * 60 * 60 * 1000);
-        const expires = "expires=" + data.toUTCString();
-        document.cookie = `${nome}=${valor}; ${expires}; path=/; SameSite=Lax`;
-      }
+      if (!banner || !aceitarBtn || !rejeitarBtn) return;
 
-      function getCookie(nome) {
-        const nomeEQ = nome + "=";
-        const ca = document.cookie.split(";");
-        for (let i = 0; i < ca.length; i++) {
-          let c = ca[i].trim();
-          if (c.indexOf(nomeEQ) === 0) return c.substring(nomeEQ.length, c.length);
-        }
-        return null;
-      }
-
-      function limparAceite() {
-        localStorage.removeItem("cookieAceito");
-        document.cookie = "cookieAceito=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        console.log("🧹 Limpo manualmente cookieAceito.");
-      }
-
-      // ===== LÓGICA PRINCIPAL =====
+      // Verifica se o usuário já aceitou cookies nos últimos 7 dias
       function jaAceitouCookies() {
-        const local = localStorage.getItem("cookieAceito");
-        const cookie = getCookie("cookieAceito");
+        const aceite = localStorage.getItem('cookieAceito');
+        if (!aceite) return false;
 
-        // Nenhum valor salvo
-        if (!local && !cookie) return false;
-
-        const data = new Date(local || cookie);
-        if (isNaN(data)) return false; // valor inválido
+        const dataAceite = new Date(aceite);
+        if (isNaN(dataAceite)) return false; // evita datas inválidas
 
         const agora = new Date();
-        const diff = (agora - data) / (1000 * 60 * 60 * 24);
-        return diff < 7; // válido por 7 dias
+        const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
+        return diffDias < 7;
       }
 
-      function mostrarBanner() {
-        banner.style.display = "flex";
-      }
-
-      // ===== EXECUÇÃO =====
-      console.log("🍪 Verificando aceitação de cookies...");
-      console.log("localStorage:", localStorage.getItem("cookieAceito"));
-      console.log("document.cookie:", document.cookie);
-
+      // Mostra banner apenas se ainda não aceitou
       if (!jaAceitouCookies()) {
-        console.log("➡️ Nenhum aceite válido encontrado — mostrando banner.");
-        mostrarBanner();
-      } else {
-        console.log("✅ Aceite ainda válido — não mostrar banner.");
+        banner.style.display = 'flex';
       }
 
-      aceitarBtn.addEventListener("click", () => {
-        const agora = new Date().toISOString();
+      // Função segura para salvar no localStorage
+      function salvarCookie() {
         try {
-          localStorage.setItem("cookieAceito", agora);
+          localStorage.setItem('cookieAceito', new Date().toISOString());
         } catch (e) {
-          console.warn("localStorage indisponível:", e);
+          console.warn('Não foi possível salvar localStorage:', e);
         }
-        setCookie("cookieAceito", agora, 7);
-        banner.style.display = "none";
-        console.log("✅ Cookies aceitos e salvos:", agora);
+      }
+
+      // Clique em Aceitar grava a data no localStorage e oculta banner
+      aceitarBtn.addEventListener('click', () => {
+        salvarCookie();
+        banner.style.display = 'none';
       });
 
-      rejeitarBtn.addEventListener("click", () => {
-        banner.style.display = "none";
-        console.log("🚫 Cookies rejeitados.");
+      // Clique em Rejeitar apenas oculta o banner
+      rejeitarBtn.addEventListener('click', () => {
+        banner.style.display = 'none';
       });
-
-      // 🔹 Facilita testes manuais no console:
-      window.limparAceiteCookies = limparAceite;
     });
   </script>
-
-
 
 </body>
 
