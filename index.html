@@ -169,52 +169,46 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const banner = document.getElementById('banner-cookies');
-      const aceitarBtn = document.getElementById('aceitar-cookies');
-      const rejeitarBtn = document.getElementById('rejeitar-cookies');
+document.addEventListener('DOMContentLoaded', () => {
+  const banner = document.getElementById('banner-cookies');
+  const aceitarBtn = document.getElementById('aceitar-cookies');
+  const rejeitarBtn = document.getElementById('rejeitar-cookies');
 
-      if (!banner || !aceitarBtn || !rejeitarBtn) return;
+  if (!banner || !aceitarBtn || !rejeitarBtn) return;
 
-      // Verifica se o usuário já aceitou cookies nos últimos 7 dias
-      function jaAceitouCookies() {
-        const aceite = localStorage.getItem('cookieAceito');
-        if (!aceite) return false;
+  // Funções para cookies
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days*24*60*60*1000).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+  }
 
-        const dataAceite = new Date(aceite);
-        if (isNaN(dataAceite)) return false; // evita datas inválidas
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
 
-        const agora = new Date();
-        const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
-        return diffDias < 7;
-      }
+  function jaAceitouCookies() {
+    return getCookie('cookieAceito') !== null;
+  }
 
-      // Mostra banner apenas se ainda não aceitou
-      if (!jaAceitouCookies()) {
-        banner.style.display = 'flex';
-      }
+  // Mostrar banner se ainda não aceitou
+  if (!jaAceitouCookies()) {
+    banner.style.display = 'flex';
+  }
 
-      // Função segura para salvar no localStorage
-      function salvarCookie() {
-        try {
-          localStorage.setItem('cookieAceito', new Date().toISOString());
-        } catch (e) {
-          console.warn('Não foi possível salvar localStorage:', e);
-        }
-      }
+  // Botão Aceitar
+  aceitarBtn.addEventListener('click', () => {
+    setCookie('cookieAceito', 'sim', 7); // 7 dias
+    banner.style.display = 'none';
+  });
 
-      // Clique em Aceitar grava a data no localStorage e oculta banner
-      aceitarBtn.addEventListener('click', () => {
-        salvarCookie();
-        banner.style.display = 'none';
-      });
+  // Botão Rejeitar apenas oculta o banner
+  rejeitarBtn.addEventListener('click', () => {
+    banner.style.display = 'none';
+  });
+});
+</script>
 
-      // Clique em Rejeitar apenas oculta o banner
-      rejeitarBtn.addEventListener('click', () => {
-        banner.style.display = 'none';
-      });
-    });
-  </script>
 
 </body>
 
