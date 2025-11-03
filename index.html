@@ -159,7 +159,7 @@
   </script>
 
   <!-- Banner de cookies -->
-  <div id="banner-cookies" class="banner-cookies">
+  <div id="banner-cookies" class="banner-cookies" style="display:none;">
     <p>🍪 Este site utiliza cookies para melhorar a sua experiência. Ao continuar a navegar, você concorda com o uso de
       cookies.</p>
     <div class="botoes-cookies">
@@ -176,35 +176,58 @@
 
       if (!banner || !aceitarBtn || !rejeitarBtn) return;
 
-      // Verifica se o usuário já aceitou cookies nos últimos 7 dias
-      function jaAceitouCookies() {
-        const aceite = localStorage.getItem('cookieAceito');
-        if (!aceite) return false;
-
-        const dataAceite = new Date(aceite);
-        const agora = new Date();
-        const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
-
-        return diffDias < 7; // só mostra novamente após 7 dias
+      // 🔹 Funções utilitárias de cookies
+      function setCookie(nome, valor, dias) {
+        const data = new Date();
+        data.setTime(data.getTime() + (dias * 24 * 60 * 60 * 1000));
+        document.cookie = `${nome}=${valor}; expires=${data.toUTCString()}; path=/`;
       }
 
-      // Mostra banner apenas se ainda não aceitou
+      function getCookie(nome) {
+        const nomeEQ = nome + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i].trim();
+          if (c.indexOf(nomeEQ) === 0) return c.substring(nomeEQ.length, c.length);
+        }
+        return null;
+      }
+
+      // 🔹 Verifica se o usuário já aceitou cookies nos últimos 7 dias
+      function jaAceitouCookies() {
+        const aceiteLocal = localStorage.getItem('cookieAceito');
+        const aceiteCookie = getCookie('cookieAceito');
+
+        if (aceiteLocal || aceiteCookie) {
+          const dataAceite = new Date(aceiteLocal || aceiteCookie);
+          const agora = new Date();
+          const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
+          return diffDias < 7; // só mostra novamente após 7 dias
+        }
+
+        return false;
+      }
+
+      // 🔹 Mostra banner apenas se ainda não aceitou
       if (!jaAceitouCookies()) {
         banner.style.display = 'flex';
       }
 
-      // Clique em Aceitar grava a data no localStorage
+      // 🔹 Clique em Aceitar grava a data no localStorage e cookie
       aceitarBtn.addEventListener('click', () => {
-        localStorage.setItem('cookieAceito', new Date().toISOString());
+        const agora = new Date().toISOString();
+        localStorage.setItem('cookieAceito', agora);
+        setCookie('cookieAceito', agora, 7);
         banner.style.display = 'none';
       });
 
-      // Clique em Rejeitar apenas oculta o banner
+      // 🔹 Clique em Rejeitar apenas oculta o banner
       rejeitarBtn.addEventListener('click', () => {
         banner.style.display = 'none';
       });
     });
   </script>
+
 
 </body>
 
@@ -401,126 +424,125 @@
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-  const botaoLocalizacao = document.getElementById('detectar-localizacao');
-  const statusLocalizacao = document.getElementById('localizacao-status');
-  const inputMorada = document.getElementById('localizacao-morada');
-  const mapaContainer = document.getElementById('mini-mapa');
+    const botaoLocalizacao = document.getElementById('detectar-localizacao');
+    const statusLocalizacao = document.getElementById('localizacao-status');
+    const inputMorada = document.getElementById('localizacao-morada');
+    const mapaContainer = document.getElementById('mini-mapa');
 
-  let mapa, marcador;
+    let mapa, marcador;
 
-  // Função para converter coordenadas em endereço
-  async function buscarEndereco(lat, lng) {
-    try {
-      const resposta = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
-      const dados = await resposta.json();
-      return dados.display_name || `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
-    } catch (erro) {
-      console.error("Erro ao obter endereço:", erro);
-      return `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
-    }
-  }
-
-  // 🔹 Função para inicializar o mapa (reutilizável)
-  async function inicializarMapa(lat, lng, endereco = null) {
-    mapaContainer.style.display = 'block';
-
-    // Cria o mapa se ainda não existir
-    if (!mapa) {
-      mapa = L.map('mini-mapa').setView([lat, lng], 16);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(mapa);
-
-      marcador = L.marker([lat, lng], { draggable: true }).addTo(mapa);
-
-      // Evento ao mover o marcador manualmente
-      marcador.on('dragend', async function () {
-        const pos = marcador.getLatLng();
-        statusLocalizacao.textContent = '🔄 Atualizando endereço...';
-
-        try {
-          const novoEndereco = await buscarEndereco(pos.lat, pos.lng);
-          inputMorada.value = novoEndereco;
-          statusLocalizacao.textContent = '📍 Endereço atualizado!';
-
-          // Prepara objeto completo
-          const obj = {
-            lat: pos.lat,
-            lon: pos.lng,
-            accuracy: 15,
-            address: novoEndereco,
-            timestamp: new Date().toISOString()
-          };
-
-          // 🔹 SALVA TUDO: objeto + chaves individuais
-          localStorage.setItem('checkoutLocation', JSON.stringify(obj));
-          localStorage.setItem('latitude', String(pos.lat));
-          localStorage.setItem('longitude', String(pos.lng));
-
-        } catch (err) {
-          console.error('Erro ao atualizar endereço após dragend:', err);
-          statusLocalizacao.textContent = '⚠️ Erro ao atualizar endereço.';
-        }
-      });
-    } else {
-      marcador.setLatLng([lat, lng]);
-      mapa.setView([lat, lng], 16);
-    }
-
-    // Atualiza endereço no input (se ainda não foi passado)
-    if (!endereco) endereco = await buscarEndereco(lat, lng);
-    inputMorada.value = endereco;
-
-    // Atualiza o armazenamento local
-    const obj = {
-      lat,
-      lon: lng,
-      accuracy: 15,
-      address: endereco,
-      timestamp: new Date().toISOString()
-    };
-    localStorage.setItem('checkoutLocation', JSON.stringify(obj));
-    localStorage.setItem('latitude', String(lat));
-    localStorage.setItem('longitude', String(lng));
-
-    statusLocalizacao.textContent = '✅ Localização carregada!';
-  }
-
-  // 🔹 Carrega localização salva ao iniciar (se houver)
-  const savedLocation = localStorage.getItem('checkoutLocation');
-  if (savedLocation) {
-    try {
-      const loc = JSON.parse(savedLocation);
-      if (loc.lat && loc.lon) {
-        inicializarMapa(loc.lat, loc.lon, loc.address);
-        statusLocalizacao.textContent = '📍 Localização carregada do dispositivo!';
+    // Função para converter coordenadas em endereço
+    async function buscarEndereco(lat, lng) {
+      try {
+        const resposta = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+        const dados = await resposta.json();
+        return dados.display_name || `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
+      } catch (erro) {
+        console.error("Erro ao obter endereço:", erro);
+        return `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
       }
-    } catch (e) {
-      console.warn('Erro ao carregar localização salva:', e);
-    }
-  }
-
-  // 🔹 Botão "Detectar localização"
-  botaoLocalizacao.addEventListener('click', () => {
-    if (!navigator.geolocation) {
-      statusLocalizacao.textContent = '❌ Geolocalização não é suportada pelo seu navegador.';
-      return;
     }
 
-    statusLocalizacao.textContent = '📡 Detectando localização...';
+    // 🔹 Função para inicializar o mapa (reutilizável)
+    async function inicializarMapa(lat, lng, endereco = null) {
+      mapaContainer.style.display = 'block';
 
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
+      // Cria o mapa se ainda não existir
+      if (!mapa) {
+        mapa = L.map('mini-mapa').setView([lat, lng], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(mapa);
 
-      statusLocalizacao.textContent = '✅ Localização detectada!';
-      inicializarMapa(lat, lng);
-    }, (err) => {
-      statusLocalizacao.textContent = '❌ Erro ao detectar localização: ' + err.message;
+        marcador = L.marker([lat, lng], { draggable: true }).addTo(mapa);
+
+        // Evento ao mover o marcador manualmente
+        marcador.on('dragend', async function () {
+          const pos = marcador.getLatLng();
+          statusLocalizacao.textContent = '🔄 Atualizando endereço...';
+
+          try {
+            const novoEndereco = await buscarEndereco(pos.lat, pos.lng);
+            inputMorada.value = novoEndereco;
+            statusLocalizacao.textContent = '📍 Endereço atualizado!';
+
+            // Prepara objeto completo
+            const obj = {
+              lat: pos.lat,
+              lon: pos.lng,
+              accuracy: 15,
+              address: novoEndereco,
+              timestamp: new Date().toISOString()
+            };
+
+            // 🔹 SALVA TUDO: objeto + chaves individuais
+            localStorage.setItem('checkoutLocation', JSON.stringify(obj));
+            localStorage.setItem('latitude', String(pos.lat));
+            localStorage.setItem('longitude', String(pos.lng));
+
+          } catch (err) {
+            console.error('Erro ao atualizar endereço após dragend:', err);
+            statusLocalizacao.textContent = '⚠️ Erro ao atualizar endereço.';
+          }
+        });
+      } else {
+        marcador.setLatLng([lat, lng]);
+        mapa.setView([lat, lng], 16);
+      }
+
+      // Atualiza endereço no input (se ainda não foi passado)
+      if (!endereco) endereco = await buscarEndereco(lat, lng);
+      inputMorada.value = endereco;
+
+      // Atualiza o armazenamento local
+      const obj = {
+        lat,
+        lon: lng,
+        accuracy: 15,
+        address: endereco,
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('checkoutLocation', JSON.stringify(obj));
+      localStorage.setItem('latitude', String(lat));
+      localStorage.setItem('longitude', String(lng));
+
+      statusLocalizacao.textContent = '✅ Localização carregada!';
+    }
+
+    // 🔹 Carrega localização salva ao iniciar (se houver)
+    const savedLocation = localStorage.getItem('checkoutLocation');
+    if (savedLocation) {
+      try {
+        const loc = JSON.parse(savedLocation);
+        if (loc.lat && loc.lon) {
+          inicializarMapa(loc.lat, loc.lon, loc.address);
+          statusLocalizacao.textContent = '📍 Localização carregada do dispositivo!';
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar localização salva:', e);
+      }
+    }
+
+    // 🔹 Botão "Detectar localização"
+    botaoLocalizacao.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        statusLocalizacao.textContent = '❌ Geolocalização não é suportada pelo seu navegador.';
+        return;
+      }
+
+      statusLocalizacao.textContent = '📡 Detectando localização...';
+
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        statusLocalizacao.textContent = '✅ Localização detectada!';
+        inicializarMapa(lat, lng);
+      }, (err) => {
+        statusLocalizacao.textContent = '❌ Erro ao detectar localização: ' + err.message;
+      });
     });
   });
-});
-
 
 </script>
 
