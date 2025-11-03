@@ -291,6 +291,7 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
         }
     }
 
+
     // 🟢 NOVO BLOCO — garante que, mesmo com morada, se houver coordenadas, o link seja enviado também
     const lat = localStorage.getItem('latitude');
     const lon = localStorage.getItem('longitude');
@@ -433,10 +434,10 @@ function detectarLocalizacao() {
             const lon = pos.coords.longitude;
             const accuracy = pos.coords.accuracy; // em metros
 
-            localStorage.setItem("latitude", lat);
-            localStorage.setItem("longitude", lng);
-
             setStatus(`Localização obtida (precisão ~${Math.round(accuracy)} m). Obtendo morada...`);
+
+            localStorage.setItem("latitude", lat);
+            localStorage.setItem("longitude", lon);
 
             // tenta reverse geocode (pode falhar, tratar erros)
             let address = '';
@@ -457,7 +458,7 @@ function detectarLocalizacao() {
             if (campoMorada) campoMorada.value = address;
             salvarLocalizacaoNoCheckout(obj);
 
-            setStatus('Localização detectada. Confirme a morada antes de finalizar o pedido.');
+            setStatus('✅ Localização detectada. Confirme a morada antes de finalizar o pedido.');
         } catch (err) {
             console.error(err);
             setStatus('Erro ao processar localização.', true);
