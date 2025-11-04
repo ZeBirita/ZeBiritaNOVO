@@ -220,7 +220,6 @@ header::after {
     border: 2px solid #d4a73a;
     border-radius: 12px;
     padding: 20px;
-    max-height: 730px;
     max-width: 400px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #4e342e;
