@@ -357,50 +357,51 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const banner = document.getElementById('banner-cookies');
-    const aceitarBtn = document.getElementById('aceitar-cookies');
-    const rejeitarBtn = document.getElementById('rejeitar-cookies');
+document.addEventListener("DOMContentLoaded", function () {
+  const banner = document.querySelector(".banner-cookies");
+  const aceitarBtn = document.getElementById("aceitar-cookies");
+  const rejeitarBtn = document.getElementById("rejeitar-cookies");
 
-    if (!banner || !aceitarBtn || !rejeitarBtn) return;
+  // Função para definir cookie com validade
+  function definirCookie(nome, valor, dias) {
+    const data = new Date();
+    data.setTime(data.getTime() + dias * 24 * 60 * 60 * 1000);
+    const expira = "expires=" + data.toUTCString();
+    document.cookie = `${nome}=${valor}; ${expira}; path=/; SameSite=Lax`;
+  }
 
-    // Função para verificar se o usuário já aceitou cookies nos últimos 7 dias
-    function jaAceitouCookies() {
-      const aceite = localStorage.getItem('cookieAceito');
-      if (!aceite) return false;
-
-      const dataAceite = new Date(aceite);
-      const agora = new Date();
-      const diffDias = (agora - dataAceite) / (1000 * 60 * 60 * 24);
-
-      return diffDias < 7;
+  // Função para ler cookie
+  function obterCookie(nome) {
+    const nomeEq = nome + "=";
+    const partes = document.cookie.split(";");
+    for (let parte of partes) {
+      parte = parte.trim();
+      if (parte.indexOf(nomeEq) === 0) {
+        return parte.substring(nomeEq.length, parte.length);
+      }
     }
+    return null;
+  }
 
-    // Mostra o banner com animação, se não aceitou
-    if (!jaAceitouCookies()) {
-      setTimeout(() => banner.classList.add('show'), 300); // leve delay para efeito mais natural
-    }
+  // Verifica se já aceitou ou rejeitou cookies
+  const consentimento = obterCookie("cookieConsent");
 
-    // Função para ocultar banner com animação
-    function esconderBanner() {
-      banner.classList.remove('show');
-      setTimeout(() => {
-        banner.style.display = 'none';
-      }, 500); // tempo igual à transição CSS
-    }
+  if (!consentimento) {
+    banner.classList.add("show");
+  }
 
-    // Clique em Aceitar
-    aceitarBtn.addEventListener('click', () => {
-      localStorage.setItem('cookieAceito', new Date().toISOString());
-      esconderBanner();
-    });
-
-    // Clique em Rejeitar
-    rejeitarBtn.addEventListener('click', () => {
-      esconderBanner();
-    });
+  aceitarBtn.addEventListener("click", function () {
+    definirCookie("cookieConsent", "accepted", 7);
+    banner.classList.remove("show");
   });
+
+  rejeitarBtn.addEventListener("click", function () {
+    definirCookie("cookieConsent", "rejected", 7);
+    banner.classList.remove("show");
+  });
+});
 </script>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
