@@ -56,7 +56,6 @@
 
           <div id="mini-mapa" style="height: 200px; width: 100%; margin-top:10px; display:none;"></div>
 
-
           <div id="localizacao-status" style="margin-top:8px; font-size:14px;"></div>
           <!-- campo editável para confirmar/editar a morada antes do envio -->
           <label style="display:block; margin-top:8px;">
@@ -65,35 +64,39 @@
           </label>
         </div>
 
-        <div id="troco-container" style="display: none; margin-top: 10px;">
-          <label>
-            Vai precisar de troco?
-            <input type="checkbox" id="precisa-troco" />Sim.
-            <input type="checkbox" id="nao-precisa-troco" />Não.
-          </label>
-          <div id="troco-quantidade" style="display: none; margin-top: 5px;">
-            <label>
-              Quanto vai pagar?
-              <input type="text" id="valor-troco" placeholder="Ex: 20.00" />
-            </label>
-          </div>
-        </div>
+        <div id="resultados-endereco" style="display:none; margin-top:6px;"></div>
 
-        <p id="mensagem-minimo" style="color: red; font-weight: bold; margin-bottom: 5px;">
-          ⚠️ Pedido mínimo de 10 € para finalizar.
-        </p>
-        <p id="mensagem-troco" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;">
-          💡 Para liberar o botão, informe um valor maior que o total para calcular o troco.
-        </p>
-
-        <button id="finalizar-whatsapp" style="margin-top: 20px;" disabled>
-          Finalizar pedido via WhatsApp
-        </button>
+        <button id="buscar-endereco" type="button">🔍 Procurar endereço</button>
+        <div id="mini-mapa" style="display:none; height:300px; border-radius:8px; margin-top:10px;"></div>
       </div>
-      <p id="total-carrinho"><strong>Total: 0,00 €</strong></p>
 
-      <ul id="lista-carrinho"></ul>
+      <div id="troco-container" style="display: none; margin-top: 10px;">
+        <label>
+          Vai precisar de troco?
+          <input type="checkbox" id="precisa-troco" />Sim.
+          <input type="checkbox" id="nao-precisa-troco" />Não.
+        </label>
+        <div id="troco-quantidade" style="display: none; margin-top: 5px;">
+          <label>
+            Quanto vai pagar?
+            <input type="text" id="valor-troco" placeholder="Ex: 20.00" />
+          </label>
+        </div>
+      </div>
 
+      <p id="mensagem-minimo" style="color: red; font-weight: bold; margin-bottom: 5px;">
+        ⚠️ Pedido mínimo de 10 € para finalizar.
+      </p>
+      <p id="mensagem-troco" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;">
+        💡 Para liberar o botão, informe um valor maior que o total para calcular o troco.
+      </p>
+
+      <button id="finalizar-whatsapp" style="margin-top: 20px;" disabled>
+        Finalizar pedido via WhatsApp
+      </button>
+    </div>
+    <p id="total-carrinho"><strong>Total: 0,00 €</strong></p>
+    <ul id="lista-carrinho"></ul>
 
     </div>
     <div class="produtos-container" id="produtos-container">
@@ -399,128 +402,198 @@
     });
   });
 </script>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-  const botaoLocalizacao = document.getElementById('detectar-localizacao');
-  const statusLocalizacao = document.getElementById('localizacao-status');
-  const inputMorada = document.getElementById('localizacao-morada');
-  const mapaContainer = document.getElementById('mini-mapa');
+    const botaoLocalizacao = document.getElementById('detectar-localizacao');
+    const botaoBuscarEndereco = document.getElementById('buscar-endereco');
+    const statusLocalizacao = document.getElementById('localizacao-status');
+    const inputMorada = document.getElementById('localizacao-morada');
+    const mapaContainer = document.getElementById('mini-mapa');
 
-  let mapa, marcador;
+    let mapa, marcador;
 
-  // Função para converter coordenadas em endereço
-  async function buscarEndereco(lat, lng) {
-    try {
-      const resposta = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
-      const dados = await resposta.json();
-      return dados.display_name || `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
-    } catch (erro) {
-      console.error("Erro ao obter endereço:", erro);
-      return `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
-    }
-  }
-
-  // 🔹 Função para inicializar o mapa (reutilizável)
-  async function inicializarMapa(lat, lng, endereco = null) {
-    mapaContainer.style.display = 'block';
-
-    // Cria o mapa se ainda não existir
-    if (!mapa) {
-      mapa = L.map('mini-mapa').setView([lat, lng], 16);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(mapa);
-
-      marcador = L.marker([lat, lng], { draggable: true }).addTo(mapa);
-
-      // Evento ao mover o marcador manualmente
-      marcador.on('dragend', async function () {
-        const pos = marcador.getLatLng();
-        statusLocalizacao.textContent = '🔄 Atualizando endereço...';
-
-        try {
-          const novoEndereco = await buscarEndereco(pos.lat, pos.lng);
-          inputMorada.value = novoEndereco;
-          statusLocalizacao.textContent = '📍 Endereço atualizado!';
-
-          // Prepara objeto completo
-          const obj = {
-            lat: pos.lat,
-            lon: pos.lng,
-            accuracy: 15,
-            address: novoEndereco,
-            timestamp: new Date().toISOString()
-          };
-
-          // 🔹 SALVA TUDO: objeto + chaves individuais
-          localStorage.setItem('checkoutLocation', JSON.stringify(obj));
-          localStorage.setItem('latitude', String(pos.lat));
-          localStorage.setItem('longitude', String(pos.lng));
-
-        } catch (err) {
-          console.error('Erro ao atualizar endereço após dragend:', err);
-          statusLocalizacao.textContent = '⚠️ Erro ao atualizar endereço.';
-        }
-      });
-    } else {
-      marcador.setLatLng([lat, lng]);
-      mapa.setView([lat, lng], 16);
-    }
-
-    // Atualiza endereço no input (se ainda não foi passado)
-    if (!endereco) endereco = await buscarEndereco(lat, lng);
-    inputMorada.value = endereco;
-
-    // Atualiza o armazenamento local
-    const obj = {
-      lat,
-      lon: lng,
-      accuracy: 15,
-      address: endereco,
-      timestamp: new Date().toISOString()
-    };
-    localStorage.setItem('checkoutLocation', JSON.stringify(obj));
-    localStorage.setItem('latitude', String(lat));
-    localStorage.setItem('longitude', String(lng));
-
-    statusLocalizacao.textContent = '✅ Localização carregada!';
-  }
-
-  // 🔹 Carrega localização salva ao iniciar (se houver)
-  const savedLocation = localStorage.getItem('checkoutLocation');
-  if (savedLocation) {
-    try {
-      const loc = JSON.parse(savedLocation);
-      if (loc.lat && loc.lon) {
-        inicializarMapa(loc.lat, loc.lon, loc.address);
-        statusLocalizacao.textContent = '📍 Localização carregada do dispositivo!';
+    // 🔹 Converte coordenadas → endereço
+    async function buscarEndereco(lat, lng) {
+      try {
+        const resposta = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+        const dados = await resposta.json();
+        return dados.display_name || `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
+      } catch (erro) {
+        console.error("Erro ao obter endereço:", erro);
+        return `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
       }
-    } catch (e) {
-      console.warn('Erro ao carregar localização salva:', e);
-    }
-  }
-
-  // 🔹 Botão "Detectar localização"
-  botaoLocalizacao.addEventListener('click', () => {
-    if (!navigator.geolocation) {
-      statusLocalizacao.textContent = '❌ Geolocalização não é suportada pelo seu navegador.';
-      return;
     }
 
-    statusLocalizacao.textContent = '📡 Detectando localização...';
+    // 🔹 Converte endereço → coordenadas
+    // 🔹 Converte endereço → coordenadas (limitado a Portimão + 20 km)
+    // 🔹 Busca endereços possíveis e mostra lista se houver mais de um resultado
+    async function buscarCoordenadas(endereco) {
+      try {
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}&viewbox=-8.7178,37.3160,-8.3578,36.9560&bounded=1&countrycodes=pt`;
+        const resposta = await fetch(url);
+        const dados = await resposta.json();
 
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
+        if (dados.length === 0) throw new Error("Endereço não encontrado na área de Portimão.");
 
-      statusLocalizacao.textContent = '✅ Localização detectada!';
-      inicializarMapa(lat, lng);
-    }, (err) => {
-      statusLocalizacao.textContent = '❌ Erro ao detectar localização: ' + err.message;
+        // Se só tiver um resultado → retorna direto
+        if (dados.length === 1) {
+          const { lat, lon, display_name } = dados[0];
+          return { lat: parseFloat(lat), lon: parseFloat(lon), address: display_name };
+        }
+
+        // Caso haja vários resultados → mostra lista para o usuário
+        mostrarOpcoesEndereco(dados);
+        throw new Error("Vários resultados encontrados. Escolha um na lista abaixo.");
+
+      } catch (erro) {
+        console.error("Erro ao buscar coordenadas:", erro);
+        throw erro;
+      }
+    }
+
+    // 🔹 Mostra lista de opções clicáveis
+    function mostrarOpcoesEndereco(resultados) {
+      const container = document.getElementById('resultados-endereco');
+      container.innerHTML = ''; // limpa
+      container.style.display = 'block';
+
+      const lista = document.createElement('ul');
+      lista.style.listStyle = 'none';
+      lista.style.padding = '0';
+      lista.style.margin = '0';
+      lista.style.border = '1px solid #ccc';
+      lista.style.borderRadius = '6px';
+      lista.style.background = '#fff';
+      lista.style.maxHeight = '160px';
+      lista.style.overflowY = 'auto';
+
+      resultados.forEach((item) => {
+        const li = document.createElement('li');
+        li.textContent = item.display_name;
+        li.style.padding = '8px';
+        li.style.cursor = 'pointer';
+        li.style.borderBottom = '1px solid #eee';
+
+        li.addEventListener('click', () => {
+          container.style.display = 'none';
+          inputMorada.value = item.display_name;
+          inicializarMapa(parseFloat(item.lat), parseFloat(item.lon), item.display_name);
+          statusLocalizacao.textContent = '✅ Endereço selecionado!';
+        });
+
+        li.addEventListener('mouseover', () => li.style.background = '#f5f5f5');
+        li.addEventListener('mouseout', () => li.style.background = '#fff');
+
+        lista.appendChild(li);
+      });
+
+      container.appendChild(lista);
+    }
+
+    // 🔹 Inicializa ou atualiza o mapa
+    async function inicializarMapa(lat, lng, endereco = null) {
+      mapaContainer.style.display = 'block';
+
+      if (!mapa) {
+        mapa = L.map('mini-mapa').setView([lat, lng], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(mapa);
+
+        marcador = L.marker([lat, lng], { draggable: true }).addTo(mapa);
+
+        // Evento: arrastar marcador manualmente
+        marcador.on('dragend', async function () {
+          const pos = marcador.getLatLng();
+          statusLocalizacao.textContent = '🔄 Atualizando endereço...';
+          try {
+            const novoEndereco = await buscarEndereco(pos.lat, pos.lng);
+            inputMorada.value = novoEndereco;
+            statusLocalizacao.textContent = '📍 Endereço atualizado!';
+            salvarLocalizacao(pos.lat, pos.lng, novoEndereco);
+          } catch (err) {
+            statusLocalizacao.textContent = '⚠️ Erro ao atualizar endereço.';
+          }
+        });
+      } else {
+        marcador.setLatLng([lat, lng]);
+        mapa.setView([lat, lng], 16);
+      }
+
+      if (!endereco) endereco = await buscarEndereco(lat, lng);
+      inputMorada.value = endereco;
+      salvarLocalizacao(lat, lng, endereco);
+      statusLocalizacao.textContent = '✅ Localização carregada!';
+    }
+
+    // 🔹 Salva a localização no localStorage
+    function salvarLocalizacao(lat, lng, endereco) {
+      const obj = {
+        lat,
+        lon: lng,
+        accuracy: 15,
+        address: endereco,
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('checkoutLocation', JSON.stringify(obj));
+      localStorage.setItem('latitude', String(lat));
+      localStorage.setItem('longitude', String(lng));
+    }
+
+    // 🔹 Carrega localização salva (se existir)
+    const savedLocation = localStorage.getItem('checkoutLocation');
+    if (savedLocation) {
+      try {
+        const loc = JSON.parse(savedLocation);
+        if (loc.lat && loc.lon) {
+          inicializarMapa(loc.lat, loc.lon, loc.address);
+          statusLocalizacao.textContent = '📍 Localização carregada do dispositivo!';
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar localização salva:', e);
+      }
+    }
+
+    // 🔹 Botão "Detectar localização"
+    if (botaoLocalizacao) {
+      botaoLocalizacao.addEventListener('click', () => {
+        if (!navigator.geolocation) {
+          statusLocalizacao.textContent = '❌ Geolocalização não é suportada pelo seu navegador.';
+          return;
+        }
+        statusLocalizacao.textContent = '📡 Detectando localização...';
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          statusLocalizacao.textContent = '✅ Localização detectada!';
+          inicializarMapa(lat, lng);
+        }, (err) => {
+          statusLocalizacao.textContent = '❌ Erro ao detectar localização: ' + err.message;
+        });
+      });
+    }
+
+    // 🔹 Botão "Procurar endereço"
+    botaoBuscarEndereco.addEventListener('click', async () => {
+      const endereco = inputMorada.value.trim();
+      if (!endereco) {
+        statusLocalizacao.textContent = '⚠️ Por favor, digite um endereço.';
+        return;
+      }
+
+      statusLocalizacao.textContent = '🔍 Buscando endereço...';
+      try {
+        const { lat, lon, address } = await buscarCoordenadas(endereco);
+        inicializarMapa(lat, lon, address);
+        statusLocalizacao.textContent = '✅ Endereço localizado!';
+      } catch (err) {
+        statusLocalizacao.textContent = '⚠️ Endereço não encontrado.';
+      }
     });
   });
-});
-
 </script>
+
+
 
 </html>

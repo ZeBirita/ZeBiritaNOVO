@@ -650,3 +650,30 @@ header::after {
 #detectar-localizacao i {
   margin-right: 4px; /* deixa o ícone separado do texto */
 }
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+#localizacao-morada {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+#buscar-endereco {
+  padding: 8px;
+  background-color: #0078d7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#buscar-endereco:hover {
+  background-color: #005fa3;
+}
