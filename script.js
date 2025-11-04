@@ -269,9 +269,9 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
         const quanto = conversordevalor();
         const troco = (quanto - total).toFixed(2);
         msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
-        msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
+        msg += `\n💸 *Troco a ser devolvido:* ${troco} €\n`;
     } else {
-        msg += `\n💸 *Não precisa de troco*`;
+        msg += `\n💸 *Não precisa de troco*\n`;
     }
 
     const campoMorada = document.getElementById('localizacao-morada');
