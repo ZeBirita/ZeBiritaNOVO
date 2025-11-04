@@ -383,10 +383,11 @@ document.addEventListener("DOMContentLoaded", function () {
     return null;
   }
 
-  // Verifica se já aceitou ou rejeitou cookies
+  // Verifica se já aceitou cookies
   const consentimento = obterCookie("cookieConsent");
 
-  if (!consentimento) {
+  // Só esconde se já tiver aceitado
+  if (consentimento !== "accepted") {
     banner.classList.add("show");
   }
 
@@ -396,12 +397,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   rejeitarBtn.addEventListener("click", function () {
-    definirCookie("cookieConsent", "rejected", 7);
-    banner.classList.remove("show");
+    // Apenas remove o cookie e mantém o banner visível
+    document.cookie = "cookieConsent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   });
 });
 </script>
-
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
