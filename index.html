@@ -6,10 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
     content="Delivery de bebidas sempre geladas e no gelo! Peça pelo site ou WhatsApp e receba em sua casa ou onde estiver, sem custo de entrega." />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Zé Birita - Delivery</title>
   <link rel="icon" sizes="32x32" href="https://i.ibb.co/fzbx6cTh/Caneca-Cerveja-Espuma-com-fundo.png" />
   <link rel="stylesheet" href="style.css" />
-
+  <link rel="apple-touch-icon" href="img/ZeBiritaIcon.png">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -354,50 +356,50 @@
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const banner = document.querySelector(".banner-cookies");
-  const aceitarBtn = document.getElementById("aceitar-cookies");
-  const rejeitarBtn = document.getElementById("rejeitar-cookies");
+  document.addEventListener("DOMContentLoaded", function () {
+    const banner = document.querySelector(".banner-cookies");
+    const aceitarBtn = document.getElementById("aceitar-cookies");
+    const rejeitarBtn = document.getElementById("rejeitar-cookies");
 
-  // Função para definir cookie com validade
-  function definirCookie(nome, valor, dias) {
-    const data = new Date();
-    data.setTime(data.getTime() + dias * 24 * 60 * 60 * 1000);
-    const expira = "expires=" + data.toUTCString();
-    document.cookie = `${nome}=${valor}; ${expira}; path=/; SameSite=Lax`;
-  }
-
-  // Função para ler cookie
-  function obterCookie(nome) {
-    const nomeEq = nome + "=";
-    const partes = document.cookie.split(";");
-    for (let parte of partes) {
-      parte = parte.trim();
-      if (parte.indexOf(nomeEq) === 0) {
-        return parte.substring(nomeEq.length, parte.length);
-      }
+    // Função para definir cookie com validade
+    function definirCookie(nome, valor, dias) {
+      const data = new Date();
+      data.setTime(data.getTime() + dias * 24 * 60 * 60 * 1000);
+      const expira = "expires=" + data.toUTCString();
+      document.cookie = `${nome}=${valor}; ${expira}; path=/; SameSite=Lax`;
     }
-    return null;
-  }
 
-  // Verifica se já aceitou cookies
-  const consentimento = obterCookie("cookieConsent");
+    // Função para ler cookie
+    function obterCookie(nome) {
+      const nomeEq = nome + "=";
+      const partes = document.cookie.split(";");
+      for (let parte of partes) {
+        parte = parte.trim();
+        if (parte.indexOf(nomeEq) === 0) {
+          return parte.substring(nomeEq.length, parte.length);
+        }
+      }
+      return null;
+    }
 
-  // Só esconde se já tiver aceitado
-  if (consentimento !== "accepted") {
-    banner.classList.add("show");
-  }
+    // Verifica se já aceitou cookies
+    const consentimento = obterCookie("cookieConsent");
 
-  aceitarBtn.addEventListener("click", function () {
-    definirCookie("cookieConsent", "accepted", 7);
-    banner.classList.remove("show");
+    // Só esconde se já tiver aceitado
+    if (consentimento !== "accepted") {
+      banner.classList.add("show");
+    }
+
+    aceitarBtn.addEventListener("click", function () {
+      definirCookie("cookieConsent", "accepted", 7);
+      banner.classList.remove("show");
+    });
+
+    rejeitarBtn.addEventListener("click", function () {
+      // Apenas remove o cookie e mantém o banner visível
+      document.cookie = "cookieConsent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
   });
-
-  rejeitarBtn.addEventListener("click", function () {
-    // Apenas remove o cookie e mantém o banner visível
-    document.cookie = "cookieConsent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  });
-});
 </script>
 
 <script>
