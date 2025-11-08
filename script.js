@@ -480,37 +480,31 @@ function detectarLocalizacao() {
 // Hook no botão
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('btnAdicionarApp');
-  let deferredPrompt;
 
-  const isMobile = () => /iphone|ipad|ipod|android/i.test(navigator.userAgent);
-  const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isAndroid = /android/i.test(navigator.userAgent);
+  const isMobile = isIos || isAndroid;
+
   const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
 
-  // Android
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (isMobile()) btn.style.display = 'inline-block';
-  });
-
-  // iOS
-  if (isIos() && !isInStandaloneMode() && isMobile()) {
+  // Mostrar botão apenas em mobile e se não estiver em standalone
+  if (isMobile && (!isIos || !isInStandaloneMode())) {
     btn.style.display = 'inline-block';
   }
 
-  // Clique no botão
   btn.addEventListener('click', () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(() => {
-        deferredPrompt = null;
-        btn.style.display = 'none';
-      });
-    } else if (isIos()) {
+    if (isAndroid) {
+      alert(
+        "Para adicionar à tela inicial:\n\n" +
+        "1. Toque nos 3 pontos no Chrome.\n" +
+        "2. Toque em 'Adicionar à tela inicial'.\n" +
+        "3. Confirme e pronto!"
+      );
+    } else if (isIos) {
       alert(
         "Para adicionar à tela inicial:\n\n" +
         "1. Toque em 'Compartilhar'.\n" +
-        "2. Toque em 'Adicionar à Tela de Início'.\n" +
+        "2. Clique em Mais e Toque em 'Adicionar à Tela de Início'.\n" +
         "3. Confirme e pronto!"
       );
     }
