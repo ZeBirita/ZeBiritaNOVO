@@ -563,13 +563,15 @@ header::after {
     width: 100%;
     background: #222;
     color: #fff;
-    padding: 15px 25px; /* 15px vertical, 30px horizontal */
+    padding: 15px 25px;
+    /* 15px vertical, 30px horizontal */
     text-align: center;
     z-index: 9999;
     gap: 10px;
     opacity: 0;
     transition: all 0.5s ease-in-out;
-    box-sizing: border-box; /* importante para incluir padding na largura */
+    box-sizing: border-box;
+    /* importante para incluir padding na largura */
 }
 
 .banner-cookies.show {
@@ -619,76 +621,120 @@ header::after {
 }
 
 #detectar-localizacao {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px; /* tamanho interno do botão */
-  background-color: #fac000; /* cor principal */
-  color: #000000;
-  font-weight: bold;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  position: relative;
-  z-index: 1; /* garante que fique acima de outros elementos */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    /* tamanho interno do botão */
+    background-color: #fac000;
+    /* cor principal */
+    color: #000000;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    z-index: 1;
+    /* garante que fique acima de outros elementos */
 }
 
 /* hover e click */
 #detectar-localizacao:hover {
-  background-color: #0097a7;
-  transform: scale(1.03);
+    background-color: #0097a7;
+    transform: scale(1.03);
 }
 
 #detectar-localizacao:active {
-  transform: scale(0.97);
+    transform: scale(0.97);
 }
 
 /* opcional: mover levemente o texto para esquerda */
 #detectar-localizacao i {
-  margin-right: 4px; /* deixa o ícone separado do texto */
+    margin-right: 4px;
+    /* deixa o ícone separado do texto */
 }
 
 .modal-content {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
 }
 
 #localizacao-morada {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 100%;
 }
 
 #buscar-endereco {
-  padding: 8px;
-  background-color: #0078d7;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+    padding: 8px;
+    background-color: #0078d7;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-#buscar-endereco:hover {
-  background-color: #005fa3;
+/* Agrupa os botões em coluna e centraliza */
+.botoes-header {
+    position: absolute;
+    right: 100px;
+    /* mantém a distância do lado direito, igual ao botao-modal antes */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    /* botões um abaixo do outro */
+    align-items: center;
+    /* centraliza horizontalmente */
+    gap: 8px;
+    /* espaço entre os botões */
+    z-index: 1001;
+    /* acima de outros elementos do header */
 }
-/* Botão universal (Adicionar à Tela de Início) */
+
+/* Botão Sobre Nós */
+.botao-modal {
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #f6d365, #fda085);
+    color: #4a2c00;
+    border: 2px solid #d5a253;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.botao-modal:hover {
+    background: linear-gradient(to bottom, #ffe27a, #f6c26b);
+    color: #3a2000;
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+
 #btnAdicionarApp {
-  display: none; /* Inicialmente escondido pelo JS */
-  padding: 8px 16px;
-  background-color: #ff6600;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-#btnAdicionarApp:hover {
-  background-color: #e55a00;
+    display: block;
+    margin: 16px;
+    /* centraliza horizontalmente e dá espaço vertical */
+    padding: 2px 15px;
+    font-size: 17px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #ff6600;
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 1001;
+    position: relative;
+    /* permite mover em relação à posição original */
+    top: -22px;
+    /* ajusta para cima; valores positivos vão para baixo */
 }

@@ -489,47 +489,48 @@ document.addEventListener('DOMContentLoaded', () => {
         setStatus('Localização carregada do dispositivo (confirmar/editar).');
     }
 });
+
 document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('btnAdicionarApp');
+    const btn = document.getElementById('btnAdicionarApp');
 
-  // Detecta Android/Chrome
-  let deferredPrompt;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    btn.style.display = 'inline-block';
-  });
+    // Detecta Android/Chrome
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        btn.style.display = 'inline-block';
+    });
 
-  // Detecta iOS
-  const isIos = () => {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
-  }
-
-  const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
-
-  if (isIos() && !isInStandaloneMode()) {
-    // Mostra botão para instruções no iOS
-    btn.style.display = 'inline-block';
-  }
-
-  // Clique no botão
-  btn.addEventListener('click', () => {
-    if (deferredPrompt) {
-      // Android: abre prompt de instalação
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        deferredPrompt = null;
-        btn.style.display = 'none';
-      });
-    } else if (isIos()) {
-      // iOS: mostra instruções
-      alert(
-        "Para adicionar este site à sua tela inicial:\n\n" +
-        "1. Toque no ícone de compartilhar (quadrado com seta) no Safari.\n" +
-        "2. Selecione 'Adicionar à Tela de Início'.\n" +
-        "3. Confirme o nome e toque em 'Adicionar'."
-      );
+    // Detecta iOS
+    const isIos = () => {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        return /iphone|ipad|ipod/.test(userAgent);
     }
-  });
+
+    const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
+
+    if (isIos() && !isInStandaloneMode()) {
+        // Mostra botão para instruções no iOS
+        btn.style.display = 'inline-block';
+    }
+
+    // Clique no botão
+    btn.addEventListener('click', () => {
+        if (deferredPrompt) {
+            // Android: abre prompt de instalação
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                deferredPrompt = null;
+                btn.style.display = 'none';
+            });
+        } else if (isIos()) {
+            // iOS: mostra instruções
+            alert(
+                "Para adicionar como um App à sua tela inicial:\n\n" +
+                "1. Toque nos 3 pontidos ... e procura a opção Partilhar.\n" +
+                "2. clique em mais ou arraste a tela para cima e clique em 'Adicionar ao ecrã principal'.\n" +
+                "3. Confirme o nome e toque em 'Adicionar'."
+            );
+        }
+    });
 });
