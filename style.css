@@ -676,3 +676,19 @@ header::after {
 #buscar-endereco:hover {
   background-color: #005fa3;
 }
+/* Botão universal (Adicionar à Tela de Início) */
+#btnAdicionarApp {
+  display: none; /* Inicialmente escondido pelo JS */
+  padding: 8px 16px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#btnAdicionarApp:hover {
+  background-color: #e55a00;
+}
