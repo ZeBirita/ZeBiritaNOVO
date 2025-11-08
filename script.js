@@ -480,38 +480,31 @@ function detectarLocalizacao() {
 // Hook no botão
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('btnAdicionarApp');
+  let deferredPrompt;
 
-  // Função para detectar iOS
-  const isIos = () => {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
-  }
+  // Função para detectar mobile
+  const isMobile = () => /iphone|ipad|ipod|android/i.test(navigator.userAgent);
 
-  // Função para detectar Android
-  const isAndroid = () => /android/.test(navigator.userAgent.toLowerCase());
-
-  // Função para detectar se está no iOS standalone
+  const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
 
   // Android: beforeinstallprompt
-  let deferredPrompt;
-  if (isAndroid()) {
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      btn.style.display = 'inline-block'; // mostra botão no Android
-    });
-  }
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
 
-  // iOS: só mostra se não estiver já no modo standalone
-  if (isIos() && !isInStandaloneMode()) {
-    btn.style.display = 'inline-block'; // mostra botão no iOS
+    if (isMobile()) btn.style.display = 'inline-block';
+  });
+
+  // iOS
+  if (isIos() && !isInStandaloneMode() && isMobile()) {
+    btn.style.display = 'inline-block';
   }
 
   // Clique no botão
   btn.addEventListener('click', () => {
     if (deferredPrompt) {
-      // Android: abre prompt de instalação
+      // Android: mostra prompt de instalação
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then(() => {
         deferredPrompt = null;
@@ -520,10 +513,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (isIos()) {
       // iOS: instruções
       alert(
-        "Para adicionar como um App à sua tela inicial:\n\n" +
-        "1. Toque nos 3 pontidos ... e procure a opção Partilhar.\n" +
-        "2. Clique em mais ou arraste a tela para cima e clique em 'Adicionar ao ecrã principal'.\n" +
-        "3. Confirme o nome e toque em 'Adicionar'."
+        "Para adicionar à tela inicial:\n\n" +
+        "1. Toque em 'Compartilhar'.\n" +
+        "2. Toque em 'Adicionar à Tela de Início'.\n" +
+        "3. Confirme e pronto!"
       );
     }
   });
