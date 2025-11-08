@@ -522,9 +522,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // Fallback se o navegador não suportar o evento
       alert(
         "Para adicionar o Zé Birita à sua tela inicial:\n\n" +
-        "1. Toque nos 3 pontinhos no canto superior direito do Chrome.\n" +
+        "1. Safari:Toque nos 3 pontinhos e selecione Partilhar. Chrome: clique no quadrado com seta pra cima no canto superior direito.\n" +
         "2. Escolha 'Adicionar à tela inicial'.\n" +
-        "3. Confirme e pronto! 🍻"
+        "3. Confirme e pronto! 🍺"
       );
     } else if (isIos) {
       alert(
