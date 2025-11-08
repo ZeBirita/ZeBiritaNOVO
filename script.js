@@ -480,33 +480,64 @@ function detectarLocalizacao() {
 // Hook no botão
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('btnAdicionarApp');
+  let deferredPrompt;
 
   const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isAndroid = /android/i.test(navigator.userAgent);
   const isMobile = isIos || isAndroid;
-
   const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
 
-  // Mostrar botão apenas em mobile e se não estiver em standalone
-  if (isMobile && (!isIos || !isInStandaloneMode())) {
+  // 🔹 Android - evento PWA nativo
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (isAndroid) {
+      btn.style.display = 'inline-block';
+    }
+  });
+
+  // 🔹 Mostrar botão mesmo se o evento não disparar (Android)
+  if (isAndroid) {
     btn.style.display = 'inline-block';
   }
 
+  // 🔹 iOS - mostra instrução manual se não estiver instalado
+  if (isIos && !isInStandaloneMode()) {
+    btn.style.display = 'inline-block';
+  }
+
+  // 🔹 Clique no botão
   btn.addEventListener('click', () => {
-    if (isAndroid) {
+    if (isAndroid && deferredPrompt) {
+      // Mostra o prompt nativo de instalação
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('Usuário adicionou o app à tela inicial');
+        }
+        deferredPrompt = null;
+        btn.style.display = 'none'; // 🔸 Esconde botão depois de instalar
+      });
+    } else if (isAndroid) {
+      // Fallback se o navegador não suportar o evento
       alert(
-        "Para adicionar à tela inicial:\n\n" +
-        "1. Toque nos 3 pontos no Chrome.\n" +
-        "2. Toque em 'Adicionar à tela inicial'.\n" +
-        "3. Confirme e pronto!"
+        "Para adicionar o Zé Birita à sua tela inicial:\n\n" +
+        "1. Toque nos 3 pontinhos no canto superior direito do Chrome.\n" +
+        "2. Escolha 'Adicionar à tela inicial'.\n" +
+        "3. Confirme e pronto! 🍻"
       );
     } else if (isIos) {
       alert(
-        "Para adicionar à tela inicial:\n\n" +
-        "1. Toque em 'Compartilhar'.\n" +
-        "2. Clique em Mais e Toque em 'Adicionar à Tela de Início'.\n" +
-        "3. Confirme e pronto!"
+        "Para adicionar o Zé Birita à tela inicial:\n\n" +
+        "1. Toque no botão de Compartilhar (ícone quadrado com seta).\n" +
+        "2. Clique em Mais e escolha 'Adicionar à Tela de Início'.\n" +
+        "3. Confirme e pronto! 🍺"
       );
     }
   });
+
+  // 🔹 Garante que o botão não aparece no desktop
+  if (!isMobile) {
+    btn.style.display = 'none';
+  }
 });
