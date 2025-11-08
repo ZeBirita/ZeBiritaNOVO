@@ -1,15 +1,15 @@
 {
-    "name": "Zé Birita - Delivery",
-    "short_name": "Zé Birita",
-    "start_url": "/index.html",
-    "display": "standalone",
-    "background_color": "#e6cab4",
-    "theme_color": "#ff6600",
-    "icons": [
-        {
-            "src": "ZeBirita180px.png",
-            "sizes": "180x180",
-            "type": "image/png"
-        }
-    ]
+  "name": "Zé Birita",
+  "short_name": "Zé Birita",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e6cab4",
+  "theme_color": "#ff6600",
+  "icons": [
+    {
+      "src": "ZeBirita180px.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
 }

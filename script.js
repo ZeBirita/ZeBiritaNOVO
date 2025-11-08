@@ -482,17 +482,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('btnAdicionarApp');
   let deferredPrompt;
 
-  // Função para detectar mobile
   const isMobile = () => /iphone|ipad|ipod|android/i.test(navigator.userAgent);
-
   const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
 
-  // Android: beforeinstallprompt
+  // Android
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-
     if (isMobile()) btn.style.display = 'inline-block';
   });
 
@@ -504,14 +501,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Clique no botão
   btn.addEventListener('click', () => {
     if (deferredPrompt) {
-      // Android: mostra prompt de instalação
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then(() => {
         deferredPrompt = null;
         btn.style.display = 'none';
       });
     } else if (isIos()) {
-      // iOS: instruções
       alert(
         "Para adicionar à tela inicial:\n\n" +
         "1. Toque em 'Compartilhar'.\n" +
