@@ -479,58 +479,52 @@ function detectarLocalizacao() {
 
 // Hook no botão
 document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('detectar-localizacao');
-    if (btn) btn.addEventListener('click', detectarLocalizacao);
+  const btn = document.getElementById('btnAdicionarApp');
 
-    // Carregar localização salva (se houver) e preencher campo
-    const saved = carregarLocalizacaoCheckout();
-    if (saved) {
-        if (document.getElementById('localizacao-morada')) document.getElementById('localizacao-morada').value = saved.address || '';
-        setStatus('Localização carregada do dispositivo (confirmar/editar).');
-    }
-});
+  // Função para detectar iOS
+  const isIos = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('btnAdicionarApp');
+  // Função para detectar Android
+  const isAndroid = () => /android/.test(navigator.userAgent.toLowerCase());
 
-    // Detecta Android/Chrome
-    let deferredPrompt;
+  // Função para detectar se está no iOS standalone
+  const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
+
+  // Android: beforeinstallprompt
+  let deferredPrompt;
+  if (isAndroid()) {
     window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        btn.style.display = 'inline-block';
+      e.preventDefault();
+      deferredPrompt = e;
+      btn.style.display = 'inline-block'; // mostra botão no Android
     });
+  }
 
-    // Detecta iOS
-    const isIos = () => {
-        const userAgent = window.navigator.userAgent.toLowerCase();
-        return /iphone|ipad|ipod/.test(userAgent);
+  // iOS: só mostra se não estiver já no modo standalone
+  if (isIos() && !isInStandaloneMode()) {
+    btn.style.display = 'inline-block'; // mostra botão no iOS
+  }
+
+  // Clique no botão
+  btn.addEventListener('click', () => {
+    if (deferredPrompt) {
+      // Android: abre prompt de instalação
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+        btn.style.display = 'none';
+      });
+    } else if (isIos()) {
+      // iOS: instruções
+      alert(
+        "Para adicionar como um App à sua tela inicial:\n\n" +
+        "1. Toque nos 3 pontidos ... e procure a opção Partilhar.\n" +
+        "2. Clique em mais ou arraste a tela para cima e clique em 'Adicionar ao ecrã principal'.\n" +
+        "3. Confirme o nome e toque em 'Adicionar'."
+      );
     }
-
-    const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
-
-    if (isIos() && !isInStandaloneMode()) {
-        // Mostra botão para instruções no iOS
-        btn.style.display = 'inline-block';
-    }
-
-    // Clique no botão
-    btn.addEventListener('click', () => {
-        if (deferredPrompt) {
-            // Android: abre prompt de instalação
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                deferredPrompt = null;
-                btn.style.display = 'none';
-            });
-        } else if (isIos()) {
-            // iOS: mostra instruções
-            alert(
-                "Para adicionar como um App à sua tela inicial:\n\n" +
-                "1. Toque nos 3 pontidos ... e procura a opção Partilhar.\n" +
-                "2. clique em mais ou arraste a tela para cima e clique em 'Adicionar ao ecrã principal'.\n" +
-                "3. Confirme o nome e toque em 'Adicionar'."
-            );
-        }
-    });
+  });
 });

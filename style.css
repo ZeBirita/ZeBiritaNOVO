@@ -719,7 +719,7 @@ header::after {
 }
 
 #btnAdicionarApp {
-    display: block;
+    display: none;
     margin: 16px;
     /* centraliza horizontalmente e dá espaço vertical */
     padding: 2px 15px;
