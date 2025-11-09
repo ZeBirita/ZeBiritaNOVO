@@ -119,26 +119,53 @@ header::after {
 
 .produto button,
 
+/* BOTÃO FINALIZAR WHATSAPP */
 #finalizar-whatsapp {
-    padding: 12px 20px;
-    font-size: 16px;
-    width: 100%;
-    max-width: 200px;
-    margin: 5px auto;
-    border-radius: 8px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: block;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 14px 24px;
+  font-size: 17px;
+  font-weight: 600;
+  width: 100%;
+  max-width: 240px;
+  margin: 12px auto;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.produto button:hover,
+/* efeito hover só se estiver habilitado */
 #finalizar-whatsapp:hover:not(:disabled) {
-    background-color: #218838;
-    transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, #2fe375, #1ea085);
 }
+
+/* efeito ao clicar */
+#finalizar-whatsapp:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+
+/* estado desabilitado (pedido abaixo do mínimo) */
+#finalizar-whatsapp:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* acessibilidade (foco com teclado) */
+#finalizar-whatsapp:focus-visible {
+  outline: 3px solid rgba(37, 211, 102, 0.6);
+  outline-offset: 3px;
+}
+
 
 /* BOTÕES DE CARRINHO */
 .botoes-carrinho button {

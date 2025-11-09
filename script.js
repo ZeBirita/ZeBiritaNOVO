@@ -189,16 +189,23 @@ function verificarLiberacaoBotao() {
     });
 
     const formaSelecionada = pagamento.value;
-    const total = parseFloat(totalCarrinho.innerText.replace(/[^\d,.]/g, '').replace(',', '.'));
+
+    // pega valor numérico, mesmo que esteja vazio
+    let total = parseFloat(totalCarrinho.innerText.replace(/[^\d,.]/g, '').replace(',', '.'));
+    if (isNaN(total)) total = 0; // garante valor numérico
+
     const atingiuMinimo = total >= 10;
 
     // controla mensagem de pedido mínimo
     const msgMinimo = document.getElementById('mensagem-minimo');
+
+    // sempre mostra se for menor que o mínimo (inclusive carrinho vazio)
     msgMinimo.style.display = atingiuMinimo ? 'none' : 'block';
 
     // controla mensagem de troco
     const msgTroco = document.getElementById('mensagem-troco');
     let mostrarTrocoAviso = false;
+
 
     let liberar = atingiuMinimo && formaSelecionada !== "";
 
@@ -479,65 +486,64 @@ function detectarLocalizacao() {
 
 // Hook no botão
 document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('btnAdicionarApp');
-  let deferredPrompt;
+    const btn = document.getElementById('btnAdicionarApp');
+    let deferredPrompt;
 
-  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isAndroid = /android/i.test(navigator.userAgent);
-  const isMobile = isIos || isAndroid;
-  const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isAndroid = /android/i.test(navigator.userAgent);
+    const isMobile = isIos || isAndroid;
 
-  // 🔹 Android - evento PWA nativo
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (isAndroid) {
-      btn.style.display = 'inline-block';
-    }
-  });
+    const isInStandaloneMode = () =>
+        (window.matchMedia('(display-mode: standalone)').matches) || // Android
+        ('standalone' in window.navigator && window.navigator.standalone); // iOS
 
-  // 🔹 Mostrar botão mesmo se o evento não disparar (Android)
-  if (isAndroid) {
-    btn.style.display = 'inline-block';
-  }
-
-  // 🔹 iOS - mostra instrução manual se não estiver instalado
-  if (isIos && !isInStandaloneMode()) {
-    btn.style.display = 'inline-block';
-  }
-
-  // 🔹 Clique no botão
-  btn.addEventListener('click', () => {
-    if (isAndroid && deferredPrompt) {
-      // Mostra o prompt nativo de instalação
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('Usuário adicionou o app à tela inicial');
+    // 🔹 Android - evento PWA nativo
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (isAndroid && !isInStandaloneMode()) {
+            btn.style.display = 'inline-block';
         }
-        deferredPrompt = null;
-        btn.style.display = 'none'; // 🔸 Esconde botão depois de instalar
-      });
-    } else if (isAndroid) {
-      // Fallback se o navegador não suportar o evento
-      alert(
-        "Para adicionar o Zé Birita à sua tela inicial:\n\n" +
-        "1. Safari:Toque nos 3 pontinhos e selecione Partilhar. Chrome: clique no quadrado com seta pra cima no canto superior direito.\n" +
-        "2. Escolha 'Adicionar à tela inicial'.\n" +
-        "3. Confirme e pronto! 🍺"
-      );
-    } else if (isIos) {
-      alert(
-        "Para adicionar o Zé Birita à tela inicial:\n\n" +
-        "1. Toque no botão de Compartilhar (ícone quadrado com seta).\n" +
-        "2. Clique em Mais e escolha 'Adicionar à Tela de Início'.\n" +
-        "3. Confirme e pronto! 🍺"
-      );
-    }
-  });
+    });
 
-  // 🔹 Garante que o botão não aparece no desktop
-  if (!isMobile) {
-    btn.style.display = 'none';
-  }
+    // 🔹 Android - mostra botão só se o app NÃO estiver instalado
+    if (isAndroid && !isInStandaloneMode()) {
+        btn.style.display = 'inline-block';
+    }
+
+    // 🔹 iOS - mostra instrução manual se não estiver instalado
+    if (isIos && !isInStandaloneMode()) {
+        btn.style.display = 'inline-block';
+    }
+
+    // 🔹 Clique no botão
+    btn.addEventListener('click', () => {
+        if (isAndroid && deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Usuário adicionou o app à tela inicial');
+                }
+                deferredPrompt = null;
+                btn.style.display = 'none';
+            });
+        } else if (isAndroid) {
+            alert(
+                "Para adicionar o Zé Birita à sua tela inicial:\n\n" +
+                "1. Safari: Toque nos 3 pontinhos e selecione Partilhar.\n" +
+                "1. Chrome: clique no quadrado com seta pra cima no canto superior direito.\n" +
+                "2. Escolha 'Adicionar à tela inicial'.\n" + "3. Confirme e pronto! 🍺");
+        } else if (isIos) {
+            alert("Para adicionar o Zé Birita à tela inicial:\n\n" +
+                "1. Toque no botão de Compartilhar (ícone quadrado com seta).\n" +
+                "2. Clique em Mais e escolha 'Adicionar à Tela de Início'.\n" +
+                "3. Confirme e pronto! 🍺"
+            );
+        }
+    });
+
+    // 🔹 Garante que o botão não aparece no desktop
+    if (!isMobile) {
+        btn.style.display = 'none';
+    }
 });
