@@ -6,7 +6,7 @@ body {
     background-color: #e6cab4;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 700px) {
     .titulo-site {
         display: none;
     }
@@ -61,21 +61,25 @@ header::after {
 .produtos-container {
     padding: 115px 20px 20px;
     display: grid;
-    gap: 12px;
+    gap: 27px;
+    /* Espaçamento de 20px entre os itens */
     justify-content: center;
     grid-template-columns: repeat(auto-fit, minmax(160px, auto));
 }
 
 @media (max-width: 1000px) {
     .produtos-container {
+        gap: 15px;
+        /* Espaçamento de 20px entre os itens */
         grid-template-columns: repeat(auto-fit, minmax(100px, auto));
     }
 }
 
 /* PRODUTOS */
 .produto {
-    width: 150px;
-    height: 380px;
+    width: 100%;
+    max-width: 180px;
+    /* Garante que o card não fique muito largo */
     padding: 5px;
     border: 4px solid #d4a73a;
     border-radius: 16px;
@@ -83,7 +87,8 @@ header::after {
     box-shadow: 0 0 12px rgba(255, 179, 0, 0.5);
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    /* Alinha o conteúdo com espaço entre os elementos */
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -121,59 +126,62 @@ header::after {
 
 /* BOTÃO FINALIZAR WHATSAPP */
 #finalizar-whatsapp {
-  padding: 14px 5px;
-  font-size: 17px;
-  font-weight: 600;
-  width: 100%;
-  max-width: 240px;
-  margin: 5px auto;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #25d366, #128c7e);
-  color: #fff;
-  cursor: pointer;
-  display: block;
-  text-align: center;
-  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.15);
-  transition: transform 0.15s ease, box-shadow 0.3s ease, background 0.3s ease;
+    padding: 14px 5px;
+    font-size: 17px;
+    font-weight: 600;
+    width: 100%;
+    max-width: 240px;
+    margin: 5px auto;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 /* efeito hover só se estiver habilitado */
 #finalizar-whatsapp:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
-  background: linear-gradient(135deg, #2fe375, #1ea085);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, #2fe375, #1ea085);
 }
 
 /* efeito ao clicar */
 #finalizar-whatsapp:active:not(:disabled) {
-  transform: scale(0.97);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+    transform: scale(0.97);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
 }
 
 /* estado desabilitado (pedido abaixo do mínimo) */
 #finalizar-whatsapp:disabled {
-  background: #ccc;
-  color: #666;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
 /* acessibilidade (foco com teclado) */
 #finalizar-whatsapp:focus-visible {
-  outline: 3px solid rgba(37, 211, 102, 0.6);
-  outline-offset: 3px;
+    outline: 3px solid rgba(37, 211, 102, 0.6);
+    outline-offset: 3px;
 }
 
 
 /* BOTÕES DE CARRINHO */
 .botoes-carrinho {
     display: flex;
-    flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha */
+    flex-wrap: wrap;
+    /* Permite que os botões quebrem para a próxima linha */
     align-items: center;
-    justify-content: center; /* Centraliza os botões e a quantidade */
-    text-align: center; /* Garante que o texto da quantidade fique centralizado */
+    justify-content: center;
+    /* Centraliza os botões e a quantidade */
+    text-align: center;
+    /* Garante que o texto da quantidade fique centralizado */
     gap: 5px;
 }
 
@@ -309,7 +317,8 @@ header::after {
 /* ITENS NO CARRINHO */
 .item-carrinho {
     display: flex;
-    flex-wrap: wrap; /* Permite que o conteúdo quebre em telas pequenas */
+    flex-wrap: wrap;
+    /* Permite que o conteúdo quebre em telas pequenas */
     align-items: center;
     gap: 5px;
     margin-bottom: 10px;
@@ -318,7 +327,8 @@ header::after {
 }
 
 .info-carrinho {
-    flex-grow: 1; /* Faz com que a informação do produto ocupe o espaço disponível */
+    flex-grow: 1;
+    /* Faz com que a informação do produto ocupe o espaço disponível */
 }
 
 .item-carrinho img {
@@ -330,7 +340,8 @@ header::after {
 
 .info-carrinho p {
     margin: 4px 0;
-    font-size: 22px; /* Reduz um pouco o tamanho da fonte para melhor encaixe */
+    font-size: 22px;
+    /* Reduz um pouco o tamanho da fonte para melhor encaixe */
     line-height: 1.2;
 }
 
