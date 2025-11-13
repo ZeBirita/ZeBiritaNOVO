@@ -9,6 +9,11 @@
 
   <title>Zé Birita - Delivery</title>
 
+  <!-- Meta tags para controle de cache -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
   <!-- Favicon padrão para navegadores -->
   <link rel="icon" sizes="32x32" href="https://i.ibb.co/fzbx6cTh/Caneca-Cerveja-Espuma-com-fundo.png" />
 
@@ -364,19 +369,20 @@
     // Verifica se já aceitou cookies
     const consentimento = obterCookie("cookieConsent");
 
-    // Só esconde se já tiver aceitado
-    if (consentimento !== "accepted") {
+    // Mostra o banner se não houver consentimento prévio (nem aceito, nem rejeitado)
+    if (!consentimento) {
       banner.classList.add("show");
     }
 
     aceitarBtn.addEventListener("click", function () {
-      definirCookie("cookieConsent", "accepted", 7);
+      definirCookie("cookieConsent", "accepted", 7); // Lembra por 7 dias
       banner.classList.remove("show");
     });
 
     rejeitarBtn.addEventListener("click", function () {
-      // Apenas remove o cookie e mantém o banner visível
-      document.cookie = "cookieConsent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      // Define um cookie de sessão para lembrar que o usuário rejeitou
+      definirCookie("cookieConsent", "rejected", 0); // O 0 cria um cookie de sessão
+      banner.classList.remove("show");
     });
   });
 </script>
