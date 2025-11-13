@@ -51,13 +51,18 @@ const atualizarCarrinho = () => {
                     <p><strong>${item.produto.nome}</strong></p>
                     <p>€ ${subtotal.toFixed(2)}</p>
                     <div class="botoes-carrinho">
-                        <button class="botao-mais" onclick="handleAdicionarAoCarrinho(event, ${produtos.indexOf(item.produto)}, 1)">+1</button>
+                        <button class="botao-mais">+1</button>
                         <button class="botao-menos" onclick="removerUmaUnidade(${index})">-1</button>
                         <button class="botao-remover" onclick="removerTudo(${index})">Remover Tudo</button>
                     </div>
                 </div>
             </div>
         `;
+
+        // Adiciona evento ao botão de adicionar (+1) para corrigir a animação
+        // Apenas atualiza a quantidade, sem animação
+        li.querySelector('.botao-mais').addEventListener('click', () => adicionarAoCarrinho(produtos.indexOf(item.produto), 1));
+
         listaCarrinho.appendChild(li);
     });
 
@@ -104,9 +109,10 @@ const removerTudo = (index) => {
     atualizarCarrinho();
 };
 
-const handleAdicionarAoCarrinho = (event, index, quantidade) => {
+const handleAdicionarAoCarrinho = (event, index, quantidade, elementoOrigem = null) => {
     adicionarAoCarrinho(index, quantidade);
-    animarQuantidade(event.currentTarget, quantidade);
+    const origem = elementoOrigem || event.currentTarget;
+    animarQuantidade(origem, quantidade);
 };
 
 const toggleCarrinho = () => painelCarrinho.classList.toggle("aberto");
@@ -527,13 +533,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 deferredPrompt = null;
                 btn.style.display = 'none';
             });
-        } else if (isAndroid) {
+        } else if (isIos) {
             alert(
                 "Para adicionar o Zé Birita à sua tela inicial:\n\n" +
                 "1. Safari: Toque nos 3 pontinhos e selecione Partilhar.\n" +
                 "1. Chrome: clique no quadrado com seta pra cima no canto superior direito.\n" +
-                "2. Escolha 'Adicionar à tela inicial'.\n" + "3. Confirme e pronto! 🍺");
-        } else if (isIos) {
+                "2. Escolha 'Adicionar à tela inicial'.\n" +
+                "3. Confirme e pronto! 🍺"
+            );
+        } else if (isAndroid) {
             alert("Para adicionar o Zé Birita à tela inicial:\n\n" +
                 "1. Toque no botão de Compartilhar (ícone quadrado com seta).\n" +
                 "2. Clique em Mais e escolha 'Adicionar à Tela de Início'.\n" +

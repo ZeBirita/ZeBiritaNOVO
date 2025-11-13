@@ -55,8 +55,6 @@ header::after {
     margin: 0;
 }
 
-
-
 /* CONTAINER DE PRODUTOS */
 .produtos-container {
     padding: 115px 20px 20px;
@@ -171,7 +169,6 @@ header::after {
     outline-offset: 3px;
 }
 
-
 /* BOTÕES DE CARRINHO */
 .botoes-carrinho {
     display: flex;
@@ -184,7 +181,6 @@ header::after {
     /* Garante que o texto da quantidade fique centralizado */
     gap: 5px;
 }
-
 
 .botoes-carrinho button {
     padding: 4px 8px;
@@ -573,7 +569,6 @@ header::after {
     justify-content: center;
 }
 
-
 .modal-imagem img {
     max-width: 90vw;
     max-height: 90vh;
@@ -714,7 +709,6 @@ header::after {
     gap: 10px;
     align-items: stretch;
 }
-
 
 #localizacao-morada {
     padding: 8px;
