@@ -121,12 +121,12 @@ header::after {
 
 /* BOTÃO FINALIZAR WHATSAPP */
 #finalizar-whatsapp {
-  padding: 14px 24px;
+  padding: 14px 5px;
   font-size: 17px;
   font-weight: 600;
   width: 100%;
   max-width: 240px;
-  margin: 12px auto;
+  margin: 5px auto;
   border: none;
   border-radius: 12px;
   background: linear-gradient(135deg, #25d366, #128c7e);
@@ -134,7 +134,7 @@ header::after {
   cursor: pointer;
   display: block;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.15);
   transition: transform 0.15s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
@@ -168,8 +168,17 @@ header::after {
 
 
 /* BOTÕES DE CARRINHO */
+.botoes-carrinho {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha */
+    align-items: center;
+    justify-content: center; /* Centraliza os botões e a quantidade */
+    text-align: center; /* Garante que o texto da quantidade fique centralizado */
+    gap: 5px;
+}
+
+
 .botoes-carrinho button {
-    margin: 5px 5px 0 0;
     padding: 4px 8px;
     border: none;
     border-radius: 4px;
@@ -300,11 +309,16 @@ header::after {
 /* ITENS NO CARRINHO */
 .item-carrinho {
     display: flex;
+    flex-wrap: wrap; /* Permite que o conteúdo quebre em telas pequenas */
     align-items: center;
     gap: 5px;
     margin-bottom: 10px;
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
+}
+
+.info-carrinho {
+    flex-grow: 1; /* Faz com que a informação do produto ocupe o espaço disponível */
 }
 
 .item-carrinho img {
@@ -316,12 +330,12 @@ header::after {
 
 .info-carrinho p {
     margin: 4px 0;
-    font-size: 25px;
+    font-size: 22px; /* Reduz um pouco o tamanho da fonte para melhor encaixe */
     line-height: 1.2;
 }
 
 .info-carrinho p strong {
-    font-size: 22px;
+    font-size: 20px;
 }
 
 /* QUANTIDADE */
@@ -569,7 +583,7 @@ header::after {
 }
 
 /* RESPONSIVIDADE BÁSICA */
-@media (max-width: 950px) {
+@media (max-width: 1000px) {
     .painel-carrinho {
         width: 96%;
     }
@@ -689,6 +703,7 @@ header::after {
     gap: 10px;
     align-items: stretch;
 }
+
 
 #localizacao-morada {
     padding: 8px;
