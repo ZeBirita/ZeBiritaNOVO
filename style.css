@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Trade+Winds&display=swap');
+
 /* RESET E GERAL */
 body {
     font-family: Arial, sans-serif;
@@ -45,14 +47,16 @@ header::after {
 
 .logo-central img {
     height: 100px;
-    margin-top: -7px;
+    margin-top: -12px;
 }
 
 .logo-central h1 {
+    font-family: 'Trade Winds', sans-serif;
     font-size: 35px;
     color: #fbf9f7;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
     margin: 0;
+    transform: translateY(-6px);
 }
 
 /* CONTAINER DE PRODUTOS */
@@ -146,6 +150,29 @@ header::after {
     transform: translateY(-2px);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
     background: linear-gradient(135deg, #2fe375, #1ea085);
+}
+
+/* Efeito de hover para botões de produto */
+.produto button {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.produto button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+    z-index: -1;
+}
+
+.produto button:hover::before {
+    left: 100%;
 }
 
 /* efeito ao clicar */
