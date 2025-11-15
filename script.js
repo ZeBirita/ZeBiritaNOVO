@@ -29,6 +29,9 @@ const contadorCarrinho = document.getElementById("contador-carrinho");
 const painelCarrinho = document.getElementById("painel-carrinho");
 const modal = document.getElementById("modal");
 
+// Adiciona um espaçamento à direita no container dos produtos
+container.style.paddingRight = "35px";
+
 let carrinho = [];
 
 // Utilitários
@@ -46,8 +49,8 @@ const atualizarCarrinho = () => {
         li.innerHTML = `
             <div class="item-carrinho">
                 <div class="quantidade-box">${item.quantidade}x</div>
-                <img src="${item.produto.imagem}" alt="${item.produto.nome}">
-                <div class="info-carrinho">
+                <img src="${item.produto.imagem}" alt="${item.produto.nome}" style="flex-shrink: 0; margin-right: 10px;">
+                <div class="info-carrinho" style="flex: 1; min-width: 0;">
                     <p><strong>${item.produto.nome}</strong></p>
                     <p>€ ${subtotal.toFixed(2)}</p>
                     <div class="botoes-carrinho">
@@ -115,7 +118,10 @@ const handleAdicionarAoCarrinho = (event, index, quantidade, elementoOrigem = nu
     animarQuantidade(origem, quantidade);
 };
 
-const toggleCarrinho = () => painelCarrinho.classList.toggle("aberto");
+const toggleCarrinho = () => {
+    painelCarrinho.classList.toggle("aberto");
+    verificarLiberacaoBotao(); // Verifica o estado do botão e mensagens ao abrir/fechar
+};
 
 
 const animarQuantidade = (botao, quantidade) => {
@@ -195,6 +201,10 @@ function verificarLiberacaoBotao() {
     });
 
     const formaSelecionada = pagamento.value;
+    const msgPagamento = document.getElementById('mensagem-pagamento');
+
+    // Mostra ou esconde a mensagem de pagamento conforme a seleção
+    msgPagamento.style.display = formaSelecionada === "" ? 'block' : 'none';
 
     // pega valor numérico, mesmo que esteja vazio
     let total = parseFloat(totalCarrinho.innerText.replace(/[^\d,.]/g, '').replace(',', '.'));
@@ -278,20 +288,22 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
     carrinho.forEach(item => msg += `\n- ${item.quantidade} x ${item.produto.nome} 🍺\n`);
     msg += `\n💰 *Total:* ${total.toFixed(2)} €\n💳 *Forma de pagamento:* ${forma}`;
 
-    if (forma === 'Dinheiro' && trocoSim.checked) {
-        const quanto = conversordevalor();
-        const troco = (quanto - total).toFixed(2);
-        msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
-        msg += `\n💸 *Troco a ser devolvido:* ${troco} €\n`;
-    } else {
-        msg += `\n💸 *Não precisa de troco*\n`;
+    if (forma === 'Dinheiro') {
+        if (trocoSim.checked && campoTroco.value) {
+            const quanto = conversordevalor();
+            const troco = (quanto - total).toFixed(2);
+            msg += `\n💵 *Valor que irá pagar:* ${quanto.toFixed(2)} €`;
+            msg += `\n💸 *Troco a ser devolvido:* ${troco} €`;
+        } else {
+            msg += `\n💸 *Não precisa de troco*`;
+        }
     }
 
     const campoMorada = document.getElementById('localizacao-morada');
     const moradaConfirmada = campoMorada && campoMorada.value.trim() ? campoMorada.value.trim() : null;
 
     if (moradaConfirmada) {
-        msg += `\n📍 *Morada de entrega:* ${moradaConfirmada}`;
+        msg += `\n\n📍 *Morada de entrega:* ${moradaConfirmada}`;
     } else {
         // Se não tiver morada escrita, tenta pegar as coordenadas do GPS
         const loc = carregarLocalizacaoCheckout();

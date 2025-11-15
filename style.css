@@ -63,7 +63,7 @@ header::after {
 .produtos-container {
     padding: 115px 20px 20px;
     display: grid;
-    gap: 27px;
+    gap: 30px;
     /* Espaçamento de 20px entre os itens */
     justify-content: center;
     grid-template-columns: repeat(auto-fit, minmax(160px, auto));
@@ -71,7 +71,7 @@ header::after {
 
 @media (max-width: 1000px) {
     .produtos-container {
-        gap: 15px;
+        gap: 25px;
         /* Espaçamento de 20px entre os itens */
         grid-template-columns: repeat(auto-fit, minmax(100px, auto));
     }
@@ -80,13 +80,17 @@ header::after {
 /* PRODUTOS */
 .produto {
     width: 100%;
-    max-width: 180px;
+    max-width: 160px;
     /* Garante que o card não fique muito largo */
     padding: 5px;
     border: 4px solid #d4a73a;
+    padding: 8px;
+    border: 6px double #5e3c1a;
     border-radius: 16px;
     background: linear-gradient(to bottom, #fff8e1, #fce5b5);
     box-shadow: 0 0 12px rgba(255, 179, 0, 0.5);
+    background: linear-gradient(to bottom, #f3f3f3, #cd853f); /* Mantendo o fundo anterior */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -98,6 +102,7 @@ header::after {
 .produto:hover {
     transform: scale(1.03);
     box-shadow: 0 0 20px rgba(212, 167, 58, 0.8);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
 .produto img {
@@ -769,26 +774,6 @@ header::after {
     /* espaço entre os botões */
     z-index: 1001;
     /* acima de outros elementos do header */
-}
-
-/* Botão Sobre Nós */
-.botao-modal {
-    padding: 12px 24px;
-    font-size: 18px;
-    font-weight: bold;
-    background: linear-gradient(to bottom, #f6d365, #fda085);
-    color: #4a2c00;
-    border: 2px solid #d5a253;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-}
-
-.botao-modal:hover {
-    background: linear-gradient(to bottom, #ffe27a, #f6c26b);
-    color: #3a2000;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
 }
 
 #btnAdicionarApp {
