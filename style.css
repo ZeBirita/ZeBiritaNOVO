@@ -521,12 +521,16 @@ header::after {
 
 .modal-conteudo .imagens-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     margin-bottom: 15px;
 }
 
 .modal-conteudo .imagens-container img {
-    width: 32%;
+    flex: 1;
+    max-width: 45%;
+    aspect-ratio: 9 / 16;
     border-radius: 8px;
     object-fit: cover;
 }
