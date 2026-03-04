@@ -8,12 +8,13 @@ const produtos = [
     { nome: "Somersby 20cl", preco: 1.00, imagem: "https://i.ibb.co/gbt4Vzpb/Somersby-20cl.jpg" },
     { nome: "Coca-Cola 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/NdyQpPnf/Coca-cola-1-litro.jpg" },
     { nome: "Coca-Cola Zero 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/cX8LLW1C/Coca-cola-zero-1-litro.jpg" },
+    { nome: "Sprite Limão 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/Ps5Ls7Fy/Sprite-limao-1-litro.jpg" },
     { nome: "Monster Black 50cl", preco: 2.50, imagem: "https://i.ibb.co/R4JFbLp4/Monster-black-50c.jpg" },
     { nome: "Monster White 50cl", preco: 2.50, imagem: "https://i.ibb.co/JjfXqQbv/Monster-white-50cl.jpg" },
     { nome: "Monster Juiced 50cl", preco: 2.50, imagem: "https://i.ibb.co/HpFSk1tr/Monster-juiced-50cl.jpg" },
     { nome: "Vinho Branco 75cl", preco: 6.00, imagem: "https://i.ibb.co/vCtKjrFG/vinho-Coutada-Velha.jpg" },
+    { nome: "Vinho Tinto 75cl", preco: 6.00, imagem: "https://i.ibb.co/YBL0DKjf/Coltada-Velha-Tinto.jpg" },
     { nome: "Vinho Rosè 75cl", preco: 6.00, imagem: "https://i.ibb.co/YBhxQ35F/monte-dos-amigos-rose-removebg-preview.jpg" },
-    { nome: "Vinho Tinto 75cl", preco: 6.00, imagem: "https://i.ibb.co/QVK84R9/vinho-monte-dos-amigos.jpg" },
     { nome: "Água Penacova 50cl", preco: 0.50, imagem: "https://i.ibb.co/ccCnGkcd/Agua-25cl.jpg" },
     { nome: "Água Penacova 1.5L", preco: 1.00, imagem: "https://i.ibb.co/ZRrZ86hX/agua-1-5-L.jpg" },
 ];
@@ -498,69 +499,3 @@ function detectarLocalizacao() {
         }
     }, GEO_OPTIONS);
 }
-
-// Hook no botão
-document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('btnAdicionarApp');
-    let deferredPrompt;
-
-    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isAndroid = /android/i.test(navigator.userAgent);
-    const isMobile = isIos || isAndroid;
-
-    const isInStandaloneMode = () =>
-        (window.matchMedia('(display-mode: standalone)').matches) || // Android
-        ('standalone' in window.navigator && window.navigator.standalone); // iOS
-
-    // 🔹 Android - evento PWA nativo
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (isAndroid && !isInStandaloneMode()) {
-            btn.style.display = 'inline-block';
-        }
-    });
-
-    // 🔹 Android - mostra botão só se o app NÃO estiver instalado
-    if (isAndroid && !isInStandaloneMode()) {
-        btn.style.display = 'inline-block';
-    }
-
-    // 🔹 iOS - mostra instrução manual se não estiver instalado
-    if (isIos && !isInStandaloneMode()) {
-        btn.style.display = 'inline-block';
-    }
-
-    // 🔹 Clique no botão
-    btn.addEventListener('click', () => {
-        if (isAndroid && deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('Usuário adicionou o app à tela inicial');
-                }
-                deferredPrompt = null;
-                btn.style.display = 'none';
-            });
-        } else if (isIos) {
-            alert(
-                "Para adicionar o Zé Birita à sua tela inicial:\n\n" +
-                "1. Safari: Toque nos 3 pontinhos e selecione Partilhar.\n" +
-                "1. Chrome: clique no quadrado com seta pra cima no canto superior direito.\n" +
-                "2. Escolha 'Adicionar à tela inicial'.\n" +
-                "3. Confirme e pronto! 🍺"
-            );
-        } else if (isAndroid) {
-            alert("Para adicionar o Zé Birita à tela inicial:\n\n" +
-                "1. Toque no botão de Compartilhar (ícone quadrado com seta).\n" +
-                "2. Clique em Mais e escolha 'Adicionar à Tela de Início'.\n" +
-                "3. Confirme e pronto! 🍺"
-            );
-        }
-    });
-
-    // 🔹 Garante que o botão não aparece no desktop
-    if (!isMobile) {
-        btn.style.display = 'none';
-    }
-});

@@ -779,24 +779,3 @@ header::after {
     z-index: 1001;
     /* acima de outros elementos do header */
 }
-
-#btnAdicionarApp {
-    display: none;
-    margin: 16px;
-    /* centraliza horizontalmente e dá espaço vertical */
-    padding: 2px 15px;
-    font-size: 17px;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 10px;
-    background-color: #ff6600;
-    color: #fff;
-    font-weight: bold;
-    transition: background-color 0.2s;
-    position: relative;
-    z-index: 1001;
-    position: relative;
-    /* permite mover em relação à posição original */
-    top: -22px;
-    /* ajusta para cima; valores positivos vão para baixo */
-}
