@@ -521,18 +521,28 @@ header::after {
 
 .modal-conteudo .imagens-container {
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex-wrap: nowrap;
     gap: 10px;
     margin-bottom: 15px;
-}
+    overflow-x: auto;
+    }
 
 .modal-conteudo .imagens-container img {
-    flex: 1;
-    max-width: 45%;
-    aspect-ratio: 9 / 16;
+    flex: 0 0 auto;
+    height: 400px;
     border-radius: 8px;
     object-fit: cover;
+}
+
+/* animação */
+@keyframes moverLateral {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-20px);
+    }
 }
 
 .modal-conteudo textarea {
