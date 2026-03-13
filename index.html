@@ -38,7 +38,7 @@
 
   <header>
     <div class="logo-central">
-      <img src="https://i.ibb.co/kgrMPkDj/Logo-Ze-Birita.webp" alt="Logo Zé Birita">
+      <img src="https://i.ibb.co/tM406mm4/Logo-grande-BIRITA.png" alt="Logo Zé Birita">
       <h1 class="titulo-site">Zé Birita<br>Delivery</h1>
     </div>
     <div class="icone-carrinho" onclick="toggleCarrinho()">
@@ -180,16 +180,6 @@
       }
     });
   </script>
-
-  <!-- Banner de cookies -->
-  <div id="banner-cookies" class="banner-cookies">
-    <p>🍪 Este site utiliza cookies para melhorar a sua experiência. Ao continuar a navegar, você concorda com o uso de
-      cookies.</p>
-    <div class="botoes-cookies">
-      <button id="aceitar-cookies">Aceitar</button>
-      <button id="rejeitar-cookies">Rejeitar</button>
-    </div>
-  </div>
 
 </body>
 
@@ -336,54 +326,6 @@
     window.fecharModalSobre = fecharModal;
   });
 
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const banner = document.querySelector(".banner-cookies");
-    const aceitarBtn = document.getElementById("aceitar-cookies");
-    const rejeitarBtn = document.getElementById("rejeitar-cookies");
-
-    // Função para definir cookie com validade
-    function definirCookie(nome, valor, dias) {
-      const data = new Date();
-      data.setTime(data.getTime() + dias * 24 * 60 * 60 * 1000);
-      const expira = "expires=" + data.toUTCString();
-      document.cookie = `${nome}=${valor}; ${expira}; path=/; SameSite=Lax`;
-    }
-
-    // Função para ler cookie
-    function obterCookie(nome) {
-      const nomeEq = nome + "=";
-      const partes = document.cookie.split(";");
-      for (let parte of partes) {
-        parte = parte.trim();
-        if (parte.indexOf(nomeEq) === 0) {
-          return parte.substring(nomeEq.length, parte.length);
-        }
-      }
-      return null;
-    }
-
-    // Verifica se já aceitou cookies
-    const consentimento = obterCookie("cookieConsent");
-
-    // Mostra o banner se não houver consentimento prévio (nem aceito, nem rejeitado)
-    if (!consentimento) {
-      banner.classList.add("show");
-    }
-
-    aceitarBtn.addEventListener("click", function () {
-      definirCookie("cookieConsent", "accepted", 7); // Lembra por 7 dias
-      banner.classList.remove("show");
-    });
-
-    rejeitarBtn.addEventListener("click", function () {
-      // Define um cookie de sessão para lembrar que o usuário rejeitou
-      definirCookie("cookieConsent", "rejected", 0); // O 0 cria um cookie de sessão
-      banner.classList.remove("show");
-    });
-  });
 </script>
 
 <script>

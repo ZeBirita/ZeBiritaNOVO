@@ -9,7 +9,7 @@ const produtos = [
     { nome: "Coca-Cola 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/NdyQpPnf/Coca-cola-1-litro.jpg" },
     { nome: "Coca-Cola Zero 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/cX8LLW1C/Coca-cola-zero-1-litro.jpg" },
     { nome: "Sprite Limão 1 Litro", preco: 2.00, imagem: "https://i.ibb.co/Ps5Ls7Fy/Sprite-limao-1-litro.jpg" },
-    { nome: "Monster Black 50cl", preco: 2.50, imagem: "https://i.ibb.co/R4JFbLp4/Monster-black-50c.jpg" },
+    { nome: "Monster Black 50cl", preco: 2.50, imagem: "https://i.ibb.co/gbxGKD4j/Monster-Black-50cl.jpg" },
     { nome: "Monster White 50cl", preco: 2.50, imagem: "https://i.ibb.co/JjfXqQbv/Monster-white-50cl.jpg" },
     { nome: "Monster Juiced 50cl", preco: 2.50, imagem: "https://i.ibb.co/HpFSk1tr/Monster-juiced-50cl.jpg" },
     { nome: "Vinho Branco 75cl", preco: 6.00, imagem: "https://i.ibb.co/vCtKjrFG/vinho-Coutada-Velha.jpg" },
@@ -344,57 +344,6 @@ const conversordevalor = () => {
     const quanto = parseFloat(valorInput);
     return quanto;
 }
-
-function verificarConsentimentoCookies() {
-    const banner = document.getElementById('banner-cookies');
-    if (!banner) return; // evita erro se o elemento não existir
-
-    const aceitouCookies = localStorage.getItem('aceitouCookies');
-    if (!aceitouCookies) {
-        // mostra o banner
-        banner.style.display = 'flex';
-        banner.classList.add('show'); // se você tiver animação CSS
-        return;
-    }
-
-    // Se já aceitou, verifica se passou 7 dias
-    const dataAceite = localStorage.getItem('dataAceiteCookies');
-    if (dataAceite) {
-        const agora = new Date();
-        const diffDias = (agora - new Date(dataAceite)) / (1000 * 60 * 60 * 24);
-        if (diffDias >= 7) {
-            banner.style.display = 'flex';
-            banner.classList.add('show');
-        }
-    }
-}
-
-function aceitarCookies() {
-    const banner = document.getElementById('banner-cookies'); // DECLARA AQUI
-    if (!banner) return;
-
-    localStorage.setItem('aceitouCookies', 'true');
-    localStorage.setItem('dataAceiteCookies', new Date().toISOString());
-
-    banner.classList.remove('show');
-    setTimeout(() => banner.style.display = 'none', 500);
-}
-
-function rejeitarCookies() {
-    const banner = document.getElementById('banner-cookies'); // DECLARA AQUI
-    if (!banner) return;
-
-    localStorage.setItem('aceitouCookies', 'false');
-    localStorage.setItem('dataAceiteCookies', new Date().toISOString());
-
-    banner.classList.remove('show');
-    setTimeout(() => banner.style.display = 'none', 500);
-}
-
-// Inicializa ao carregar a página
-document.addEventListener('DOMContentLoaded', verificarConsentimentoCookies);
-
-verificarConsentimentoCookies();
 
 // Timeout / opções para geolocation
 const GEO_OPTIONS = {
