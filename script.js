@@ -1,3 +1,8 @@
+// BLOQUEIA O DUPLO CLIQUE EM TODA A PÁGINA (EVITA PROBLEMAS DE ANIMAÇÃO E ADIÇÃO RÁPIDA)
+document.addEventListener('dblclick', function (e) {
+    e.preventDefault();
+});
+
 // Dados dos produtos
 const produtos = [
     { nome: "Heineken 25cl", preco: 1.00, imagem: "https://i.ibb.co/bMPvC8q5/Heineken25cl-LN.jpg" },

@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Trade+Winds&display=swap');
 
+/* BLOQUEIA A ACESSIBILIDADE DE DUPLO CLIQUE */
+html {
+  touch-action: manipulation;
+}
+
 /* RESET E GERAL */
 body {
     font-family: Arial, sans-serif;
