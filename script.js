@@ -5,11 +5,26 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
-// BLOQUEIA QUALQUER TIPO DE ZOOM (CTRL + ROLAGEM, PINCH, ETC)
-document.addEventListener('wheel', function (e) {
-    if (e.ctrlKey) {
+// bloqueia pinch (iOS)
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
+
+// bloqueia zoom com dois dedos
+document.addEventListener('touchmove', function (e) {
+    if (e.scale !== 1) {
         e.preventDefault();
     }
+}, { passive: false });
+
+// bloqueia double tap
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (event) {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
 }, { passive: false });
 
 // Dados dos produtos
