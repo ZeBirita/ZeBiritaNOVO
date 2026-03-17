@@ -1,7 +1,16 @@
-// BLOQUEIA O DUPLO CLIQUE EM TODA A PÁGINA (EVITA PROBLEMAS DE ANIMAÇÃO E ADIÇÃO RÁPIDA)
-document.addEventListener('dblclick', function (e) {
-    e.preventDefault();
+// GARANTE QUE A PAGINA ESTEJA SEMPRE NO TOPO AO SER CARREGADA
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 100);
 });
+
+// BLOQUEIA QUALQUER TIPO DE ZOOM (CTRL + ROLAGEM, PINCH, ETC)
+document.addEventListener('wheel', function (e) {
+    if (e.ctrlKey) {
+        e.preventDefault();
+    }
+}, { passive: false });
 
 // Dados dos produtos
 const produtos = [
@@ -318,7 +327,6 @@ document.getElementById('finalizar-whatsapp').addEventListener('click', () => {
             msg += `\n🗺️ *Ver no mapa:* ${linkMapa}`;
         }
     }
-
 
     // 🟢 NOVO BLOCO — garante que, mesmo com morada, se houver coordenadas, o link seja enviado também
     const lat = localStorage.getItem('latitude');

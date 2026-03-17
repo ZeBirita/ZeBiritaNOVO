@@ -13,7 +13,7 @@ body {
     background-color: #e6cab4;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 550px) {
     .titulo-site {
         display: none;
     }
@@ -640,9 +640,9 @@ header::after {
 }
 
 /* RESPONSIVIDADE BÁSICA */
-@media (max-width: 1000px) {
+@media {
     .painel-carrinho {
-        width: 96%;
+        max-width: 1000px
     }
 
     .produto {
