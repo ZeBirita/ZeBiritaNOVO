@@ -17,10 +17,6 @@ document.addEventListener('touchmove', function (e) {
     }
 }, { passive: false });
 
-document.addEventListener('gesturestart', function (e) {
-    e.preventDefault();
-});
-
 // Dados dos produtos
 const produtos = [
     { nome: "Heineken 25cl", preco: 1.00, imagem: "https://i.ibb.co/bMPvC8q5/Heineken25cl-LN.jpg" },
