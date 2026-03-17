@@ -2,7 +2,7 @@
 
 /* BLOQUEIA A ACESSIBILIDADE DE DUPLO CLIQUE */
 html {
-  touch-action: manipulation;
+    touch-action: manipulation;
 }
 
 /* RESET E GERAL */
@@ -13,7 +13,7 @@ body {
     background-color: #e6cab4;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 545px) {
     .titulo-site {
         display: none;
     }
@@ -56,12 +56,14 @@ header::after {
 }
 
 .logo-central h1 {
-    font-family: 'Trade Winds', sans-serif;
-    font-size: 33px;
+    font-family: 'Irish Grover', cursive;
+    font-size: 40px;
     color: #fbf9f7;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
     margin: 0;
     transform: translateY(-6px);
+    letter-spacing: 2px;
+    /* ajuste fino aqui */
 }
 
 /* CONTAINER DE PRODUTOS */
@@ -94,7 +96,8 @@ header::after {
     border-radius: 16px;
     background: linear-gradient(to bottom, #fff8e1, #fce5b5);
     box-shadow: 0 0 12px rgba(255, 179, 0, 0.5);
-    background: linear-gradient(to bottom, #f3f3f3, #cd853f); /* Mantendo o fundo anterior */
+    background: linear-gradient(to bottom, #f3f3f3, #cd853f);
+    /* Mantendo o fundo anterior */
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
@@ -531,7 +534,7 @@ header::after {
     gap: 10px;
     margin-bottom: 15px;
     overflow-x: auto;
-    }
+}
 
 .modal-conteudo .imagens-container img {
     flex: 0 0 auto;
@@ -545,6 +548,7 @@ header::after {
     from {
         transform: translateX(0);
     }
+
     to {
         transform: translateX(-20px);
     }
