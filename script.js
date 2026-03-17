@@ -17,15 +17,9 @@ document.addEventListener('touchmove', function (e) {
     }
 }, { passive: false });
 
-// bloqueia double tap
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function (event) {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-    }
-    lastTouchEnd = now;
-}, { passive: false });
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
 
 // Dados dos produtos
 const produtos = [
