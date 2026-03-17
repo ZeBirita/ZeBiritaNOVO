@@ -219,13 +219,13 @@ header::after {
     /* Centraliza os botões e a quantidade */
     text-align: center;
     /* Garante que o texto da quantidade fique centralizado */
-    gap: 5px;
+    gap: 7px;
 }
 
 .botoes-carrinho button {
-    padding: 4px 8px;
+    padding: 6px 11px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
     color: white;
@@ -233,7 +233,7 @@ header::after {
 }
 
 .botoes-carrinho button:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .botao-mais {
