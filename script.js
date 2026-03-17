@@ -10,13 +10,6 @@ document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });
 
-// bloqueia zoom com dois dedos
-document.addEventListener('touchmove', function (e) {
-    if (e.scale !== 1) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
 // Dados dos produtos
 const produtos = [
     { nome: "Heineken 25cl", preco: 1.00, imagem: "https://i.ibb.co/bMPvC8q5/Heineken25cl-LN.jpg" },
