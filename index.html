@@ -51,11 +51,15 @@
     <div class="botoes-header">
       <button class="botao-modal" onclick="togglemodal()" data-i18n="sobreNos">Sobre Nós</button>
       <div class="seletor-idioma">
-        <button class="botao-idioma" onclick="toggleMenuIdioma()" data-i18n="idiomaBtn"><img src="https://flagcdn.com/256x192/pt.png" width="24"> Português</button>
+        <button class="botao-idioma" onclick="toggleMenuIdioma()" data-i18n="idiomaBtn"><img
+            src="https://flagcdn.com/256x192/pt.png" width="24"> Português</button>
         <div id="menu-idioma" class="menu-idioma">
-          <button id="lang-pt" onclick="mudarIdioma('pt')"><img src="https://flagcdn.com/256x192/pt.png" width="24"> Português</button>
-          <button id="lang-en" onclick="mudarIdioma('en')"><img src="https://flagcdn.com/256x192/us.png" width="24"> English</button>
-          <button id="lang-es" onclick="mudarIdioma('es')"><img src="https://flagcdn.com/256x192/es.png" width="24"> Español</button>
+          <button id="lang-pt" onclick="mudarIdioma('pt')"><img src="https://flagcdn.com/256x192/pt.png" width="24">
+            Português</button>
+          <button id="lang-en" onclick="mudarIdioma('en')"><img src="https://flagcdn.com/256x192/us.png" width="24">
+            English</button>
+          <button id="lang-es" onclick="mudarIdioma('es')"><img src="https://flagcdn.com/256x192/es.png" width="24">
+            Español</button>
         </div>
       </div>
     </div>
@@ -73,6 +77,31 @@
 
       <!-- HTML dentro do painel do carrinho -->
       <div id="opcoes-pagamento" style="margin-top: 20px;">
+
+        <!-- botão e área para mostrar resultado -->
+        <div id="localizacao-checkout" style="margin-top:1px;">
+          <button id="detectar-localizacao" data-i18n="btnDetectar">
+            <i class="fa-solid fa-location-crosshairs"></i>📍 Detectar Localização (GPS) 📍
+          </button>
+
+          <div id="mini-mapa" style="height: 200px; width: 100%; margin-top:10px; display:none;"></div>
+
+          <div id="localizacao-status" style="margin-top:8px; font-size:14px;"></div>
+          <!-- campo editável para confirmar/editar a morada antes do envio -->
+          <label style="display:block; margin-top:8px;">
+            <div>
+              <button id="buscar-endereco" type="button" data-i18n="btnPesquisar">🔍 Pesquisar localização</button>
+            </div>
+            <span data-i18n="moradaLabel">Morada (confirmar/editar):</span>
+            <input type="text" id="localizacao-morada" style="width:100%; padding:6px;" />
+          </label>
+        </div>
+
+        <div id="resultados-endereco" style="display:none; margin-top:6px;"></div>
+
+
+        <div id="mini-mapa" style="display:none; height:300px; border-radius:8px; margin-top:10px;"></div>
+
         <label>
           <span data-i18n="formaPagamento">Forma de pagamento:</span>
           <select id="forma-pagamento">
@@ -83,32 +112,11 @@
           </select>
         </label>
 
-        <!-- botão e área para mostrar resultado -->
-        <div id="localizacao-checkout" style="margin-top:10px;">
-          <button id="detectar-localizacao" data-i18n="btnDetectar">
-            <i class="fa-solid fa-location-crosshairs"></i>📍 Detectar Localização (GPS) 📍
-          </button>
-
-          <div id="mini-mapa" style="height: 200px; width: 100%; margin-top:10px; display:none;"></div>
-
-          <div id="localizacao-status" style="margin-top:8px; font-size:14px;"></div>
-          <!-- campo editável para confirmar/editar a morada antes do envio -->
-          <label style="display:block; margin-top:8px;">
-            <span data-i18n="moradaLabel">Morada (confirmar/editar):</span>
-            <input type="text" id="localizacao-morada" style="width:100%; padding:6px;" />
-          </label>
-        </div>
-
-        <div id="resultados-endereco" style="display:none; margin-top:6px;"></div>
-
-        <button id="buscar-endereco" type="button" data-i18n="btnPesquisar">🔍 Pesquisar localização</button>
-        <div id="mini-mapa" style="display:none; height:300px; border-radius:8px; margin-top:10px;"></div>
-
         <div id="troco-container" style="display: none; margin-top: 10px;">
           <label>
             <span data-i18n="trocoPergunta">Vai precisar de troco?</span>
-            <input type="checkbox" id="precisa-troco" />Sim.
-            <input type="checkbox" id="nao-precisa-troco" />Não.
+            <input type="checkbox" id="precisa-troco" /><span data-i18n="sim">Sim.</span>
+            <input type="checkbox" id="nao-precisa-troco" /><span data-i18n="nao">Não.</span>
           </label>
           <div id="troco-quantidade" style="display: none; margin-top: 5px;">
             <label>
@@ -121,10 +129,12 @@
         <p id="mensagem-minimo" style="color: red; font-weight: bold; margin-bottom: 5px;" data-i18n="msgMinimo">
           ⚠️ Pedido mínimo de 10 € para finalizar.
         </p>
-        <p id="mensagem-pagamento" style="color: red; font-weight: bold; margin-bottom: 5px; display: none;" data-i18n="msgPagamento">
+        <p id="mensagem-pagamento" style="color: red; font-weight: bold; margin-bottom: 5px; display: none;"
+          data-i18n="msgPagamento">
           ⚠️ Selecione uma forma de pagamento.
         </p>
-        <p id="mensagem-troco" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;" data-i18n="msgTrocoAviso">
+        <p id="mensagem-troco" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;"
+          data-i18n="msgTrocoAviso">
           💡 Para liberar o botão, informe um valor maior que o total para calcular o troco.
         </p>
 

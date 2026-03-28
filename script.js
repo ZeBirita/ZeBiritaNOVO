@@ -49,6 +49,8 @@ const traducoes = {
         msgPagamento: "⚠️ Selecione uma forma de pagamento.",
         btnUnidade: "1 Unidade",
         btnDezUnidades: "10 Unidades",
+        sim: "Sim.",
+        nao: "Não.",
         optSelecione: "Selecione...",
         optDinheiro: "Dinheiro",
         optMbway: "MB Way",
@@ -66,7 +68,7 @@ const traducoes = {
         statusLocalizacaoCarregada: "✅ Localização carregada!",
         statusLocalizacaoDispositivo: "📍 Localização carregada do dispositivo!",
         statusNaoSuportado: "❌ Geolocalização não é suportada pelo seu navegador.",
-        statusErroDetectar: "❌ Erro ao detectar localização: ",
+        statusErroDetectar: "❌ Erro ao detectar localização: ", // Keep this as it's concatenated with err.message
         statusDigiteEndereco: "⚠️ Por favor, digite um endereço.",
         statusEnderecoNaoEncontrado: "⚠️ Endereço não encontrado.",
         sobreNosTitulo: "Sobre Nós",
@@ -89,6 +91,8 @@ const traducoes = {
         msgPagamento: "⚠️ Select a payment method.",
         btnUnidade: "1 Unit",
         btnDezUnidades: "10 Units",
+        sim: "Yes.",
+        nao: "No.",
         optSelecione: "Select...",
         optDinheiro: "Cash",
         optMbway: "MB Way",
@@ -106,7 +110,7 @@ const traducoes = {
         statusLocalizacaoCarregada: "✅ Location loaded!",
         statusLocalizacaoDispositivo: "📍 Location loaded from device!",
         statusNaoSuportado: "❌ Geolocation is not supported by your browser.",
-        statusErroDetectar: "❌ Error detecting location: ",
+        statusErroDetectar: "❌ Error detecting location: ", // Keep this as it's concatenated with err.message
         statusDigiteEndereco: "⚠️ Please enter an address.",
         statusEnderecoNaoEncontrado: "⚠️ Address not found.",
         sobreNosTitulo: "About Us",
@@ -129,10 +133,12 @@ const traducoes = {
         msgPagamento: "⚠️ Seleccione una forma de pago.",
         btnUnidade: "1 Unidad",
         btnDezUnidades: "10 Unidades",
+        sim: "Sí.",
+        nao: "No.",
         optSelecione: "Seleccione...",
         optDinheiro: "Efectivo",
         optMbway: "MB Way",
-        optMultibanco: "Cajero",
+        optMultibanco: "Tarjeta Bancaria",
         btnDetectar: "📍 Detectar Ubicación (GPS) 📍",
         msgTrocoAviso: "💡 Para habilitar el botón, ingrese un valor superior al total para calcular el cambio.",
         btnRemoverTudo: "Eliminar Todo",
@@ -146,7 +152,7 @@ const traducoes = {
         statusLocalizacaoCarregada: "✅ ¡Ubicación cargada!",
         statusLocalizacaoDispositivo: "📍 ¡Ubicación cargada del dispositivo!",
         statusNaoSuportado: "❌ La geolocalización no es compatible con su navegador.",
-        statusErroDetectar: "❌ Error al detectar la ubicación: ",
+        statusErroDetectar: "❌ Error al detectar la ubicación: ", // Keep this as it's concatenated with err.message
         statusDigiteEndereco: "⚠️ Por favor, ingrese una dirección.",
         statusEnderecoNaoEncontrado: "⚠️ Dirección no encontrada.",
         sobreNosTitulo: "Sobre Nosotros",
@@ -166,16 +172,25 @@ const modal = document.getElementById("modal");
 // Adiciona um espaçamento à direita no container dos produtos
 container.style.paddingRight = "35px";
 
-let carrinho = [];
+// Carrega o carrinho do localStorage para manter os dados após o recarregamento da página
+let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
 // Utilitários
 const atualizarCarrinho = () => {
-    listaCarrinho.innerHTML = "";
     let total = 0;
     let totalItens = 0;
-    
+
+    // Salva o estado atual do carrinho no localStorage para persistência
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
     const lang = localStorage.getItem('idiomaPreferido') || 'pt';
     const t = traducoes[lang] || traducoes['pt'];
+
+    // Identifica quais produtos estão no carrinho para remover os que saíram
+    const nomesNoCarrinho = carrinho.map(item => item.produto.nome);
+    Array.from(listaCarrinho.children).forEach(el => {
+        if (!nomesNoCarrinho.includes(el.dataset.nome)) el.remove();
+    });
 
     carrinho.forEach((item, index) => {
         const subtotal = item.quantidade * item.produto.preco;
@@ -183,28 +198,39 @@ const atualizarCarrinho = () => {
         totalItens += item.quantidade;
         const nomeTraduzido = lang === 'pt' ? item.produto.nome : item.produto[lang];
 
-        const li = document.createElement("li");
-        li.innerHTML = `
-            <div class="item-carrinho">
-                <div class="quantidade-box">${item.quantidade}x</div>
-                <img src="${item.produto.imagem}" alt="${nomeTraduzido}" style="flex-shrink: 0; margin-right: 10px;">
-                <div class="info-carrinho" style="flex: 1; min-width: 0;">
-                    <p><strong>${nomeTraduzido}</strong></p>
-                    <p>€ ${subtotal.toFixed(2)}</p>
-                    <div class="botoes-carrinho">
-                        <button class="botao-mais">+1</button>
-                        <button class="botao-menos" onclick="removerUmaUnidade(${index})">-1</button>
-                        <button class="botao-remover" onclick="removerTudo(${index})">${t.btnRemoverTudo}</button>
+        // Tenta encontrar o item já existente na interface
+        let li = listaCarrinho.querySelector(`li[data-nome="${item.produto.nome}"]`);
+
+        if (!li) {
+            // Se não existe, cria a estrutura básica (executado apenas uma vez por produto)
+            li = document.createElement("li");
+            li.dataset.nome = item.produto.nome;
+            li.innerHTML = `
+                <div class="item-carrinho">
+                    <div class="quantidade-box"></div>
+                    <img src="${item.produto.imagem}" alt="${nomeTraduzido}" style="flex-shrink: 0; margin-right: 10px;">
+                    <div class="info-carrinho" style="flex: 1; min-width: 0;">
+                        <p><strong>${nomeTraduzido}</strong></p>
+                        <p class="preco-subtotal"></p>
+                        <div class="botoes-carrinho">
+                            <button class="botao-mais">+1</button>
+                            <button class="botao-menos">-1</button>
+                            <button class="botao-remover">${t.btnRemoverTudo}</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+            listaCarrinho.appendChild(li);
+        }
 
-        // Adiciona evento ao botão de adicionar (+1) para corrigir a animação
-        // Apenas atualiza a quantidade, sem animação
-        li.querySelector('.botao-mais').addEventListener('click', () => adicionarAoCarrinho(produtos.indexOf(item.produto), 1));
+        // Atualiza apenas os dados variáveis (evita o piscar da imagem)
+        li.querySelector('.quantidade-box').textContent = `${item.quantidade}x`;
+        li.querySelector('.preco-subtotal').textContent = `€ ${subtotal.toFixed(2)}`;
 
-        listaCarrinho.appendChild(li);
+        const originalProductIndex = produtos.findIndex(p => p.nome === item.produto.nome);
+        li.querySelector('.botao-mais').onclick = () => adicionarAoCarrinho(originalProductIndex, 1);
+        li.querySelector('.botao-menos').onclick = () => removerUmaUnidade(index);
+        li.querySelector('.botao-remover').onclick = () => removerTudo(index);
     });
 
     contadorCarrinho.textContent = totalItens;
@@ -605,7 +631,15 @@ function toggleMenuIdioma() {
 }
 
 function mudarIdioma(lang) {
+    const langAnterior = localStorage.getItem('idiomaPreferido');
     localStorage.setItem('idiomaPreferido', lang);
+
+    // Se o idioma selecionado for diferente do atual (clique do usuário), recarrega a página
+    if (langAnterior && langAnterior !== lang) {
+        location.reload();
+        return;
+    }
+
     const elements = document.querySelectorAll('[data-i18n]');
     elements.forEach(el => {
         const chave = el.getAttribute('data-i18n');
