@@ -436,17 +436,17 @@ header::after {
 
 /* BOTÃO MODAL */
 .botao-modal {
-    position: absolute;
-    right: 100px;
-    top: 55%;
-    transform: translateY(-50%);
-    padding: 12px 24px;
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    padding: 7px 22px;
     font-size: 18px;
     font-weight: bold;
     background: linear-gradient(to bottom, #f6d365, #fda085);
     color: #4a2c00;
     border: 2px solid #d5a253;
-    border-radius: 12px;
+    border-radius: 15px;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
@@ -465,7 +465,7 @@ header::after {
 .botao-modal:hover {
     background: linear-gradient(to bottom, #ffe27a, #f6c26b);
     color: #3a2000;
-    transform: translateY(-50%) scale(1.05);
+    transform: scale(1.05);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
 }
 
@@ -729,4 +729,79 @@ header::after {
     /* espaço entre os botões */
     z-index: 1001;
     /* acima de outros elementos do header */
+}
+
+.seletor-idioma {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.botao-idioma {
+    background: #5d4037;
+    color: #fbf9f7;
+    border: 1px solid #d4a73a;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.botao-idioma img, .menu-idioma button img {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 2px;
+    height: auto;
+}
+
+.menu-idioma button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.botao-idioma:hover {
+    background: #4e342e;
+    transform: scale(1.05);
+}
+
+.menu-idioma {
+    display: none;
+    position: absolute;
+    top: 100%;
+    background: #fff8e1;
+    border: 1px solid #d4a73a;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    min-width: 130px;
+    margin-top: 5px;
+    flex-direction: column;
+}
+
+.menu-idioma.aberto {
+    display: flex;
+}
+
+.menu-idioma button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4e342e;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.menu-idioma button:hover {
+    background: #fce5b5;
 }

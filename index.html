@@ -43,12 +43,22 @@
   <header>
     <div class="logo-central">
       <img src="https://i.ibb.co/4Zhqj8wB/Logo-grande-BIRITA.avif" alt="Logo Zé Birita">
-      <h1 class="titulo-site">Zé Birita<br>Delivery</h1>
+      <h1 class="titulo-site" data-i18n="tituloSite">Zé Birita<br>Delivery</h1>
     </div>
     <div class="icone-carrinho" onclick="toggleCarrinho()">
       🛒 <span id="contador-carrinho">0</span>
     </div>
-    <button class="botao-modal" onclick="togglemodal()">Sobre Nós</button>
+    <div class="botoes-header">
+      <button class="botao-modal" onclick="togglemodal()" data-i18n="sobreNos">Sobre Nós</button>
+      <div class="seletor-idioma">
+        <button class="botao-idioma" onclick="toggleMenuIdioma()" data-i18n="idiomaBtn"><img src="https://flagcdn.com/256x192/pt.png" width="24"> Português</button>
+        <div id="menu-idioma" class="menu-idioma">
+          <button id="lang-pt" onclick="mudarIdioma('pt')"><img src="https://flagcdn.com/256x192/pt.png" width="24"> Português</button>
+          <button id="lang-en" onclick="mudarIdioma('en')"><img src="https://flagcdn.com/256x192/us.png" width="24"> English</button>
+          <button id="lang-es" onclick="mudarIdioma('es')"><img src="https://flagcdn.com/256x192/es.png" width="24"> Español</button>
+        </div>
+      </div>
+    </div>
     <script src="https://player.vimeo.com/api/player.js"></script>
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#ff6600">
@@ -57,25 +67,25 @@
   <main>
     <div id="painel-carrinho" class="painel-carrinho">
       <div class="painel-header">
-        <h2>Seu Carrinho</h2>
-        <button onclick="toggleCarrinho()">Fechar ✖</button>
+        <h2 data-i18n="carrinhoTitulo">Seu Carrinho</h2>
+        <button onclick="toggleCarrinho()" data-i18n="fecharCarrinho">Fechar ✖</button>
       </div>
 
       <!-- HTML dentro do painel do carrinho -->
       <div id="opcoes-pagamento" style="margin-top: 20px;">
         <label>
-          Forma de pagamento:
+          <span data-i18n="formaPagamento">Forma de pagamento:</span>
           <select id="forma-pagamento">
-            <option value="">Selecione...</option>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="mbway">MB Way</option>
-            <option value="Multibanco">Multibanco</option>
+            <option value="" data-i18n="optSelecione">Selecione...</option>
+            <option value="Dinheiro" data-i18n="optDinheiro">Dinheiro</option>
+            <option value="mbway" data-i18n="optMbway">MB Way</option>
+            <option value="Multibanco" data-i18n="optMultibanco">Multibanco</option>
           </select>
         </label>
 
         <!-- botão e área para mostrar resultado -->
         <div id="localizacao-checkout" style="margin-top:10px;">
-          <button id="detectar-localizacao">
+          <button id="detectar-localizacao" data-i18n="btnDetectar">
             <i class="fa-solid fa-location-crosshairs"></i>📍 Detectar Localização (GPS) 📍
           </button>
 
@@ -84,45 +94,45 @@
           <div id="localizacao-status" style="margin-top:8px; font-size:14px;"></div>
           <!-- campo editável para confirmar/editar a morada antes do envio -->
           <label style="display:block; margin-top:8px;">
-            Morada (confirmar/editar):
+            <span data-i18n="moradaLabel">Morada (confirmar/editar):</span>
             <input type="text" id="localizacao-morada" style="width:100%; padding:6px;" />
           </label>
         </div>
 
         <div id="resultados-endereco" style="display:none; margin-top:6px;"></div>
 
-        <button id="buscar-endereco" type="button">🔍 Pesquisar localização</button>
+        <button id="buscar-endereco" type="button" data-i18n="btnPesquisar">🔍 Pesquisar localização</button>
         <div id="mini-mapa" style="display:none; height:300px; border-radius:8px; margin-top:10px;"></div>
 
         <div id="troco-container" style="display: none; margin-top: 10px;">
           <label>
-            Vai precisar de troco?
+            <span data-i18n="trocoPergunta">Vai precisar de troco?</span>
             <input type="checkbox" id="precisa-troco" />Sim.
             <input type="checkbox" id="nao-precisa-troco" />Não.
           </label>
           <div id="troco-quantidade" style="display: none; margin-top: 5px;">
             <label>
-              Quanto vai pagar?
+              <span data-i18n="quantoPagar">Quanto vai pagar?</span>
               <input type="text" id="valor-troco" placeholder="Ex: 20.00" />
             </label>
           </div>
         </div>
 
-        <p id="mensagem-minimo" style="color: red; font-weight: bold; margin-bottom: 5px;">
+        <p id="mensagem-minimo" style="color: red; font-weight: bold; margin-bottom: 5px;" data-i18n="msgMinimo">
           ⚠️ Pedido mínimo de 10 € para finalizar.
         </p>
-        <p id="mensagem-pagamento" style="color: red; font-weight: bold; margin-bottom: 5px; display: none;">
+        <p id="mensagem-pagamento" style="color: red; font-weight: bold; margin-bottom: 5px; display: none;" data-i18n="msgPagamento">
           ⚠️ Selecione uma forma de pagamento.
         </p>
-        <p id="mensagem-troco" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;">
+        <p id="mensagem-troco" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;" data-i18n="msgTrocoAviso">
           💡 Para liberar o botão, informe um valor maior que o total para calcular o troco.
         </p>
 
-        <button id="finalizar-whatsapp" style="margin-top: 20px;" disabled>
+        <button id="finalizar-whatsapp" style="margin-top: 20px;" disabled data-i18n="btnFinalizar">
           Finalizar pedido via WhatsApp
         </button>
       </div>
-      <p id="total-carrinho"><strong>Total: 0,00 €</strong></p>
+      <p id="total-carrinho"><strong data-i18n="totalLabel">Total: 0,00 €</strong></p>
       <ul id="lista-carrinho"></ul>
     </div>
 
@@ -132,7 +142,7 @@
     <div id="modal" class="modal-fundo">
       <div class="modal-conteudo">
         <span class="fechar-modal-sobre" onclick="fecharModalSobre()">✖</span>
-        <h2><strong>Sobre Nós</h2>
+        <h2 data-i18n="sobreNosTitulo">Sobre Nós</h2>
         <iframe id="video-vimeo" src="https://player.vimeo.com/video/1107136217" width="100%" height="380"
           frameborder="0" allow="autoplay; fullscreen; picture-in-picture">
         </iframe>
@@ -144,12 +154,12 @@
           <img src="https://i.ibb.co/QB9J86H/Saco-Super-Bock.jpg" alt="Imagem 4">
         </div>
         <div class="texto-fixo-modal">
-          <p>
+          <p data-i18n="sobreNosTexto1">
             🍻 Bem-vindo ao <strong>Zé Birita Delivery</strong>! Aqui você encontra as bebidas mais geladas, com entrega
             rápida e em um saco com gelo. Aproveite nosso atendimento personalizado e a comodidade de pedir e receber
             suas bebidas favoritas direto de sua casa.
           </p>
-          <p>
+          <p data-i18n="sobreNosTexto2">
             🎥 No vídeo acima verá clientes satisfeitos compartilhando suas experiências em redes sociais com nossas
             bebidas fazendo a diferença em festas ou em momentos especiais. Explore as imagens e
             descubra tudo o que o <strong>Zé Birita</strong> tem a oferecer. Agradecemos sua visita e esperamos levar
@@ -438,14 +448,15 @@
         // Evento: arrastar marcador manualmente
         marcador.on('dragend', async function () {
           const pos = marcador.getLatLng();
-          statusLocalizacao.textContent = '🔄 Atualizando endereço...';
+          const lang = localStorage.getItem('idiomaPreferido') || 'pt';
+          statusLocalizacao.textContent = traducoes[lang].statusAtualizandoEndereco;
           try {
             const novoEndereco = await buscarEndereco(pos.lat, pos.lng);
             inputMorada.value = novoEndereco;
-            statusLocalizacao.textContent = '📍 Endereço atualizado!';
+            statusLocalizacao.textContent = traducoes[lang].statusEnderecoAtualizado;
             salvarLocalizacao(pos.lat, pos.lng, novoEndereco);
           } catch (err) {
-            statusLocalizacao.textContent = '⚠️ Erro ao atualizar endereço.';
+            statusLocalizacao.textContent = traducoes[lang].statusErroAtualizar;
           }
         });
       } else {
@@ -454,9 +465,10 @@
       }
 
       if (!endereco) endereco = await buscarEndereco(lat, lng);
+      const lang = localStorage.getItem('idiomaPreferido') || 'pt';
       inputMorada.value = endereco;
       salvarLocalizacao(lat, lng, endereco);
-      statusLocalizacao.textContent = '✅ Localização carregada!';
+      statusLocalizacao.textContent = traducoes[lang].statusLocalizacaoCarregada;
     }
 
     // 🔹 Salva a localização no localStorage
@@ -479,8 +491,9 @@
       try {
         const loc = JSON.parse(savedLocation);
         if (loc.lat && loc.lon) {
+          const lang = localStorage.getItem('idiomaPreferido') || 'pt';
           inicializarMapa(loc.lat, loc.lon, loc.address);
-          statusLocalizacao.textContent = '📍 Localização carregada do dispositivo!';
+          statusLocalizacao.textContent = traducoes[lang].statusLocalizacaoDispositivo;
         }
       } catch (e) {
         console.warn('Erro ao carregar localização salva:', e);
@@ -490,18 +503,19 @@
     // 🔹 Botão "Detectar localização"
     if (botaoLocalizacao) {
       botaoLocalizacao.addEventListener('click', () => {
+        const lang = localStorage.getItem('idiomaPreferido') || 'pt';
         if (!navigator.geolocation) {
-          statusLocalizacao.textContent = '❌ Geolocalização não é suportada pelo seu navegador.';
+          statusLocalizacao.textContent = traducoes[lang].statusNaoSuportado;
           return;
         }
-        statusLocalizacao.textContent = '📡 Detectando localização...';
+        statusLocalizacao.textContent = traducoes[lang].statusDetectando;
         navigator.geolocation.getCurrentPosition(async (pos) => {
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;
-          statusLocalizacao.textContent = '✅ Localização detectada!';
+          statusLocalizacao.textContent = traducoes[lang].statusLido;
           inicializarMapa(lat, lng);
         }, (err) => {
-          statusLocalizacao.textContent = '❌ Erro ao detectar localização: ' + err.message;
+          statusLocalizacao.textContent = traducoes[lang].statusErroDetectar + err.message;
         });
       });
     }
@@ -509,18 +523,19 @@
     // 🔹 Botão "Procurar endereço"
     botaoBuscarEndereco.addEventListener('click', async () => {
       const endereco = inputMorada.value.trim();
+      const lang = localStorage.getItem('idiomaPreferido') || 'pt';
       if (!endereco) {
-        statusLocalizacao.textContent = '⚠️ Por favor, digite um endereço.';
+        statusLocalizacao.textContent = traducoes[lang].statusDigiteEndereco;
         return;
       }
 
-      statusLocalizacao.textContent = '🔍 Buscando endereço...';
+      statusLocalizacao.textContent = traducoes[lang].statusBuscando;
       try {
         const { lat, lon, address } = await buscarCoordenadas(endereco);
         inicializarMapa(lat, lon, address);
-        statusLocalizacao.textContent = '✅ Endereço localizado!';
+        statusLocalizacao.textContent = traducoes[lang].statusLocalizado;
       } catch (err) {
-        statusLocalizacao.textContent = '⚠️ Endereço não encontrado.';
+        statusLocalizacao.textContent = traducoes[lang].statusEnderecoNaoEncontrado;
       }
     });
   });
