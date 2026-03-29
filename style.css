@@ -223,17 +223,19 @@ header::after {
 }
 
 .botoes-carrinho button {
-    padding: 6px 11px;
+    padding: 8px 12px;
     border: none;
-    border-radius: 6px;
+    border-radius: 14px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 700;
     color: white;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
 .botoes-carrinho button:hover {
-    transform: scale(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
 }
 
 .botao-mais {
@@ -283,28 +285,31 @@ header::after {
     position: fixed;
     top: 0;
     right: 0;
-    width: 380px;
-    height: 100%;
-    background-color: #fff;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-    padding: 10px 10px 20px 0;
+    width: min(420px, 92vw);
+    height: 98%;
+    background: radial-gradient(circle at top right, rgba(255, 238, 173, 0.1), rgba(57, 32, 10, 0.95) 55%);
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: -20px 0 80px rgba(0, 0, 0, 0.35);
+    padding: 24px 10px 24px 10px;
     overflow-y: auto;
-    transition: transform 0.3s ease;
+    transition: transform 0.35s ease;
     z-index: 1000;
     transform: translateX(100%);
+    color: #f9f1e7;
+    backdrop-filter: blur(14px);
 }
 
 /* PAGAMENTO */
 #opcoes-pagamento {
-    background-color: #fff8e1;
-    border: 2px solid #d4a73a;
-    border-radius: 12px;
-    padding: 20px;
-    max-width: 400px;
+    background: rgba(255, 248, 225, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 22px;
+    padding: 22px;
+    max-width: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #4e342e;
-    box-shadow: 0 0 8px rgba(212, 167, 58, 0.2);
-    margin-left: 13px;
+    color: #fff;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.18);
+    margin-left: 0;
 }
 
 .painel-carrinho.aberto {
@@ -315,30 +320,39 @@ header::after {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .painel-header h2 {
     flex: 1;
-    color: #000;
-    text-align: center;
+    color: #fff9f0;
+    text-align: left;
     font-size: 30px;
     margin: 0;
+    letter-spacing: 0.4px;
 }
 
 .painel-header button {
-    background-color: #ffc2c8;
-    color: white;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
+    background: rgba(255, 255, 255, 0.14);
+    color: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    font-size: 17px;
+    font-weight: 700;
     cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    padding: 10px 14px;
+    border-radius: 14px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .painel-header button:hover {
-    background-color: #c82333;
+    background: rgba(255, 0, 0, 0.486);
+    transform: translateY(-1px);
 }
 
 .painel-carrinho button[style*="red"] {
@@ -354,62 +368,73 @@ header::after {
 .item-carrinho {
     display: flex;
     flex-wrap: wrap;
-    /* Permite que o conteúdo quebre em telas pequenas */
     align-items: center;
-    gap: 5px;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .info-carrinho {
     flex-grow: 1;
-    /* Faz com que a informação do produto ocupe o espaço disponível */
 }
 
 .item-carrinho img {
-    width: 80px;
-    height: 80px;
+    width: 88px;
+    height: 88px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .info-carrinho p {
     margin: 4px 0;
-    font-size: 22px;
-    /* Reduz um pouco o tamanho da fonte para melhor encaixe */
-    line-height: 1.2;
+    font-size: 17px;
+    line-height: 1.3;
+    color: #fff;
+    text-align: center;
 }
 
 .info-carrinho p strong {
     font-size: 20px;
+    color: #ffe8a1;
+}
+
+.preco-subtotal {
+    color: #ffecb3;
+    font-weight: 750;
+    text-align: center;
 }
 
 /* QUANTIDADE */
 .quantidade-box {
-    width: 40px;
-    height: 40px;
-    background-color: #e0e0e0;
-    color: #333;
-    font-weight: bold;
-    font-size: 18px;
+    min-width: 44px;
+    height: 44px;
+    background: rgb(255, 255, 255);
+    color: #000000;
+    font-weight: 800;
+    font-size: 19px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 /* ÍCONES */
 #contador-carrinho {
     position: absolute;
-    top: 52px;
-    right: 3px;
-    background-color: red;
-    color: rgb(255, 255, 255);
-    border-radius: 20%;
-    padding: 7px 14px;
-    font-size: 20px;
-    font-weight: bold
+    top: 54px;
+    right: 4px;
+    background: linear-gradient(135deg, #ffb74d, #ff8f00);
+    color: #3e2723;
+    border-radius: 50px;
+    padding: 8px 14px;
+    font-size: 18px;
+    font-weight: 800;
 }
 
 .icone-carrinho {
@@ -419,6 +444,7 @@ header::after {
     font-size: 40px;
     cursor: pointer;
     transform: translateY(-50%);
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
 }
 
 /* ANIMAÇÃO */
@@ -472,11 +498,20 @@ header::after {
 
 /* TOTAL DO CARRINHO */
 #total-carrinho {
-    margin-top: 0;
-    font-size: 28px;
-    font-weight: bold;
-    color: #4a2c00;
-    padding-left: 50px;
+    margin-top: 16px;
+    padding: 18px 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    text-align: center;
+}
+
+#total-carrinho strong {
+    display: block;
+    font-size: 30px;
+    font-weight: 1000;
+    letter-spacing: 0.15em;
 }
 
 /* MODAL */
@@ -583,7 +618,8 @@ header::after {
 
 #opcoes-pagamento select,
 #opcoes-pagamento input[type="text"] {
-    width: 92%;
+    width: 100%;
+    box-sizing: border-box;
     padding: 10px;
     margin-top: 6px;
     border: 1px solid #d4a73a;
@@ -596,6 +632,13 @@ header::after {
 #opcoes-pagamento input[type="checkbox"] {
     margin-left: 10px;
     transform: scale(1.2);
+}
+
+/* Mensagens de validação no checkout */
+#mensagem-minimo,
+#mensagem-pagamento,
+#mensagem-troco {
+    font-size: 18px;
 }
 
 #finalizar-whatsapp:disabled {
@@ -660,6 +703,7 @@ header::after {
     align-items: center;
     justify-content: center;
     padding: 10px 20px;
+    margin: 10px auto;
     /* tamanho interno do botão */
     background-color: #fac000;
     /* cor principal */
