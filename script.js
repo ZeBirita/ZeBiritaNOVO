@@ -676,4 +676,17 @@ window.addEventListener('click', (e) => {
     if (!e.target.closest('.seletor-idioma') && menu) {
         menu.classList.remove('aberto');
     }
+
+    // Fecha o carrinho ao clicar fora, exceto se clicar no ícone do carrinho ou nos botões de produto
+    if (painelCarrinho && painelCarrinho.classList.contains("aberto")) {
+        const clicouNoPainel = painelCarrinho.contains(e.target);
+        const clicouNoIcone = e.target.closest('.icone-carrinho');
+        const clicouNoBotaoProduto = e.target.closest('.produto button');
+        // Verifica se o elemento clicado foi removido do DOM (ocorre ao remover itens do carrinho)
+        const elementoRemovido = !e.target.isConnected;
+
+        if (!clicouNoPainel && !clicouNoIcone && !clicouNoBotaoProduto && !elementoRemovido) {
+            painelCarrinho.classList.remove("aberto");
+        }
+    }
 });
